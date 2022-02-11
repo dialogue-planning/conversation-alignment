@@ -1,0 +1,488 @@
+version: "3.0"
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - good morning
+    - good evening
+    - hey there
+    - hi there
+    - hello there
+    - greetings
+    - Hi
+    - helo
+    - Hi!
+    - Hi'
+    - Hi,
+    - Hi, bot
+    - Hieee
+    - Hieeeeeeeeeeeee
+    - Hola
+    - What is up?
+    - Whats up
+    - Whats up my bot
+    - Whats up?
+    - ayyyy whaddup
+    - bonjour
+    - ey boss
+    - I said, helllllloooooO!!!!
+    - Well hello there ;)
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you around
+    - see you later
+    - see ya
+    - buh bye
+    - Bye
+    - Bye bye
+    - adios
+    - adios?
+    - bye :P
+    - bye bot
+    - bye bye
+    - bye bye bot
+    - bye for now
+    - bye udo
+    - bye was nice talking to you
+    - bye!
+    - byee
+    - catch you later
+    - ciao
+    - cya
+    - farewell
+    - good bye
+    - good bye rasa bot!
+    - good night
+    - goodbye
+    - goodbye.
+    - goodnight
+    - gotta go
+    - ok Bye
+    - ok bye
+    - ok, bye
+    - ok.bye
+    - see u later
+    - see ya
+    - see you
+    - see you . bye
+    - take care
+    - then bye
+    - tlak to you later
+    - toodle-oo
+    - byr
+- intent: thank
+  examples: |
+    - thanks!
+    - thank you
+    - thanks a lot
+    - great thanks
+    - appreciate it
+    - cool thanks
+    - Cool. Thanks
+    - Great, thanks
+    - Thank you so much
+    - Thank's!
+    - Thanks bot
+    - Thanks for that
+    - Thanks!
+    - amazing, thanks
+    - cool thank you
+    - cool, thanks
+    - danke
+    - great thanks
+    - ok thanks
+    - ok thanks
+    - ok thanks!
+    - perfect thank you
+    - thank u
+    - thank you
+    - thank you anyways
+    - thanks
+    - thanks a bunch for everything
+    - thanks a lot
+    - thanks for the help
+    - thanks you
+    - thanks!
+    - thankyou
+    - thnks
+    - thx
+    - yes thanks
+    - thanks for your information
+    - thanks f
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - you are a bot right
+    - aren't you a bot
+    - Are you a bot?
+    - are you a BOT
+    - are you a bot?
+    - are you a chatbot
+    - are you a rasa bot?
+    - are you a real bot?
+    - are you a robot
+    - are you ai
+    - are you artificial
+    - are you artificial intelligence
+    - are you bot
+    - are you bot?
+    - are you rasa bot?
+    - are you real
+    - are you real lol
+    - are you really a bot
+    - are you robot
+    - are you sure that you're a bot?
+    - bot?
+    - cuz you are a bot
+    - i guess you are a chatbot
+    - oh are you chatbot?
+    - tell me, are you a bot?
+    - what are you, a bot?
+    - you are a robot
+    - you are ai
+    - you are chatbot
+    - you're a bot
+    - you robo
+    - real bot then?
+    - are you really a bbot?
+- intent: password_reset
+  examples: |
+    - need to reset my password
+    - need help resetting my password
+    - I can't reset my password
+    - need help with my password
+    - having issues resetting my password
+    - freaking password won't work
+    - reset my password
+    - password reset
+    - forgot my password and can't reset it
+    - uh password reset help please
+    - I'm having so many problems resetting my password
+    - Can you reset my password reset
+    - My pass word isn't working for me what do I do
+    - How can I reconfigure my pass word
+    - pass word reset?
+    - forgot my pass word again what now
+    - password help fix 
+    - show me how to set password again
+    - can you tell me how to change my password
+    - change pass word
+    - I forgot my password what can I do
+    - forgot my password help me reset it pls
+- intent: open_incident
+  examples: |
+    - I need to open an incident
+    - Can you open a case for me
+    - I have an issue I need to open a incident for
+    - open incident
+    - can you help me open a incident please
+    - I want to open a new incident
+    - I want to open a incident
+    - I'm having a weird issue.
+    - I'm having a problem
+    - I'm having a issue I need to open a incident for.
+    - I have a issue I need to open a case for.
+    - open an incident for aileen.mottern@example.com
+    - open an [urgent]{"entity": "priority", "value": "high"} issue
+    - I want to open an incident, but it's [low](priority) priority
+    - I need to open a helpdesk ticket. it's [really important]{"entity": "priority", "value": "high"}
+    - open an incident
+    - open an incedent
+    - i want to open an incident
+    - i wanna open a incident
+    - I want to open a ticket
+    - can I open a ticket
+    - pls help me open tix support
+    - ticket support incident open now can you do that for me
+- intent: help
+  examples: |
+    - I need help
+    - what can you help me with
+    - can you help me
+    - what can you do
+    - I need some help
+    - help me
+    - can you please help me
+    - problem
+    - big problem
+    - How can you help me
+    - How you help me?
+    - I need some help
+    - What are my options
+    - What are you able to do?
+    - What can I ask you?
+    - What can I do?
+    - What can you demo
+    - What can you do for me?
+    - What can you do?
+    - What can you tell me?
+    - What do you do
+    - anything els
+    - are there any other options?
+    - can I ask you anything else?
+    - can you do anything else?
+    - can you help me?
+    - come back
+    - cool! can I do something else here?
+    - hello what can you do for me
+    - help
+    - help me
+    - help please
+    - help pls
+    - help?
+    - hep me
+- intent: problem_email
+  examples: |
+    - my outlook application won't open
+    - I'm having issues with outlook.
+    - issues with outlook
+    - outlook application will not open
+    - there's a problem with my email
+    - something is broken with outlook
+    - I can't log in to my email
+    - can't log in to outlook
+    - my email won't let me log in
+    - i have a problem with my email
+    - can't get to slack
+    - i cant open my email
+    - i can't able to login
+    - I'm having trouble logging into my email
+    - can you help me with me with my email please
+    - what can you do about my email it's not working
+    - can you fix outlook for me I don't know what to do
+    - something isn't right with my e-mail
+    - can you help me with my e-mail account
+    - my internet mail isn't working
+    - outlook is showing me a weird message
+    - email isn't loading can you help
+- intent: inform
+  examples: |
+    - my email is test@example.com
+    - my email is abraham.lincoln@example.com
+    - name.name@example.com
+    - it is admin@example.com
+    - aileen.mottern@example.com
+    - [low](priority)
+    - [medium](priority)
+    - [high](priority)
+    - it should be a [low](priority) priority
+    - it should be [medium](priority)
+    - [escalated]{"entity": "priority", "value": "high"}
+    - [escalate]{"entity": "priority", "value": "high"}
+    - [super high](priority)
+    - john
+    - the priority is [high](priority)
+    - test@gmail.com
+    - xyz@example.com
+    - my email is ella@rasa.com
+    - abraham.lincoln@example.com
+    - steve
+    - sara@rasa.com
+    - [urgent]{"entity": "priority", "value": "high"}
+    - [critical]{"entity": "priority", "value": "high"}
+- intent: out_of_scope
+  examples: |
+    - what is the square root of 5
+    - I want to know the weather
+    - what is the meaning of life.
+    - Fridge Isn't Running
+    - my tv isn't working
+    - I want a pizza
+    - my washing machine isn't working
+    - what year is it
+    - order a pizza
+    - I want to order a pizza
+    - what is the weather today
+    - what is the weather
+    - how old are you?
+    - add two plus two
+    - Hdjejene
+    - asd
+    - title
+    - how about the forecast
+    - foolish
+    - joke
+    - Can I get a hamburger?
+    - Can YouTube talk?
+    - Can you call me back ?
+    - Can you give me your datacenter's password
+    - Can you give me your datacenter's password?
+    - Can you make sandwiches?
+    - Can you please send me an uber
+- intent: incident_status
+  examples: |
+    - I want to check if my ticket has been closed
+    - what's the status of my incident?
+    - Has the incident been closed yet?
+    - Is my ticket in progress?
+    - What has happened with my open ticket?
+    - what's going on with the incident I opened?
+    - Do I have any open incidents at the moment?
+    - Can I check the status of my open tickets?
+    - Can I see the status of the ticket I opened?
+    - Check ticket status
+    - check incident status
+    - ok, try looking it up for abraham.lincoln@example.com
+    - look up ticket status for abel.tuter@example.com
+    - my ticket status
+    - What's the status of the ticket I opened?
+    - what's my ticket status
+    - how is my ticket going
+    - an updates on my incident ticket?
+    - I opened an issue last week how is it doing now
+    - can you check the status my email is sara@rasa.com
+    - has the ticket been closed yet?
+    - is my issue still open
+- intent: affirm
+  examples: |
+    - yes
+    - yes please
+    - yes I would
+    - please do
+    - yup
+    - yep
+    - that's right
+    - indeed
+    - Yes, please
+    - yeah
+    - sure
+    - yes thanks
+    - That would be great
+    - YES
+    - YUP
+    - Yea
+    - Yeah
+    - Yeah sure
+    - Yep
+    - Yep that's fine
+    - Yep!
+    - Yepp
+    - Yes
+    - Yes I do
+    - Yes please
+    - Yes please!
+    - Yes, I accept
+- intent: deny
+  examples: |
+    - no
+    - nope
+    - no thanks
+    - not that one
+    - don't use that
+    - please no
+    - no don't do that
+    - no, use abraham.lincoln@example.com
+    - Neither
+    - Never
+    - Nevermind
+    - No thank you
+    - No, not really.
+    - No, thank you
+    - No.
+    - Nopes
+    - Not really
+    - absolutely not
+    - decline
+    - definitely not
+    - deny
+    - na
+    - nah
+    - nah I'm good
+- intent: human_handoff
+  examples: |
+    - I want a human
+    - can I speak to an agent
+    - real agent please
+    - real human
+    - chat with a live agent
+    - give me a person please
+    - i want to talk to a human
+    - can you transfer me to a human?
+    - handoff
+    - talk to a human
+    - i need to talk to a human
+    - human please
+    - i need help from a human
+    - i need help from a real human
+    - give me a human
+    - i want to talk to human
+    - i want a representative
+    - i want to talk to a person
+    - I don't wanna talk to a bot
+    - I dont like to talk to a machine
+    - I want to talk to a human
+    - I want to talk to the founders
+    - are there also humans working for your company?
+    - can I speak to a person?
+    - can i please speak to a human?
+    - can you forward me to your team
+    - can you please connect me to a real rasa employee?
+    - can you put me in touch with a human?
+    - do you have human support ?
+    - gimme a proper human
+    - give me a human now
+    - human handoff
+    - i dont wanna talk to a bot
+    - i want to speak to a real person
+    - i want to speak to customer service
+    - i want to talk to a human
+    - i want to talk to a person
+    - i want to talk to human
+    - i want to talk to someone at rasa
+    - i want to talk to someone else
+    - i want to talk to someone who is smarter than you
+    - i would like to speak to a person
+    - i'd rather speak with a real rasa employee
+    - id like to talk to a real rasa employee
+    - let me speak with a real person please
+    - let me talk to a human
+    - let me talk to a real person
+    - please give me a human
+    - service agent
+    - someone from customer care
+    - speak to a real person
+    - talking to a bot is stupid
+    - that's annoying I'd like to speak to someone real
+    - thats not helping, can i talk to human?
+    - wrong i want to speak to a human
+    - can i speak to human
+    - can i speak to your human
+    - i want to chat with human
+    - How do I talk to a human
+    - talk with a human
+    - Can i talk to a human instead
+    - nevermind.... you're not human ... I need to talk to a live person
+    - Can you get a human to assist me?
+    - Can i talk to a human?
+    - Can I talk to a human
+    - Can I speak to a human?
+    - can i speak to a human
+    - no, i want to talk to human
+    - can you hand a conversation over to a human?
+    - can I talk to human?
+    - can I talk to human
+    - talk to human
+    - i want human :(
+    - can i talk to human
+    - i want to talk to a human
+    - i want to speak to human
+    - can i talk to a real person?
+    - connect me to a real person
+    - I need a real person
+    - can i took with a real person
+    - let me speak to a real person
+    - let me speak to a real person please
+    - i want to talk to a real person
+- synonym: high
+  examples: |
+    - urgent
+    - really important
+    - escalated
+    - escalate
