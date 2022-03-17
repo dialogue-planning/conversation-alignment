@@ -1,3 +1,0 @@
-pytablewriter
-requests
-ruamel.yaml
