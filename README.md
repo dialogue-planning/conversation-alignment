@@ -25,10 +25,6 @@ Once the training is done, run the actions
 ```bash
 rasa run actions
 ```
-In another terminal window run 
-```bash
-docker run -p 8000:8000 rasa/duckling
-```
 
 Finally, once everything is running you can speak to the bot
 ```bash
