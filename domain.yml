@@ -62,7 +62,7 @@ slots:
     - type: custom
    
 actions: 
- - action_hello_world
+ - action_beam
  - action_getDetails
  - action_search_restaurant
  - action_search_concerts
