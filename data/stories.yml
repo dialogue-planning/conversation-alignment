@@ -36,10 +36,10 @@ stories:
   - intent: greet
   - action: utter_greet
   - intent: beam_intent
-  - action: action_hello_world
+  - action: action_beam
   - action: utter_cheer_up
   - intent: beam_intent
-  - action: action_hello_world
+  - action: action_beam
 
 - story: search restaurant 
   steps:
