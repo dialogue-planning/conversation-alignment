@@ -13,12 +13,10 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import UserUttered, ActionExecuted, BotUttered, ActionReverted
 from rasa_sdk.events import SlotSet
 
-class ActionHelloWorld(Action):
-    #actionNext = next_action
-    #print("Action", actionNext)
+class ActionBeam(Action):
 
     def name(self) -> Text:
-        return "action_hello_world"
+        return "action_beam"
             
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker, 
@@ -28,32 +26,32 @@ class ActionHelloWorld(Action):
         intent_ranking = tracker.latest_message['intent_ranking']
         print("INTENT", intent_ranking)
 
-
+        #lists all the events from the agents actions up until the current point
         bot_event = next(e for e in reversed(tracker.events) if e["event"] == "bot")
-        #print("Action", bot_event)
         reverting = ActionReverted()
-        #print("FIRST VALUE", intent_ranking[0])
         beamList = []
         confidenceRank = []
-        intent_ranking = intent_ranking[:3]
+        k = 3
+        #sets the intent ranking list to only the tip k values 
+        intent_ranking = intent_ranking[:k]
         for i in range(len(intent_ranking)): 
             #print(intent_ranking[i])
             #print("Dictionary Name: ", intent_ranking[i].get('name'))
+            #getting the name and and confidence levels of the current values in the intent ranking
             beam = intent_ranking[i].get('name')
             beamConfidence = intent_ranking[i].get('confidence')
+            #storing them in a list 
             beamList.append(beam)
             confidenceRank.append(beamConfidence)
             
             print("BEAM SEARCHER: ", beamList)
 
-        #print("Post", event)
-        #intentTime = tracker.latest_message['intent_ranking']
-        #print("INTENT", intentTime)
+        #sequence of events necesarry to utter the new intent from beam exansion.
         return [ActionExecuted("action_listen")] + [UserUttered("/beam_intent", {"intent": {'name': beamList[1] , 'confidence': 1.0}})]
 
         # Expanding the beam search means we start with the new intent all over again 
         #return self.newIntent(beamThree, tracker)
-        #return 
+
 
 class ActionSearchResraurant(Action):
     def name(self) -> Text:
