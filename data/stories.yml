@@ -40,6 +40,13 @@ stories:
   - action: utter_cheer_up
   - intent: beam_intent
   - action: action_beam
+  
+- story: beam path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: beam_intent
+  - action: action_beam
 
 - story: search restaurant 
   steps:
