@@ -1,7 +1,7 @@
 from cmath import log
 from dataclasses import dataclass
 from typing import List, Union
-from hovor.rollout.rollout_core import Rollout
+from hovor.rollout.rollout_core import HovorRollout
 from hovor.rollout.graph_setup import BeamSearchGraphGenerator
 from local_main_rollout import create_rollout
 
@@ -42,15 +42,8 @@ class Beam:
     last_action: Union[Action, None]
     last_intent: Union[Intent, None]
     rankings: List[Union[Action, Intent]]
-    rollout_cfg: Rollout
+    rollout: HovorRollout
     scores: list
-
-
-def create_rollout_from_old(rollout_cfg, output_files_path):
-    new_rollout = create_rollout(output_files_path)
-    new_rollout.current_state = {f for f in rollout_cfg.current_state}
-    new_rollout.applicable_actions = {a for a in rollout_cfg.applicable_actions}
-    return new_rollout
 
 
 def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
@@ -58,18 +51,16 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
     graph_gen = BeamSearchGraphGenerator(k)
     for i in range(len(conversation)):
         if i == 0:
+            # TODO: isolate create_rollout as it comes from hovor
             start_rollout = create_rollout(output_files_path)
-            starting_values = start_rollout.update_action_get_confidences(
+            starting_values = start_rollout.get_action_confidences(
                 conversation[i]
             )
-            outputs = []
-            for index, (key, val) in enumerate(starting_values.items()):
-                outputs.append(Action(key, val, index, log(val)))
+            outputs = [Action(key, val, index, log(val)) for index, (key, val) in enumerate(starting_values.items())]
             # if there are less starting actions than there are beams, duplicate the best action until we reach k
             while len(outputs) < k:
                 outputs.append(outputs[0])
             for beam in range(k):
-                first_score = [log(outputs[beam].probability)]
                 beams.append(
                     Beam(
                         beam,
@@ -77,20 +68,19 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                         None,
                         [outputs[beam]],
                         create_rollout(output_files_path),
-                        first_score,
+                        [log(outputs[beam].probability)],
                     )
                 )
-                # assign each chosen value to a distinct beam
+                # add the k actions to the graph
                 graph_gen.create_nodes_highlight_k(
-                    {outputs[beam].name: round(outputs[beam].probability, 4)},
+                    {outputs[beam].name: round(outputs[beam].score.real, 4)},
                     "skyblue",
                     "START",
                     beam,
                     [outputs[beam].name],
                 )
-
                 # need in case of message actions at the beginning
-                result = beams[beam].rollout_cfg.update_if_message_action(
+                result = beams[beam].rollout.update_if_message_action(
                     beams[beam].last_action.name
                 )
                 if result:
@@ -104,15 +94,15 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                     beams[beam].last_intent = intent
                     beams[beam].rankings.append(intent)
                     graph_gen.create_nodes_highlight_k(
-                        {intent.name: round(intent.probability, 4)},
+                        {intent.name: round(intent.score.real, 4)},
                         "lightgoldenrod1",
                         beams[beam].last_action.name,
                         beam,
                         [intent.name],
                     )
-            # generate nodes that won't be picked
+            # add the (total actions - k) nodes that won't be picked to the graph
             graph_gen.create_from_parent(
-                {action.name: round(action.probability, 4) for action in outputs[k:]},
+                {action.name: round(action.score.real, 4) for action in outputs[k:]},
                 "skyblue",
             )
         else:
@@ -121,7 +111,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
             for beam in range(k):
                 # call hovor to predict next for now using dummy function
                 if "USER" in conversation[i].keys():
-                    given_conv[beam] = beams[beam].rollout_cfg.get_highest_intents(
+                    given_conv[beam] = beams[beam].rollout.get_highest_intents(
                         beams[beam].last_action.name, conversation[i]
                     )
                     for val in range(len(given_conv[beam])):
@@ -134,7 +124,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                 elif "HOVOR" in conversation[i].keys():
                     given_conv[beam] = beams[
                         beam
-                    ].rollout_cfg.update_action_get_confidences(
+                    ].rollout.get_action_confidences(
                         conversation[i],
                         beams[beam].last_action.name,
                         beams[beam].last_intent.name,
@@ -164,7 +154,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                     # carrying thrugh the proper last actions from previous beams
                     last_action = beams[at_beam].last_action
                     list_actions.append(last_action)
-                    last_rollout = beams[at_beam].rollout_cfg
+                    last_rollout = beams[at_beam].rollout
                     list_rollout.append(last_rollout)
 
                     # keeping track of the old beam scores all unadded
@@ -183,7 +173,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                         # filter ALL outputs by outputs belonging to the current beam
                         # using the filtered outputs, map intents to probabilities to use in the graph
                         {
-                            output.name: round(output.probability, 4)
+                            output.name: round(output.score.real, 4)
                             for output in all_outputs
                             if output.beam == beam
                         },
@@ -202,13 +192,11 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                             list_actions[new_beam],
                             list_intents[new_beam],
                             beam_holders[new_beam],
-                            create_rollout_from_old(
-                                list_rollout[new_beam], output_files_path
-                            ),
+                            list_rollout[new_beam].copy(),
                             list_scores[new_beam],
                         )
                     )
-                    beams[new_beam].rollout_cfg.update_state_applicable_actions(
+                    beams[new_beam].rollout.update_state(
                         beams[new_beam].last_action.name,
                         beams[new_beam].last_intent.outcome,
                     )
@@ -241,7 +229,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                     last_intent = beams[at_beam].last_intent
                     list_intents.append(last_intent)
 
-                    last_rollout = beams[at_beam].rollout_cfg
+                    last_rollout = beams[at_beam].rollout
                     list_rollout.append(last_rollout)
 
                     list_scores[seq].extend(beams[at_beam].scores)
@@ -256,7 +244,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                 for beam, chosen_acts in graph_beam_chosen_map.items():
                     graph_gen.create_nodes_highlight_k(
                         {
-                            output.name: round(output.probability, 4)
+                            output.name: round(output.score.real, 4)
                             for output in all_outputs
                             if output.beam == beam
                         },
@@ -276,9 +264,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                             list_actions[new_beam],
                             list_intents[new_beam],
                             beam_holders[new_beam],
-                            create_rollout_from_old(
-                                list_rollout[new_beam], output_files_path
-                            ),
+                            list_rollout[new_beam].copy(),
                             list_scores[new_beam],
                         )
                     )
@@ -297,7 +283,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                         )
                     )
 
-                    result = beams[new_beam].rollout_cfg.update_if_message_action(
+                    result = beams[new_beam].rollout.update_if_message_action(
                         beams[new_beam].last_action.name
                     )
                     if result:
@@ -312,7 +298,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                         beams[new_beam].last_intent = intent
                         beams[new_beam].rankings.append(intent)
                         graph_gen.create_nodes_highlight_k(
-                            {intent.name: round(intent.probability, 4)},
+                            {intent.name: round(intent.score.real, 4)},
                             "lightgoldenrod1",
                             beams[new_beam].last_action.name,
                             new_beam,
@@ -328,9 +314,9 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                     beams[beam].scores = [log(0.00000001)]
 
     for final in range(len(beams)):
-        if beams[final].rollout_cfg.get_reached_goal():
+        if beams[final].rollout.get_reached_goal():
             graph_gen.set_last_chosen(beams[final].rankings[-1].name, final)
-            graph_gen.complete_conversation()
+            graph_gen.complete_conversation(round(beams[final].rankings[-1].score.real, 4))
         head = "0"
         for elem in beams[final].rankings:
             tail = head
@@ -426,19 +412,47 @@ icaps_conversation_drop = [
     {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
     {"HOVOR": "Thank you, enjoy your day!"},
 ]
-
+icaps_conversation_break_both = [
+    {
+        "HOVOR": "What invited talk do you want to see on Day 1? You can learn about Factored Transition Systems or the applications of Multi-Agent Path Finding."
+    },
+    {"USER": "I want to see the talk on Factored Transition Systems."},
+    {
+        "HOVOR": "And then? What after the invited talk?"
+    },
+    {"USER": "I want to learn more about classical planning and why applying heuristics is useful."},
+    {
+        "HOVOR": "What session do you want to see in the afternoon? Your options are: Model-Based Reasoning, Learning for Scheduling Applications, Search, and Optimal Planning."
+    },
+    {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
+    {"HOVOR": "Thank you, enjoy your day!"},
+]
+icaps_conversation_entity_drop = [
+    {
+        "HOVOR": "What invited talk do you want to see on Day 1? You can learn about Factored Transition Systems or the applications of Multi-Agent Path Finding."
+    },
+    {"USER": "I want to see the talk on Factored Transition Systems."},
+    {
+        "HOVOR": "What session do you want to see in the morning? The sessions available are on Planning Representations and Scheduling, Verification, RL, or Heuristics in Classical Planning."
+    },
+    {"USER": "I want to learn more about classical planning and why applying heuristics is useful."},
+    {
+        "HOVOR": "What session do you want to see in the afternoon? Your options are: Model-Based Reasoning, Learning for Scheduling Applications, Search, and Optimal Planning."
+    },
+    {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
+    {"HOVOR": "Thank you, enjoy your day!"},
+]
 
 if __name__ == "__main__":
     # TODO: RUN RASA MODEL
     output_dir = "C:\\Users\\Rebecca\\Desktop\\plan4dial\\plan4dial\\local_data\\rollout_no_system_icaps_bot_mini\\output_files"
-    beam_search(3, 1, icaps_conversation, output_dir, "icaps_gold")
+    beam_search(3, 1, icaps_conversation_entity_drop, output_dir, "icaps_entity_drop_goal")
+    beam_search(3, 2, icaps_conversation_entity_drop, output_dir, "icaps_entity_drop_no_goal")
 
-    # beam_search(3, 1, icaps_conversation_drop, output_dir, "icaps_crash")
+    # beam_search(2, 1, icaps_conversation_entity_drop, output_dir, "lower_k_1")
+    # beam_search(1, 1, icaps_conversation_entity_drop, output_dir, "lower_k_1")
 
-    # beam_search(
-    #     3,
-    #     3,
-    #     icaps_conversation,
-    #     output_dir,
-    #     "icaps_hi_f"
-    # )
+    # beam_search(4, 1, icaps_conversation_entity_drop, output_dir, "higher_k_1")
+    # beam_search(4, 2, icaps_conversation_entity_drop, output_dir, "higher_k_2")
+
+    # beam_search(3, 1, icaps_conversation_break_both, output_dir, "icaps_break_both")
