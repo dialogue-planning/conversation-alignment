@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from typing import List, Union
 from hovor.rollout.rollout_core import HovorRollout
 from hovor.rollout.graph_setup import BeamSearchGraphGenerator
-from local_main_rollout import create_rollout
 
 
 @dataclass
@@ -51,8 +50,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
     graph_gen = BeamSearchGraphGenerator(k)
     for i in range(len(conversation)):
         if i == 0:
-            # TODO: isolate create_rollout as it comes from hovor
-            start_rollout = create_rollout(output_files_path)
+            start_rollout = HovorRollout(output_files_path)
             starting_values = start_rollout.get_action_confidences(
                 conversation[i]
             )
@@ -67,7 +65,7 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
                         outputs[beam],
                         None,
                         [outputs[beam]],
-                        create_rollout(output_files_path),
+                        HovorRollout(output_files_path),
                         [log(outputs[beam].probability)],
                     )
                 )
@@ -330,129 +328,39 @@ def beam_search(k, max_fallbacks, conversation, output_files_path, filename):
     graph_gen.graph.render(f"{filename}.gv", view=True)
 
 
-conversation = [
-    {"HOVOR": "Hello I am a Pizza bot what toppings do you want?"},
-    {"USER": "I want it to have pepperoni"},
-    {"HOVOR": "Ok what size do you want?"},
-    {"USER": "I want a large pizza."},
-    {"HOVOR": "What side do you want with your order?"},
-    {"USER": "I want to have fries on the side."},
-    {"HOVOR": "What drink do you want with your order?"},
-    {"USER": "I want to drink coke."},
-    {"HOVOR": "What base do you want for your pizza?"},
-    {"USER": "I want a pizza with a ranch base"},
-    {
-        "HOVOR": "Ordering a pizza of size large with ranch as a base and pepperoni as toppings, as well as a coke and fries."
-    },
-]
-
-test2 = [
-    {"HOVOR": "Hello I am a Pizza bot what toppings do you want?"},
-    {"USER": "I want it to have pepperoni"},
-    {"HOVOR": "Ok what size do you want?"},
-    {"USER": "I want a large pizza."},
-    {"HOVOR": "What side do you want with your order?"},
-    {"USER": "I want to have fries on the side."},
-    {"HOVOR": "What drink do you want with your order?"},
-    {"USER": "I want to drink coke."},
-    {"HOVOR": "What base do you want for your pizza?"},
-    {"USER": "I want a pizza with a ranch base"},
-    {
-        "HOVOR": "Ordering a pizza of size large with ranch as a base and pepperoni as toppings, as well as a coke and fries."
-    },
-    {"USER": "Thanks!"},
-]
-
-test1 = [
-    {"HOVOR": "Hello I am a Pizza bot how are you!"},
-    {"USER": "I want it to have pepperoni and cheese?"},
-    {"HOVOR": "Sorry I did not get that"},
-    {"HOVOR": "Ok what size do you want?"},
-    {"USER": "I want a large pizza."},
-    {"HOVOR": "What side do you want with your order?"},
-    {"USER": "I want to have fries on the side."},
-    {"HOVOR": "What drink do you want with your order?"},
-    {"USER": "I want to drink coke."},
-    {"HOVOR": "What base do you want for your pizza?"},
-    {"USER": "I want a pizza with a ranch base"},
-    {"HOVOR": "What toppings do you want for your pizza?"},
-    {"USER": "Can I get a pizza with pepperoni"},
-    {
-        "HOVOR": "Ordering a pizza of size large with ranch as a base and pepperoni as toppings, as well as a coke and fries."
-    },
-    {"USER": "Thanks!"},
-]
-icaps_conversation = [
-    {
-        "HOVOR": "What invited talk do you want to see on Day 1? You can learn about Factored Transition Systems or the applications of Multi-Agent Path Finding."
-    },
-    {"USER": "I want to see the talk on Factored Transition Systems."},
-    {
-        "HOVOR": "What session do you want to see in the morning? The sessions available are on Planning Representations and Scheduling, Verification, RL, or Heuristics."
-    },
-    {"USER": "I'm really interested in RL!"},
-    {
-        "HOVOR": "What session do you want to see in the afternoon? Your options are: Model-Based Reasoning, Learning for Scheduling Applications, Search, and Optimal Planning."
-    },
-    {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
-    {"HOVOR": "Thank you, enjoy your day!"},
-]
-icaps_conversation_drop = [
-    {
-        "HOVOR": "What invited talk do you want to see on Day 1? You can learn about Factored Transition Systems or the applications of Multi-Agent Path Finding."
-    },
-    {"USER": "I want to see the talk on"},
-    {
-        "HOVOR": "What session do you want to see in the morning? The sessions available are on Planning Representations and Scheduling, Verification, RL, or Heuristics."
-    },
-    {"USER": "I'm really interested in RL!"},
-    {
-        "HOVOR": "What session do you want to see in the afternoon? Your options are: Model-Based Reasoning, Learning for Scheduling Applications, Search, and Optimal Planning."
-    },
-    {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
-    {"HOVOR": "Thank you, enjoy your day!"},
-]
-icaps_conversation_break_both = [
-    {
-        "HOVOR": "What invited talk do you want to see on Day 1? You can learn about Factored Transition Systems or the applications of Multi-Agent Path Finding."
-    },
-    {"USER": "I want to see the talk on Factored Transition Systems."},
-    {
-        "HOVOR": "And then? What after the invited talk?"
-    },
-    {"USER": "I want to learn more about classical planning and why applying heuristics is useful."},
-    {
-        "HOVOR": "What session do you want to see in the afternoon? Your options are: Model-Based Reasoning, Learning for Scheduling Applications, Search, and Optimal Planning."
-    },
-    {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
-    {"HOVOR": "Thank you, enjoy your day!"},
-]
-icaps_conversation_entity_drop = [
-    {
-        "HOVOR": "What invited talk do you want to see on Day 1? You can learn about Factored Transition Systems or the applications of Multi-Agent Path Finding."
-    },
-    {"USER": "I want to see the talk on Factored Transition Systems."},
-    {
-        "HOVOR": "What session do you want to see in the morning? The sessions available are on Planning Representations and Scheduling, Verification, RL, or Heuristics in Classical Planning."
-    },
-    {"USER": "I want to learn more about classical planning and why applying heuristics is useful."},
-    {
-        "HOVOR": "What session do you want to see in the afternoon? Your options are: Model-Based Reasoning, Learning for Scheduling Applications, Search, and Optimal Planning."
-    },
-    {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
-    {"HOVOR": "Thank you, enjoy your day!"},
-]
-
 if __name__ == "__main__":
-    # TODO: RUN RASA MODEL
+    icaps_conversation_break_both = [
+        {
+            "HOVOR": "What invited talk do you want to see on Day 1? You can learn about Factored Transition Systems or the applications of Multi-Agent Path Finding."
+        },
+        {"USER": "I want to see the talk on Factored Transition Systems."},
+        {
+            "HOVOR": "And then? What after the invited talk?"
+        },
+        {"USER": "I want to learn more about classical planning and why applying heuristics is useful."},
+        {
+            "HOVOR": "What session do you want to see in the afternoon? Your options are: Model-Based Reasoning, Learning for Scheduling Applications, Search, and Optimal Planning."
+        },
+        {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
+        {"HOVOR": "Thank you, enjoy your day!"},
+    ]
+    icaps_conversation_entity_drop = [
+        {
+            "HOVOR": "What invited talk do you want to see on Day 1? You can learn about Factored Transition Systems or the applications of Multi-Agent Path Finding."
+        },
+        {"USER": "I want to see the talk on Factored Transition Systems."},
+        {
+            "HOVOR": "What session do you want to see in the morning? The sessions available are on Planning Representations and Scheduling, Verification, RL, or Heuristics in Classical Planning."
+        },
+        {"USER": "I want to learn more about classical planning and why applying heuristics is useful."},
+        {
+            "HOVOR": "What session do you want to see in the afternoon? Your options are: Model-Based Reasoning, Learning for Scheduling Applications, Search, and Optimal Planning."
+        },
+        {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
+        {"HOVOR": "Thank you, enjoy your day!"},
+    ]
+    # NOTE: FOR HOVORROLLOUT: RUN RASA MODEL BEFORE RUNNING
     output_dir = "C:\\Users\\Rebecca\\Desktop\\plan4dial\\plan4dial\\local_data\\rollout_no_system_icaps_bot_mini\\output_files"
     beam_search(3, 1, icaps_conversation_entity_drop, output_dir, "icaps_entity_drop_goal")
-    beam_search(3, 2, icaps_conversation_entity_drop, output_dir, "icaps_entity_drop_no_goal")
-
-    # beam_search(2, 1, icaps_conversation_entity_drop, output_dir, "lower_k_1")
-    # beam_search(1, 1, icaps_conversation_entity_drop, output_dir, "lower_k_1")
-
-    # beam_search(4, 1, icaps_conversation_entity_drop, output_dir, "higher_k_1")
-    # beam_search(4, 2, icaps_conversation_entity_drop, output_dir, "higher_k_2")
-
+    # beam_search(3, 2, icaps_conversation_entity_drop, output_dir, "icaps_entity_drop_no_goal")
     # beam_search(3, 1, icaps_conversation_break_both, output_dir, "icaps_break_both")
