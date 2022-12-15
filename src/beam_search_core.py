@@ -1,7 +1,7 @@
 from cmath import log
 from typing import List, Union, Dict
-from beam_srch_data_structs import *
-from graph_setup import BeamSearchGraphGenerator
+from src.beam_srch_data_structs import *
+from src.graph_setup import BeamSearchGraphGenerator
 
 
 class BeamSearchExecutor:
@@ -30,7 +30,26 @@ class BeamSearchExecutor:
         self.conversation = conversation
         self.graph_file = graph_file
         self.rollout_param = kwargs
-        
+
+    @property
+    def k(self):
+        return self._k
+
+    @k.setter
+    def k(self, value: int):
+        if value < 1:
+            raise ValueError("The value of k must be a positive integer.")
+        self._k = value
+
+    @property
+    def max_fallbacks(self):
+        return self._max_fallbacks
+
+    @max_fallbacks.setter
+    def max_fallbacks(self, value: int):
+        if value < 1:
+            raise ValueError("The number of fallbacks needed to tank a beam must be a positive integer.")
+        self._max_fallbacks = value   
 
     def prep_for_new_search(self):
         self.beams = []
@@ -227,59 +246,3 @@ class BeamSearchExecutor:
                     tail, head, color="forestgreen", penwidth="10.0", arrowhead="normal"
                 )
         self.graph_gen.graph.render(f"{self.graph_file}.gv", view=True)
-
-
-if __name__ == "__main__":
-    icaps_conversation_break_both = [
-        {
-            "HOVOR": "What invited talk do you want to see on Day 1? You can learn about Factored Transition Systems or the applications of Multi-Agent Path Finding."
-        },
-        {"USER": "beam want to see the talk on Factored Transition Systems."},
-        {"HOVOR": "And then? What after the invited talk?"},
-        {
-            "USER": "beam want to learn more about classical planning and why applying heuristics is useful."
-        },
-        {
-            "HOVOR": "What session do you want to see in the afternoon? Your options are: Model-Based Reasoning, Learning for Scheduling Applications, Search, and Optimal Planning."
-        },
-        {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
-        {"HOVOR": "Thank you, enjoy your day!"},
-    ]
-    icaps_conversation_entity_drop = [
-        {
-            "HOVOR": "What invited talk do you want to see on Day 1? You can learn about Factored Transition Systems or the applications of Multi-Agent Path Finding."
-        },
-        {"USER": "beam want to see the talk on Factored Transition Systems."},
-        {
-            "HOVOR": "What session do you want to see in the morning? The sessions available are on Planning Representations and Scheduling, Verification, RL, or Heuristics in Classical Planning."
-        },
-        {
-            "USER": "beam want to learn more about classical planning and why applying heuristics is useful."
-        },
-        {
-            "HOVOR": "What session do you want to see in the afternoon? Your options are: Model-Based Reasoning, Learning for Scheduling Applications, Search, and Optimal Planning."
-        },
-        {"USER": "Please schedule me in to watch the talk on Model-Based Reasoning."},
-        {"HOVOR": "Thank you, enjoy your day!"},
-    ]
-    # NOTE: FOR HOVORROLLOUT: RUN RASA MODEL BEFORE RUNNING (INHERIT FROM BEAMSEARCHEXECUTOR AND ADD TO INIT)
-    output_dir = "C:\\Users\\Rebecca\\Desktop\\plan4dial\\plan4dial\\local_data\\rollout_no_system_icaps_bot_mini\\output_files"
-    gen = BeamSearchExecutor(3, 1, icaps_conversation_entity_drop, "icaps_entity_drop_goal", output_files_path=output_dir)
-    gen.beam_search()
-
-    gen.max_fallbacks = 2
-    gen.graph_file = "icaps_entity_drop_no_goal"
-    gen.beam_search()
-
-    gen.max_fallbacks = 1
-    gen.conversation = icaps_conversation_break_both
-    gen.graph_file = "icaps_break_both"
-    gen.beam_search()
-
-    # beam_search(
-    #     3, 1, icaps_conversation_entity_drop, output_dir, "icaps_entity_drop_goal"
-    # )
-    # beam_search(
-    #     3, 2, icaps_conversation_entity_drop, output_dir, "icaps_entity_drop_no_goal"
-    # )
-    # beam_search(3, 1, icaps_conversation_break_both, output_dir, "icaps_break_both")
