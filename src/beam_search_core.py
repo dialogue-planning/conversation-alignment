@@ -1,34 +1,38 @@
 from cmath import log
 from typing import List, Union, Dict
 from src.beam_srch_data_structs import *
+# NOTE: for all users, import the instantiated versions of the stubs here
 from src.graph_setup import BeamSearchGraphGenerator
 
 
 class BeamSearchExecutor:
-    def __init__(self, k: int, max_fallbacks: int, conversation: List[Dict[str, str]], graph_file: str, **kwargs):
+    def __init__(self, k: int, max_fallbacks: int, conversation: List[Dict[str, str]], build_graph: bool = True, graph_file: str = None, **kwargs):
         """Class that houses all information needed to execute the beam search
         algorithm.
 
         Args:
-            self.k (int): The number of beams to use.
+            k (int): The number of beams to use.
             max_fallbacks (int): The maximum number of fallbacks that can occur
                 in any beam before the probability is tanked by resetting the 
                 score to the log of a low number epsilon.
-            self.conversation (List[Dict[str, str]]): The self.conversation to be 
+            conversation (List[Dict[str, str]]): The self.conversation to be 
                 explored. Should be in the format
                     [
                         {"AGENT": "Hi!"},
                         {"USER": "Hello."}
                     ]
+            build_graph (bool): Indicates if diagrams are to be compiled. 
+                Defaults to True.
             graph_file (str): The file where the image will be 
                 generated.
-            *args/**kwargs: Any parameters necessary to instantiate your 
+            **kwargs: Any parameters necessary to instantiate your 
                 RolloutBase class.
         """
         self.k = k
         self.max_fallbacks = max_fallbacks
         self.conversation = conversation
         self.graph_file = graph_file
+        self.build_graph = build_graph
         self.rollout_param = kwargs
 
     @property
@@ -53,7 +57,8 @@ class BeamSearchExecutor:
 
     def prep_for_new_search(self):
         self.beams = []
-        self.graph_gen = BeamSearchGraphGenerator(self.k)
+        if self.build_graph:
+            self.graph_gen = BeamSearchGraphGenerator(self.k)
 
     def _handle_message_actions(self):
         for i in range(len(self.beams)):
@@ -70,13 +75,14 @@ class BeamSearchExecutor:
                 )
                 self.beams[i].last_intent = intent
                 self.beams[i].rankings.append(intent)
-                self.graph_gen.create_nodes_highlight_k(
-                    {intent.name: round(intent.score.real, 4)},
-                    "lightgoldenrod1",
-                    self.beams[i].last_action.name,
-                    i,
-                    [intent.name],
-                )
+                if self.build_graph:
+                    self.graph_gen.create_nodes_highlight_k(
+                        {intent.name: round(intent.score.real, 4)},
+                        "lightgoldenrod1",
+                        self.beams[i].last_action.name,
+                        i,
+                        [intent.name],
+                    )
 
 
     def _reconstruct_beam_w_output(self, outputs: List[Union[Action, Intent]]):
@@ -128,20 +134,22 @@ class BeamSearchExecutor:
                     0
                 )
             )
-            # add the k actions to the graph
-            self.graph_gen.create_nodes_highlight_k(
-                {outputs[beam].name: round(outputs[beam].score.real, 4)},
-                "skyblue",
-                "START",
-                beam,
-                [outputs[beam].name],
-            )
+            if self.build_graph:
+                # add the k actions to the graph
+                self.graph_gen.create_nodes_highlight_k(
+                    {outputs[beam].name: round(outputs[beam].score.real, 4)},
+                    "skyblue",
+                    "START",
+                    beam,
+                    [outputs[beam].name],
+                )
         self._handle_message_actions()
-        # add the (total actions - k) nodes that won't be picked to the graph
-        self.graph_gen.create_from_parent(
-            {action.name: round(action.score.real, 4) for action in outputs[self.k:]},
-            "skyblue",
-        )
+        if self.build_graph:
+            # add the (total actions - k) nodes that won't be picked to the graph
+            self.graph_gen.create_from_parent(
+                {action.name: round(action.score.real, 4) for action in outputs[self.k:]},
+                "skyblue",
+            )
         for utterance in self.conversation[1:]:
             user = "USER" in utterance
             outputs = []
@@ -190,31 +198,32 @@ class BeamSearchExecutor:
             for output in outputs:
                 graph_beam_chosen_map[output.beam].append(output.name)
 
-            for beam, chosen in graph_beam_chosen_map.items():
-                self.graph_gen.create_nodes_highlight_k(
-                    # filter ALL outputs by outputs belonging to the current beam
-                    # using the filtered outputs, map intents to probabilities to use in the graph
-                    {
-                        output.name: round(output.score.real, 4)
-                        for output in all_outputs
-                        if output.beam == beam
-                    },
-                    node_color,
-                    self.beams[beam].rankings[-1].name,
-                    beam,
-                    chosen,
-                )
-            self.graph_gen.beams = [
-                BeamSearchGraphGenerator.GraphBeam(
-                    {
-                        key: val
-                        for key, val in self.graph_gen.beams[
-                            output.beam
-                        ].parent_nodes_id_map.items()
-                    }
-                )
-                for output in outputs
-            ]
+            if self.build_graph:
+                for beam, chosen in graph_beam_chosen_map.items():
+                    self.graph_gen.create_nodes_highlight_k(
+                        # filter ALL outputs by outputs belonging to the current beam
+                        # using the filtered outputs, map intents to probabilities to use in the graph
+                        {
+                            output.name: round(output.score.real, 4)
+                            for output in all_outputs
+                            if output.beam == beam
+                        },
+                        node_color,
+                        self.beams[beam].rankings[-1].name,
+                        beam,
+                        chosen,
+                    )
+                self.graph_gen.beams = [
+                    BeamSearchGraphGenerator.GraphBeam(
+                        {
+                            key: val
+                            for key, val in self.graph_gen.beams[
+                                output.beam
+                            ].parent_nodes_id_map.items()
+                        }
+                    )
+                    for output in outputs
+                ]
             self.beams = self._reconstruct_beam_w_output(outputs)
             if user:
                 for beam in self.beams:
@@ -228,21 +237,21 @@ class BeamSearchExecutor:
             for beam in self.beams:
                 if beam.fallbacks >= self.max_fallbacks:
                     beam.scores = [log(0.00000001)]
-
-        for i in range(len(self.beams)):
-            if self.beams[i].rollout.get_reached_goal():
-                self.graph_gen.set_last_chosen(self.beams[i].rankings[-1].name, i)
-                self.graph_gen.complete_conversation(
-                    round(self.beams[i].rankings[-1].score.real, 4)
-                )
-            head = "0"
-            for elem in self.beams[i].rankings:
-                tail = head
-                # beam_id must be > than the head to prevent referencing previous nodes with the same name
-                head = self.graph_gen.beams[i].parent_nodes_id_map[elem.name].pop(0)
-                while int(head) <= int(tail):
+        if self.build_graph:
+            for i in range(len(self.beams)):
+                if self.beams[i].rollout.get_reached_goal():
+                    self.graph_gen.set_last_chosen(self.beams[i].rankings[-1].name, i)
+                    self.graph_gen.complete_conversation(
+                        round(self.beams[i].rankings[-1].score.real, 4)
+                    )
+                head = "0"
+                for elem in self.beams[i].rankings:
+                    tail = head
+                    # beam_id must be > than the head to prevent referencing previous nodes with the same name
                     head = self.graph_gen.beams[i].parent_nodes_id_map[elem.name].pop(0)
-                self.graph_gen.graph.edge(
-                    tail, head, color="forestgreen", penwidth="10.0", arrowhead="normal"
-                )
-        self.graph_gen.graph.render(f"{self.graph_file}.gv", view=True)
+                    while int(head) <= int(tail):
+                        head = self.graph_gen.beams[i].parent_nodes_id_map[elem.name].pop(0)
+                    self.graph_gen.graph.edge(
+                        tail, head, color="forestgreen", penwidth="10.0", arrowhead="normal"
+                    )
+            self.graph_gen.graph.render(f"{self.graph_file}.gv", view=True)
