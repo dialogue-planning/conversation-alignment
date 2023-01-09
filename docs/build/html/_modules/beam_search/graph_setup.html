@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>beam_search.graph_setup &mdash; Conversation Alignment 2022 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Conversation Alignment
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../generated/beam_search.html">beam_search</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Conversation Alignment</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">beam_search.graph_setup</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for beam_search.graph_setup</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>
+
+
+<div class="viewcode-block" id="GraphGenerator"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.GraphGenerator">[docs]</a><span class="k">class</span> <span class="nc">GraphGenerator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds a basic graph with graphviz.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="p">,</span>
+            <span class="s2">&quot;START&quot;</span><span class="p">,</span>
+            <span class="n">fillcolor</span><span class="o">=</span><span class="s2">&quot;darkolivegreen3&quot;</span><span class="p">,</span>
+            <span class="n">style</span><span class="o">=</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;50&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="GraphGenerator._inc_idx"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.GraphGenerator._inc_idx">[docs]</a>    <span class="k">def</span> <span class="nf">_inc_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inc</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="p">)</span> <span class="o">+</span> <span class="n">inc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphGenerator._set_last_chosen"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.GraphGenerator._set_last_chosen">[docs]</a>    <span class="k">def</span> <span class="nf">_set_last_chosen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphGenerator.complete_conversation"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.GraphGenerator.complete_conversation">[docs]</a>    <span class="k">def</span> <span class="nf">complete_conversation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">final_val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_from_parent</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;GOAL REACHED&quot;</span><span class="p">:</span> <span class="n">final_val</span><span class="p">},</span> <span class="s2">&quot;darkolivegreen3&quot;</span><span class="p">,</span> <span class="s2">&quot;GOAL REACHED&quot;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphGenerator.create_from_parent"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.GraphGenerator.create_from_parent">[docs]</a>    <span class="k">def</span> <span class="nf">create_from_parent</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">fillcolor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_parent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">conf</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">edge_color</span><span class="p">,</span> <span class="n">penwidth</span> <span class="o">=</span> <span class="s2">&quot;grey45&quot;</span><span class="p">,</span> <span class="s2">&quot;5.0&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_inc_idx</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">conf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">fillcolor</span><span class="o">=</span><span class="n">fillcolor</span><span class="p">,</span>
+                <span class="n">style</span><span class="o">=</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;50&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">new_parent</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="n">new_parent</span><span class="p">:</span>
+                    <span class="n">new_parent_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span>
+                    <span class="n">edge_color</span><span class="p">,</span> <span class="n">penwidth</span> <span class="o">=</span> <span class="s2">&quot;forestgreen&quot;</span><span class="p">,</span> <span class="s2">&quot;10.0&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">edge_color</span><span class="p">,</span> <span class="n">penwidth</span><span class="o">=</span><span class="n">penwidth</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_parent</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_last_chosen</span><span class="p">(</span><span class="n">new_parent_id</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="BeamSearchGraphGenerator"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.BeamSearchGraphGenerator">[docs]</a><span class="k">class</span> <span class="nc">BeamSearchGraphGenerator</span><span class="p">(</span><span class="n">GraphGenerator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handles building a graph for beam search.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        k (int): The k value for the beam search.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BeamSearchGraphGenerator.GraphBeam"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam">[docs]</a>    <span class="k">class</span> <span class="nc">GraphBeam</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inner class that holds the id maps for each beam so that any node</span>
+<span class="sd">        can be easily referenced.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_nodes_id_map</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_nodes_id_map</span><span class="p">:</span>
+                <span class="n">parent_nodes_id_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;START&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;0&quot;</span><span class="p">]}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parent_nodes_id_map</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">name</span><span class="p">:</span> <span class="p">[</span><span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">]</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ids</span> <span class="ow">in</span> <span class="n">parent_nodes_id_map</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beams</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">GraphBeam</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="BeamSearchGraphGenerator.set_last_chosen"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.BeamSearchGraphGenerator.set_last_chosen">[docs]</a>    <span class="k">def</span> <span class="nf">set_last_chosen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_last_chosen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">parent_nodes_id_map</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="BeamSearchGraphGenerator.create_nodes_highlight_k"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.BeamSearchGraphGenerator.create_nodes_highlight_k">[docs]</a>    <span class="k">def</span> <span class="nf">create_nodes_highlight_k</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">nodes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">fillcolor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">beam</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">k_chosen</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="p">):</span>
+        <span class="c1"># have to access the parent ID before potentially making changes to the map to prevent</span>
+        <span class="c1"># overwriting in the case where you have a node &quot;A&quot; connected to a parent &quot;A&quot;</span>
+        <span class="c1"># (otherwise you would attach the node to itself)</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">parent_nodes_id_map</span><span class="p">[</span><span class="n">parent</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">conf</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">edge_color</span><span class="p">,</span> <span class="n">arrowhead</span><span class="p">,</span> <span class="n">penwidth</span> <span class="o">=</span> <span class="s2">&quot;grey45&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;5.0&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_inc_idx</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">conf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">fillcolor</span><span class="o">=</span><span class="n">fillcolor</span><span class="p">,</span>
+                <span class="n">style</span><span class="o">=</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;50&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">k_chosen</span><span class="p">:</span>
+                <span class="n">edge_color</span><span class="p">,</span> <span class="n">arrowhead</span><span class="p">,</span> <span class="n">penwidth</span> <span class="o">=</span> <span class="s2">&quot;purple&quot;</span><span class="p">,</span> <span class="s2">&quot;normal&quot;</span><span class="p">,</span> <span class="s2">&quot;10.0&quot;</span>
+                <span class="c1"># create the list if it doesn&#39;t exist yet, otherwise add to it</span>
+                <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">parent_nodes_id_map</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">parent_nodes_id_map</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">parent_nodes_id_map</span><span class="p">[</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span>
+                <span class="n">parent</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">edge_color</span><span class="p">,</span>
+                <span class="n">penwidth</span><span class="o">=</span><span class="n">penwidth</span><span class="p">,</span>
+                <span class="n">arrowhead</span><span class="o">=</span><span class="n">arrowhead</span><span class="p">,</span>
+            <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Natalie Nova, Rebecca De Venezia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
