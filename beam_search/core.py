@@ -293,7 +293,7 @@ class BeamSearchExecutor:
                 # structure.
                 self.graph_gen.beams = [
                     BeamSearchGraphGenerator.GraphBeam(
-                        self.graph_gen.beams[output.beam].parent_nodes_id_map.items()
+                        self.graph_gen.beams[output.beam].parent_nodes_id_map
                     )
                     for output in outputs
                 ]
