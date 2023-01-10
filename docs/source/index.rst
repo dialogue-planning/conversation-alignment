@@ -21,6 +21,8 @@ We demonstrate that beam search is effective at identifying conversations that a
 
 To get started with implementing beam search in your own dialogue-as-planning agents, you will want to clone this repository and implement the abstract methods in :py:func:`beam_srch_data_structs <beam_search.beam_srch_data_structs>`.
 
+**Please note that Python >= 3.7 is required.**
+
 Then, running a beam search is as easy as follows:
 
 .. code-block:: python

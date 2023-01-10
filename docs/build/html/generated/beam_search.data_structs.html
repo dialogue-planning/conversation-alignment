@@ -280,7 +280,7 @@ selected based on overall score, not just the singular confidence.</p>
 <dd class="field-odd"><p><p>The action confidence map. Return in the format:</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="n">some_action_name</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">some_confidence</span> <span class="p">(</span><span class="nb">float</span><span class="p">),</span>
+    <span class="n">ACTION_NAME</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">CONFIDENCE</span> <span class="p">(</span><span class="nb">float</span><span class="p">),</span>
     <span class="c1"># continue for each action</span>
     <span class="o">...</span>
 <span class="p">}</span>
@@ -309,9 +309,9 @@ selected based on overall score, not just the singular confidence.</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s2">&quot;intent&quot;</span><span class="p">:</span> <span class="n">some_intent_name</span> <span class="p">(</span><span class="nb">str</span><span class="p">),</span>
-        <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="n">some_outcome_name</span> <span class="p">(</span><span class="nb">str</span><span class="p">),</span>
-        <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="n">some_confidence</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="s2">&quot;intent&quot;</span><span class="p">:</span> <span class="n">INTENT_NAME</span> <span class="p">(</span><span class="nb">str</span><span class="p">),</span>
+        <span class="s2">&quot;outcome&quot;</span><span class="p">:</span> <span class="n">OUTCOME_NAME</span> <span class="p">(</span><span class="nb">str</span><span class="p">),</span>
+        <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="n">CONFIDENCE</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span>
     <span class="p">},</span>
     <span class="c1"># continue for each intent</span>
     <span class="p">{</span>
