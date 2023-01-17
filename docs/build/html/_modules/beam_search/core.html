@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>beam_search.core &mdash; Conversation Alignment 2022 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Conversation Alignment
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../generated/beam_search.html">beam_search</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Conversation Alignment</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">beam_search.core</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for beam_search.core</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">cmath</span> <span class="kn">import</span> <span class="n">log</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">beam_search.data_structs</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c1"># NOTE: for all users, import the instantiated versions of the stubs here</span>
+<span class="kn">from</span> <span class="nn">beam_search.graph_setup</span> <span class="kn">import</span> <span class="n">BeamSearchGraphGenerator</span>
+
+
+<div class="viewcode-block" id="BeamSearchExecutor"><a class="viewcode-back" href="../../generated/beam_search.core.html#beam_search.core.BeamSearchExecutor">[docs]</a><span class="k">class</span> <span class="nc">BeamSearchExecutor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class that houses all information needed to execute the beam search</span>
+<span class="sd">    algorithm.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        k (int): The number of beams to use.</span>
+<span class="sd">        max_fallbacks (int): The maximum number of fallbacks that can occur</span>
+<span class="sd">            in any beam before the probability is tanked by resetting the</span>
+<span class="sd">            score to the log of a low number epsilon.</span>
+<span class="sd">        conversation (List[Dict[str, str]]): The self.conversation to be</span>
+<span class="sd">            explored. Should be in the format</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                [</span>
+<span class="sd">                    {&quot;AGENT&quot;: &quot;Hi!&quot;},</span>
+<span class="sd">                    {&quot;USER&quot;: &quot;Hello.&quot;}</span>
+<span class="sd">                ]</span>
+
+<span class="sd">        build_graph (bool): Indicates if diagrams are to be compiled.</span>
+<span class="sd">            Defaults to True.</span>
+<span class="sd">        graph_file (str): The file where the image will be</span>
+<span class="sd">            generated.</span>
+<span class="sd">        **kwargs: Any parameters necessary to instantiate your</span>
+<span class="sd">            Rollout class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">max_fallbacks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">conversation</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
+        <span class="n">build_graph</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">graph_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_fallbacks</span> <span class="o">=</span> <span class="n">max_fallbacks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conversation</span> <span class="o">=</span> <span class="n">conversation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph_file</span> <span class="o">=</span> <span class="n">graph_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_graph</span> <span class="o">=</span> <span class="n">build_graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rollout_param</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">k</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k</span>
+
+    <span class="nd">@k</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The value of k must be a positive integer.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_k</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">max_fallbacks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_fallbacks</span>
+
+    <span class="nd">@max_fallbacks</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">max_fallbacks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The number of fallbacks needed to tank a beam must be a positive integer.&quot;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_fallbacks</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="BeamSearchExecutor._prep_for_new_search"><a class="viewcode-back" href="../../generated/beam_search.core.html#beam_search.core.BeamSearchExecutor._prep_for_new_search">[docs]</a>    <span class="k">def</span> <span class="nf">_prep_for_new_search</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resets the beams and graph generator to begin a new search.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beams</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_graph</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span> <span class="o">=</span> <span class="n">BeamSearchGraphGenerator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BeamSearchExecutor._handle_message_actions"><a class="viewcode-back" href="../../generated/beam_search.core.html#beam_search.core.BeamSearchExecutor._handle_message_actions">[docs]</a>    <span class="k">def</span> <span class="nf">_handle_message_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Handles &quot;message actions&quot; for all beams.</span>
+
+<span class="sd">        A &quot;message action&quot; occurs when an action only has one possible outcome.</span>
+<span class="sd">        In that case, that outcome should be immediately executed as the action</span>
+<span class="sd">        doesn&#39;t take (or need) any user input to execute that outcome.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># iterate through all the beams</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">)):</span>
+            <span class="c1"># if result is not None, then the last action was a message action</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rollout</span><span class="o">.</span><span class="n">update_if_message_action</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">last_action</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+                <span class="c1"># create an intent from the message action.</span>
+                <span class="n">intent</span> <span class="o">=</span> <span class="n">Intent</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;intent&quot;</span><span class="p">],</span>
+                    <span class="n">probability</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;confidence&quot;</span><span class="p">],</span>
+                    <span class="n">beam</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                    <span class="n">score</span><span class="o">=</span><span class="n">log</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;confidence&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">last_action</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
+                    <span class="n">outcome</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;outcome&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+                <span class="c1"># update the last intent and rankings and add it to the beam</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">last_intent</span> <span class="o">=</span> <span class="n">intent</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rankings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intent</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_graph</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">create_nodes_highlight_k</span><span class="p">(</span>
+                        <span class="p">{</span><span class="n">intent</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">intent</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="mi">4</span><span class="p">)},</span>
+                        <span class="s2">&quot;lightgoldenrod1&quot;</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">last_action</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">i</span><span class="p">,</span>
+                        <span class="p">[</span><span class="n">intent</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
+                    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BeamSearchExecutor._reconstruct_beam_w_output"><a class="viewcode-back" href="../../generated/beam_search.core.html#beam_search.core.BeamSearchExecutor._reconstruct_beam_w_output">[docs]</a>    <span class="k">def</span> <span class="nf">_reconstruct_beam_w_output</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Action</span><span class="p">,</span> <span class="n">Intent</span><span class="p">]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Beam</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reconstructs/creates new beams given the top k outputs determined.</span>
+<span class="sd">        Note: The outputs cannot simply be appended to the appropriate beam</span>
+<span class="sd">        as it often occurs that a single beam will be &quot;extended&quot; more than once</span>
+<span class="sd">        and those options need to be stored as new, separate beams.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            outputs (List[Union[Action, Intent]]): The top k actions or</span>
+<span class="sd">                intents that match the last utterance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Beam]: The new Beams with the outputs added.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_beams</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">actions</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Action</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">)):</span>
+            <span class="c1"># grab the beam that the output came from</span>
+            <span class="n">at_beam</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">beam</span>
+            <span class="c1"># grab that beam&#39;s fallbacks</span>
+            <span class="n">fallbacks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">at_beam</span><span class="p">]</span><span class="o">.</span><span class="n">fallbacks</span>
+            <span class="c1"># if we&#39;re dealing with actions</span>
+            <span class="k">if</span> <span class="n">actions</span><span class="p">:</span>
+                <span class="c1"># set the last action to the output and keep the last intent</span>
+                <span class="c1"># the same</span>
+                <span class="n">last_action</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">last_intent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">at_beam</span><span class="p">]</span><span class="o">.</span><span class="n">last_intent</span>
+            <span class="c1"># otherwise, do the reverse and update the # of fallbacks</span>
+            <span class="c1"># if necessary</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">last_intent</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">last_action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">at_beam</span><span class="p">]</span><span class="o">.</span><span class="n">last_action</span>
+                <span class="k">if</span> <span class="n">outputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">is_fallback</span><span class="p">():</span>
+                    <span class="n">fallbacks</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># update the rankings and scores and create a new Beam</span>
+            <span class="n">new_beams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Beam</span><span class="p">(</span>
+                    <span class="n">last_action</span><span class="p">,</span>
+                    <span class="n">last_intent</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">at_beam</span><span class="p">]</span><span class="o">.</span><span class="n">rankings</span> <span class="o">+</span> <span class="p">[</span><span class="n">outputs</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">at_beam</span><span class="p">]</span><span class="o">.</span><span class="n">rollout</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">at_beam</span><span class="p">]</span><span class="o">.</span><span class="n">scores</span> <span class="o">+</span> <span class="p">[</span><span class="n">log</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">probability</span><span class="p">)],</span>
+                    <span class="n">fallbacks</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_beams</span></div>
+
+<div class="viewcode-block" id="BeamSearchExecutor.beam_search"><a class="viewcode-back" href="../../generated/beam_search.core.html#beam_search.core.BeamSearchExecutor.beam_search">[docs]</a>    <span class="k">def</span> <span class="nf">beam_search</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The main beam search algorithm.</span>
+
+<span class="sd">        NOTE: We assume that the provided conversation begins with an action,</span>
+<span class="sd">        due to the fact that in dialogue-as-planning, agents use actions and</span>
+<span class="sd">        users respond to those actions with one of a set of given intents.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># resets the beams and creates a new &quot;Rollout&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prep_for_new_search</span><span class="p">()</span>
+        <span class="n">start_rollout</span> <span class="o">=</span> <span class="n">RolloutBase</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">rollout_param</span><span class="p">)</span>
+        <span class="c1"># generates the starting values.</span>
+        <span class="n">starting_values</span> <span class="o">=</span> <span class="n">start_rollout</span><span class="o">.</span><span class="n">get_action_confidences</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conversation</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Action</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="n">val</span><span class="p">,</span> <span class="n">beam</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">log</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">starting_values</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="p">]</span>
+        <span class="c1"># if there are less starting actions than there are beams, duplicate</span>
+        <span class="c1"># the best action until we reach self.k</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">:</span>
+            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">beam</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">):</span>
+            <span class="c1"># create the initial beams</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Beam</span><span class="p">(</span>
+                    <span class="n">outputs</span><span class="p">[</span><span class="n">beam</span><span class="p">],</span>
+                    <span class="kc">None</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">outputs</span><span class="p">[</span><span class="n">beam</span><span class="p">]],</span>
+                    <span class="n">RolloutBase</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">rollout_param</span><span class="p">),</span>
+                    <span class="p">[</span><span class="n">log</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">probability</span><span class="p">)],</span>
+                    <span class="mi">0</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_graph</span><span class="p">:</span>
+                <span class="c1"># add the k actions to the graph</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">create_nodes_highlight_k</span><span class="p">(</span>
+                    <span class="p">{</span><span class="n">outputs</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="mi">4</span><span class="p">)},</span>
+                    <span class="s2">&quot;skyblue&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;START&quot;</span><span class="p">,</span>
+                    <span class="n">beam</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">outputs</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
+                <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_handle_message_actions</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_graph</span><span class="p">:</span>
+            <span class="c1"># add the (total actions - k) nodes that won&#39;t be picked to the graph</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">create_from_parent</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="n">action</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">action</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="p">:]</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;skyblue&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="c1"># iterate through all utterances (the first was already observed)</span>
+        <span class="k">for</span> <span class="n">utterance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">conversation</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="c1"># denotes if this is a user utterance or an agent action</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span> <span class="ow">in</span> <span class="n">utterance</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># iterate through all the beams</span>
+            <span class="k">for</span> <span class="n">beam</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">)):</span>
+                <span class="c1"># if this is a user utterance, get the k highest intents by</span>
+                <span class="c1"># observing the utterance in the context of the last action</span>
+                <span class="k">if</span> <span class="n">user</span><span class="p">:</span>
+                    <span class="n">all_intent_confs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">rollout</span><span class="o">.</span><span class="n">get_intent_confidences</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">last_action</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">utterance</span>
+                    <span class="p">)</span>
+                    <span class="c1"># create beam search &quot;Intents&quot; given the output</span>
+                    <span class="k">for</span> <span class="n">intent_cfg</span> <span class="ow">in</span> <span class="n">all_intent_confs</span><span class="p">:</span>
+                        <span class="c1"># find the score by taking the sum of the current</span>
+                        <span class="c1"># beam thread which should be a list of log(prob)</span>
+                        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="n">Intent</span><span class="p">(</span>
+                                <span class="n">name</span><span class="o">=</span><span class="n">intent_cfg</span><span class="p">[</span><span class="s2">&quot;intent&quot;</span><span class="p">],</span>
+                                <span class="n">probability</span><span class="o">=</span><span class="n">intent_cfg</span><span class="p">[</span><span class="s2">&quot;confidence&quot;</span><span class="p">],</span>
+                                <span class="n">beam</span><span class="o">=</span><span class="n">beam</span><span class="p">,</span>
+                                <span class="n">score</span><span class="o">=</span><span class="p">(</span>
+                                    <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">scores</span><span class="p">)</span>
+                                    <span class="o">+</span> <span class="n">log</span><span class="p">(</span><span class="n">intent_cfg</span><span class="p">[</span><span class="s2">&quot;confidence&quot;</span><span class="p">])</span>
+                                <span class="p">)</span><span class="o">.</span><span class="n">real</span><span class="p">,</span>
+                                <span class="n">outcome</span><span class="o">=</span><span class="n">intent_cfg</span><span class="p">[</span><span class="s2">&quot;outcome&quot;</span><span class="p">],</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                <span class="c1"># otherwise, do the same, but get the k highest actions instead</span>
+                <span class="c1"># and convert those into beam search &quot;Actions&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">all_act_confs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">rollout</span><span class="o">.</span><span class="n">get_action_confidences</span><span class="p">(</span>
+                        <span class="n">utterance</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">last_action</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">last_intent</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">last_intent</span><span class="o">.</span><span class="n">outcome</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">act</span><span class="p">,</span> <span class="n">conf</span> <span class="ow">in</span> <span class="n">all_act_confs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="n">Action</span><span class="p">(</span>
+                                <span class="n">name</span><span class="o">=</span><span class="n">act</span><span class="p">,</span>
+                                <span class="n">probability</span><span class="o">=</span><span class="n">conf</span><span class="p">,</span>
+                                <span class="n">beam</span><span class="o">=</span><span class="n">beam</span><span class="p">,</span>
+                                <span class="n">score</span><span class="o">=</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">scores</span><span class="p">)</span> <span class="o">+</span> <span class="n">log</span><span class="p">(</span><span class="n">conf</span><span class="p">))</span><span class="o">.</span><span class="n">real</span><span class="p">,</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+            <span class="c1"># sort the outputs (k highest actions or intents) by score</span>
+            <span class="n">outputs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="c1"># store all the outputs (only to use in graph creation) before</span>
+            <span class="c1"># splicing the top k</span>
+            <span class="n">all_outputs</span> <span class="o">=</span> <span class="n">outputs</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_graph</span><span class="p">:</span>
+                <span class="c1"># for the graph: track which nodes are &quot;chosen&quot; for each beam</span>
+                <span class="n">node_color</span> <span class="o">=</span> <span class="s2">&quot;lightgoldenrod1&quot;</span> <span class="k">if</span> <span class="n">user</span> <span class="k">else</span> <span class="s2">&quot;skyblue&quot;</span>
+                <span class="n">graph_beam_chosen_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">idx</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)}</span>
+                <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
+                    <span class="n">graph_beam_chosen_map</span><span class="p">[</span><span class="n">output</span><span class="o">.</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">beam</span><span class="p">,</span> <span class="n">chosen</span> <span class="ow">in</span> <span class="n">graph_beam_chosen_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">create_nodes_highlight_k</span><span class="p">(</span>
+                        <span class="c1"># filter ALL outputs by outputs belonging to the</span>
+                        <span class="c1"># current beam</span>
+                        <span class="c1"># using the filtered outputs, map intents to</span>
+                        <span class="c1"># probabilities to use in the graph</span>
+                        <span class="p">{</span>
+                            <span class="n">output</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">all_outputs</span>
+                            <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">beam</span> <span class="o">==</span> <span class="n">beam</span>
+                        <span class="p">},</span>
+                        <span class="n">node_color</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">rankings</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">beam</span><span class="p">,</span>
+                        <span class="n">chosen</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="c1"># update the graph&#39;s beams so that the parent/id map matches</span>
+                <span class="c1"># the reconstructed beams. we have to do this because again,</span>
+                <span class="c1"># outputs cannot just be appended to beams, as multiple outputs</span>
+                <span class="c1"># could have been chosen from a single previous beam. so, the</span>
+                <span class="c1"># &quot;graph&quot; beams need to be updated to match the current</span>
+                <span class="c1"># structure.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">beams</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">BeamSearchGraphGenerator</span><span class="o">.</span><span class="n">GraphBeam</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">output</span><span class="o">.</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">parent_nodes_id_map</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span>
+                <span class="p">]</span>
+            <span class="c1"># add the outputs to the beams</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">beams</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reconstruct_beam_w_output</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+            <span class="c1"># if we&#39;re dealing with a user utterance, update the state</span>
+            <span class="c1"># for all beams; otherwise, check if we&#39;re dealing with any message</span>
+            <span class="c1"># actions</span>
+            <span class="k">if</span> <span class="n">user</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">beam</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">:</span>
+                    <span class="n">beam</span><span class="o">.</span><span class="n">rollout</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span>
+                        <span class="n">beam</span><span class="o">.</span><span class="n">last_action</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">beam</span><span class="o">.</span><span class="n">last_intent</span><span class="o">.</span><span class="n">outcome</span><span class="p">,</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_handle_message_actions</span><span class="p">()</span>
+            <span class="c1"># tank the scores if we&#39;ve hit the max fallbacks</span>
+            <span class="k">for</span> <span class="n">beam</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">beam</span><span class="o">.</span><span class="n">fallbacks</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fallbacks</span><span class="p">:</span>
+                    <span class="n">beam</span><span class="o">.</span><span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">log</span><span class="p">(</span><span class="mf">0.00000001</span><span class="p">)]</span>
+        <span class="c1"># once we&#39;ve reached the end of the conversation, iterate through all</span>
+        <span class="c1"># beams</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_graph</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">)):</span>
+                <span class="c1"># add a &quot;GOAL REACHED&quot; node if necessary</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rollout</span><span class="o">.</span><span class="n">get_reached_goal</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">set_last_chosen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rankings</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">complete_conversation</span><span class="p">(</span>
+                        <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rankings</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="c1"># highlight all the &quot;final&quot; beams</span>
+                <span class="n">head</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+                <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rankings</span><span class="p">:</span>
+                    <span class="n">tail</span> <span class="o">=</span> <span class="n">head</span>
+                    <span class="c1"># beam_id must be &gt; than the head to prevent referencing</span>
+                    <span class="c1"># previous nodes with the same name</span>
+                    <span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">parent_nodes_id_map</span><span class="p">[</span><span class="n">elem</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="k">while</span> <span class="nb">int</span><span class="p">(</span><span class="n">head</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tail</span><span class="p">):</span>
+                        <span class="n">head</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                            <span class="o">.</span><span class="n">parent_nodes_id_map</span><span class="p">[</span><span class="n">elem</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+                            <span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span>
+                        <span class="n">tail</span><span class="p">,</span>
+                        <span class="n">head</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;forestgreen&quot;</span><span class="p">,</span>
+                        <span class="n">penwidth</span><span class="o">=</span><span class="s2">&quot;10.0&quot;</span><span class="p">,</span>
+                        <span class="n">arrowhead</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph_gen</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_file</span><span class="si">}</span><span class="s2">.gv&quot;</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Natalie Nova, Rebecca De Venezia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
