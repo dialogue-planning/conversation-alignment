@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="y" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>beam_search.graph_setup &mdash; Conversation Alignment 2022 documentation</title>
+  <title>beam_search.graph_setup &mdash; Conversation Alignment January 2023 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -38,26 +38,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="beam_search.html">beam_search</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="beam_search.core.html">beam_search.core</a></li>
-<li class="toctree-l2"><a class="reference internal" href="beam_search.data_structs.html">beam_search.data_structs</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">beam_search.graph_setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#beam_search.graph_setup.BeamSearchGraphGenerator"><code class="docutils literal notranslate"><span class="pre">BeamSearchGraphGenerator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam"><code class="docutils literal notranslate"><span class="pre">BeamSearchGraphGenerator.GraphBeam</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.BeamSearchGraphGenerator._inc_idx"><code class="docutils literal notranslate"><span class="pre">BeamSearchGraphGenerator._inc_idx()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.BeamSearchGraphGenerator._set_last_chosen"><code class="docutils literal notranslate"><span class="pre">BeamSearchGraphGenerator._set_last_chosen()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.BeamSearchGraphGenerator.complete_conversation"><code class="docutils literal notranslate"><span class="pre">BeamSearchGraphGenerator.complete_conversation()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.BeamSearchGraphGenerator.create_from_parent"><code class="docutils literal notranslate"><span class="pre">BeamSearchGraphGenerator.create_from_parent()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.BeamSearchGraphGenerator.create_nodes_highlight_k"><code class="docutils literal notranslate"><span class="pre">BeamSearchGraphGenerator.create_nodes_highlight_k()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.BeamSearchGraphGenerator.set_last_chosen"><code class="docutils literal notranslate"><span class="pre">BeamSearchGraphGenerator.set_last_chosen()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#beam_search.graph_setup.GraphGenerator"><code class="docutils literal notranslate"><span class="pre">GraphGenerator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.GraphGenerator._inc_idx"><code class="docutils literal notranslate"><span class="pre">GraphGenerator._inc_idx()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.GraphGenerator._set_last_chosen"><code class="docutils literal notranslate"><span class="pre">GraphGenerator._set_last_chosen()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.GraphGenerator.complete_conversation"><code class="docutils literal notranslate"><span class="pre">GraphGenerator.complete_conversation()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.GraphGenerator.create_from_parent"><code class="docutils literal notranslate"><span class="pre">GraphGenerator.create_from_parent()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="beam_search.html">beam_search</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="beam_search.core.html">beam_search.core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="beam_search.data_structs.html">beam_search.data_structs</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">beam_search.graph_setup</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.BeamSearchGraphGenerator"><code class="docutils literal notranslate"><span class="pre">BeamSearchGraphGenerator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#beam_search.graph_setup.GraphGenerator"><code class="docutils literal notranslate"><span class="pre">GraphGenerator</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -80,6 +69,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
           <li class="breadcrumb-item"><a href="beam_search.html">beam_search</a></li>
       <li class="breadcrumb-item active">beam_search.graph_setup</li>
       <li class="wy-breadcrumbs-aside">
@@ -115,7 +105,7 @@
 <p>Handles building a graph for beam search.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>k</strong> (<em>int</em>) – The k value for the beam search.</p>
+<dd class="field-odd"><p><strong>k</strong> (<em>int</em>) -- The k value for the beam search.</p>
 </dd>
 </dl>
 <dl class="py class">
@@ -124,6 +114,48 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Inner class that holds the id maps for each beam so that any node
 can be easily referenced.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'beam_search.graph_setup',</span> <span class="pre">'__doc__':</span> <span class="pre">'Inner</span> <span class="pre">class</span> <span class="pre">that</span> <span class="pre">holds</span> <span class="pre">the</span> <span class="pre">id</span> <span class="pre">maps</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">beam</span> <span class="pre">so</span> <span class="pre">that</span> <span class="pre">any</span> <span class="pre">node\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">can</span> <span class="pre">be</span> <span class="pre">easily</span> <span class="pre">referenced.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">BeamSearchGraphGenerator.GraphBeam.__init__&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'GraphBeam'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'GraphBeam'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_nodes_id_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/graph_setup.html#BeamSearchGraphGenerator.GraphBeam.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'beam_search.graph_setup'</span></em><a class="headerlink" href="#beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam.__weakref__" title="Permalink to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.graph_setup.BeamSearchGraphGenerator.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'beam_search.graph_setup',</span> <span class="pre">'__doc__':</span> <span class="pre">'Handles</span> <span class="pre">building</span> <span class="pre">a</span> <span class="pre">graph</span> <span class="pre">for</span> <span class="pre">beam</span> <span class="pre">search.\n\n</span>&#160;&#160;&#160; <span class="pre">Args:\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">k</span> <span class="pre">(int):</span> <span class="pre">The</span> <span class="pre">k</span> <span class="pre">value</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">beam</span> <span class="pre">search.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'GraphBeam':</span> <span class="pre">&lt;class</span> <span class="pre">'beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam'&gt;,</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">BeamSearchGraphGenerator.__init__&gt;,</span> <span class="pre">'set_last_chosen':</span> <span class="pre">&lt;function</span> <span class="pre">BeamSearchGraphGenerator.set_last_chosen&gt;,</span> <span class="pre">'create_nodes_highlight_k':</span> <span class="pre">&lt;function</span> <span class="pre">BeamSearchGraphGenerator.create_nodes_highlight_k&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#beam_search.graph_setup.BeamSearchGraphGenerator.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="beam_search.graph_setup.BeamSearchGraphGenerator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/graph_setup.html#BeamSearchGraphGenerator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.graph_setup.BeamSearchGraphGenerator.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.graph_setup.BeamSearchGraphGenerator.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'beam_search.graph_setup'</span></em><a class="headerlink" href="#beam_search.graph_setup.BeamSearchGraphGenerator.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.graph_setup.BeamSearchGraphGenerator.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#beam_search.graph_setup.BeamSearchGraphGenerator.__weakref__" title="Permalink to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -163,6 +195,32 @@ can be easily referenced.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GraphGenerator</span></span><a class="reference internal" href="../_modules/beam_search/graph_setup.html#GraphGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.graph_setup.GraphGenerator" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Builds a basic graph with graphviz.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.graph_setup.GraphGenerator.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#beam_search.graph_setup.GraphGenerator.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.graph_setup.GraphGenerator.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'beam_search.graph_setup',</span> <span class="pre">'__doc__':</span> <span class="pre">'Builds</span> <span class="pre">a</span> <span class="pre">basic</span> <span class="pre">graph</span> <span class="pre">with</span> <span class="pre">graphviz.',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">GraphGenerator.__init__&gt;,</span> <span class="pre">'_inc_idx':</span> <span class="pre">&lt;function</span> <span class="pre">GraphGenerator._inc_idx&gt;,</span> <span class="pre">'_set_last_chosen':</span> <span class="pre">&lt;function</span> <span class="pre">GraphGenerator._set_last_chosen&gt;,</span> <span class="pre">'complete_conversation':</span> <span class="pre">&lt;function</span> <span class="pre">GraphGenerator.complete_conversation&gt;,</span> <span class="pre">'create_from_parent':</span> <span class="pre">&lt;function</span> <span class="pre">GraphGenerator.create_from_parent&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'GraphGenerator'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'GraphGenerator'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#beam_search.graph_setup.GraphGenerator.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="beam_search.graph_setup.GraphGenerator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/graph_setup.html#GraphGenerator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.graph_setup.GraphGenerator.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.graph_setup.GraphGenerator.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'beam_search.graph_setup'</span></em><a class="headerlink" href="#beam_search.graph_setup.GraphGenerator.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.graph_setup.GraphGenerator.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#beam_search.graph_setup.GraphGenerator.__weakref__" title="Permalink to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="beam_search.graph_setup.GraphGenerator._inc_idx">
 <span class="sig-name descname"><span class="pre">_inc_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/graph_setup.html#GraphGenerator._inc_idx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.graph_setup.GraphGenerator._inc_idx" title="Permalink to this definition"></a></dt>

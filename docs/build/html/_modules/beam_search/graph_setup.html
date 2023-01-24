@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="y" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>beam_search.graph_setup &mdash; Conversation Alignment 2022 documentation</title>
+  <title>beam_search.graph_setup &mdash; Conversation Alignment January 2023 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -36,8 +36,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../generated/beam_search.html">beam_search</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 </ul>
 
         </div>
@@ -71,7 +72,7 @@
 
 <div class="viewcode-block" id="GraphGenerator"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.GraphGenerator">[docs]</a><span class="k">class</span> <span class="nc">GraphGenerator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds a basic graph with graphviz.&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GraphGenerator.__init__"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.GraphGenerator.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -81,7 +82,7 @@
             <span class="n">fillcolor</span><span class="o">=</span><span class="s2">&quot;darkolivegreen3&quot;</span><span class="p">,</span>
             <span class="n">style</span><span class="o">=</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span>
             <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;50&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphGenerator._inc_idx"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.GraphGenerator._inc_idx">[docs]</a>    <span class="k">def</span> <span class="nf">_inc_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inc</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="p">)</span> <span class="o">+</span> <span class="n">inc</span><span class="p">)</span></div>
@@ -128,16 +129,16 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Inner class that holds the id maps for each beam so that any node</span>
 <span class="sd">        can be easily referenced.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_nodes_id_map</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="BeamSearchGraphGenerator.GraphBeam.__init__"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.BeamSearchGraphGenerator.GraphBeam.__init__">[docs]</a>        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_nodes_id_map</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_nodes_id_map</span><span class="p">:</span>
                 <span class="n">parent_nodes_id_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;START&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;0&quot;</span><span class="p">]}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parent_nodes_id_map</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="n">name</span><span class="p">:</span> <span class="p">[</span><span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">]</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ids</span> <span class="ow">in</span> <span class="n">parent_nodes_id_map</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-            <span class="p">}</span></div>
+            <span class="p">}</span></div></div>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="BeamSearchGraphGenerator.__init__"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.BeamSearchGraphGenerator.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">beams</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">GraphBeam</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beams</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">GraphBeam</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="BeamSearchGraphGenerator.set_last_chosen"><a class="viewcode-back" href="../../generated/beam_search.graph_setup.html#beam_search.graph_setup.BeamSearchGraphGenerator.set_last_chosen">[docs]</a>    <span class="k">def</span> <span class="nf">set_last_chosen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">beam</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_last_chosen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beams</span><span class="p">[</span><span class="n">beam</span><span class="p">]</span><span class="o">.</span><span class="n">parent_nodes_id_map</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>

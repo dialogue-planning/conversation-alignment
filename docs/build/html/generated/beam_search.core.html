@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="y" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>beam_search.core &mdash; Conversation Alignment 2022 documentation</title>
+  <title>beam_search.core &mdash; Conversation Alignment January 2023 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -39,22 +39,18 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="beam_search.html">beam_search</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">beam_search.core</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#beam_search.core.BeamSearchExecutor"><code class="docutils literal notranslate"><span class="pre">BeamSearchExecutor</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.core.BeamSearchExecutor._handle_message_actions"><code class="docutils literal notranslate"><span class="pre">BeamSearchExecutor._handle_message_actions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.core.BeamSearchExecutor._prep_for_new_search"><code class="docutils literal notranslate"><span class="pre">BeamSearchExecutor._prep_for_new_search()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.core.BeamSearchExecutor._reconstruct_beam_w_output"><code class="docutils literal notranslate"><span class="pre">BeamSearchExecutor._reconstruct_beam_w_output()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.core.BeamSearchExecutor.beam_search"><code class="docutils literal notranslate"><span class="pre">BeamSearchExecutor.beam_search()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.core.BeamSearchExecutor.k"><code class="docutils literal notranslate"><span class="pre">BeamSearchExecutor.k</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.core.BeamSearchExecutor.max_fallbacks"><code class="docutils literal notranslate"><span class="pre">BeamSearchExecutor.max_fallbacks</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="beam_search.html">beam_search</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">beam_search.core</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#beam_search.core.BeamSearchExecutor"><code class="docutils literal notranslate"><span class="pre">BeamSearchExecutor</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="beam_search.data_structs.html">beam_search.data_structs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="beam_search.graph_setup.html">beam_search.graph_setup</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="beam_search.data_structs.html">beam_search.data_structs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="beam_search.graph_setup.html">beam_search.graph_setup</a></li>
 </ul>
 </li>
 </ul>
@@ -73,6 +69,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
           <li class="breadcrumb-item"><a href="beam_search.html">beam_search</a></li>
       <li class="breadcrumb-item active">beam_search.core</li>
       <li class="wy-breadcrumbs-aside">
@@ -107,11 +104,11 @@ algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<em>int</em>) – The number of beams to use.</p></li>
-<li><p><strong>max_fallbacks</strong> (<em>int</em>) – The maximum number of fallbacks that can occur
+<li><p><strong>k</strong> (<em>int</em>) -- The number of beams to use.</p></li>
+<li><p><strong>max_fallbacks</strong> (<em>int</em>) -- The maximum number of fallbacks that can occur
 in any beam before the probability is tanked by resetting the
 score to the log of a low number epsilon.</p></li>
-<li><p><strong>conversation</strong> (<em>List</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em><em>]</em>) – <p>The self.conversation to be
+<li><p><strong>conversation</strong> (<em>List</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em><em>]</em>) -- <p>The self.conversation to be
 explored. Should be in the format</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="p">{</span><span class="s2">&quot;AGENT&quot;</span><span class="p">:</span> <span class="s2">&quot;Hi!&quot;</span><span class="p">},</span>
@@ -120,22 +117,43 @@ explored. Should be in the format</p>
 </pre></div>
 </div>
 </p></li>
-<li><p><strong>build_graph</strong> (<em>bool</em>) – Indicates if diagrams are to be compiled.
+<li><p><strong>build_graph</strong> (<em>bool</em>) -- Indicates if diagrams are to be compiled.
 Defaults to True.</p></li>
-<li><p><strong>graph_file</strong> (<em>str</em>) – The file where the image will be
+<li><p><strong>graph_file</strong> (<em>str</em>) -- The file where the image will be
 generated.</p></li>
-<li><p><strong>**kwargs</strong> – Any parameters necessary to instantiate your
+<li><p><strong>**kwargs</strong> -- Any parameters necessary to instantiate your
 Rollout class.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.core.BeamSearchExecutor.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'beam_search.core',</span> <span class="pre">'__doc__':</span> <span class="pre">'Class</span> <span class="pre">that</span> <span class="pre">houses</span> <span class="pre">all</span> <span class="pre">information</span> <span class="pre">needed</span> <span class="pre">to</span> <span class="pre">execute</span> <span class="pre">the</span> <span class="pre">beam</span> <span class="pre">search\n</span>&#160;&#160;&#160; <span class="pre">algorithm.\n\n</span>&#160;&#160;&#160; <span class="pre">Args:\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">k</span> <span class="pre">(int):</span> <span class="pre">The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">beams</span> <span class="pre">to</span> <span class="pre">use.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">max_fallbacks</span> <span class="pre">(int):</span> <span class="pre">The</span> <span class="pre">maximum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">fallbacks</span> <span class="pre">that</span> <span class="pre">can</span> <span class="pre">occur\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">in</span> <span class="pre">any</span> <span class="pre">beam</span> <span class="pre">before</span> <span class="pre">the</span> <span class="pre">probability</span> <span class="pre">is</span> <span class="pre">tanked</span> <span class="pre">by</span> <span class="pre">resetting</span> <span class="pre">the\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">score</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">log</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">low</span> <span class="pre">number</span> <span class="pre">epsilon.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">conversation</span> <span class="pre">(List[Dict[str,</span> <span class="pre">str]]):</span> <span class="pre">The</span> <span class="pre">self.conversation</span> <span class="pre">to</span> <span class="pre">be\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">explored.</span> <span class="pre">Should</span> <span class="pre">be</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">format\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">..</span> <span class="pre">code-block::</span> <span class="pre">python\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">{&quot;AGENT&quot;:</span> <span class="pre">&quot;Hi!&quot;},\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">{&quot;USER&quot;:</span> <span class="pre">&quot;Hello.&quot;}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">]\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">build_graph</span> <span class="pre">(bool):</span> <span class="pre">Indicates</span> <span class="pre">if</span> <span class="pre">diagrams</span> <span class="pre">are</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">compiled.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">True.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">graph_file</span> <span class="pre">(str):</span> <span class="pre">The</span> <span class="pre">file</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">image</span> <span class="pre">will</span> <span class="pre">be\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">generated.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">**kwargs:</span> <span class="pre">Any</span> <span class="pre">parameters</span> <span class="pre">necessary</span> <span class="pre">to</span> <span class="pre">instantiate</span> <span class="pre">your\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Rollout</span> <span class="pre">class.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">BeamSearchExecutor.__init__&gt;,</span> <span class="pre">'k':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'max_fallbacks':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'_prep_for_new_search':</span> <span class="pre">&lt;function</span> <span class="pre">BeamSearchExecutor._prep_for_new_search&gt;,</span> <span class="pre">'_handle_message_actions':</span> <span class="pre">&lt;function</span> <span class="pre">BeamSearchExecutor._handle_message_actions&gt;,</span> <span class="pre">'_reconstruct_beam_w_output':</span> <span class="pre">&lt;function</span> <span class="pre">BeamSearchExecutor._reconstruct_beam_w_output&gt;,</span> <span class="pre">'beam_search':</span> <span class="pre">&lt;function</span> <span class="pre">BeamSearchExecutor.beam_search&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'BeamSearchExecutor'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'BeamSearchExecutor'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#beam_search.core.BeamSearchExecutor.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="beam_search.core.BeamSearchExecutor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_fallbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conversation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/core.html#BeamSearchExecutor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.core.BeamSearchExecutor.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.core.BeamSearchExecutor.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'beam_search.core'</span></em><a class="headerlink" href="#beam_search.core.BeamSearchExecutor.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="beam_search.core.BeamSearchExecutor.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#beam_search.core.BeamSearchExecutor.__weakref__" title="Permalink to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="beam_search.core.BeamSearchExecutor._handle_message_actions">
 <span class="sig-name descname"><span class="pre">_handle_message_actions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/core.html#BeamSearchExecutor._handle_message_actions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.core.BeamSearchExecutor._handle_message_actions" title="Permalink to this definition"></a></dt>
-<dd><p>Handles “message actions” for all beams.</p>
-<p>A “message action” occurs when an action only has one possible outcome.
+<dd><p>Handles &quot;message actions&quot; for all beams.</p>
+<p>A &quot;message action&quot; occurs when an action only has one possible outcome.
 In that case, that outcome should be immediately executed as the action
-doesn’t take (or need) any user input to execute that outcome.</p>
+doesn't take (or need) any user input to execute that outcome.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -149,11 +167,11 @@ doesn’t take (or need) any user input to execute that outcome.</p>
 <span class="sig-name descname"><span class="pre">_reconstruct_beam_w_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="beam_search.data_structs.html#beam_search.data_structs.Action" title="beam_search.data_structs.Action"><span class="pre">Action</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="beam_search.data_structs.html#beam_search.data_structs.Intent" title="beam_search.data_structs.Intent"><span class="pre">Intent</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="beam_search.data_structs.html#beam_search.data_structs.Beam" title="beam_search.data_structs.Beam"><span class="pre">Beam</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/beam_search/core.html#BeamSearchExecutor._reconstruct_beam_w_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.core.BeamSearchExecutor._reconstruct_beam_w_output" title="Permalink to this definition"></a></dt>
 <dd><p>Reconstructs/creates new beams given the top k outputs determined.
 Note: The outputs cannot simply be appended to the appropriate beam
-as it often occurs that a single beam will be “extended” more than once
+as it often occurs that a single beam will be &quot;extended&quot; more than once
 and those options need to be stored as new, separate beams.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>outputs</strong> (<em>List</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="beam_search.data_structs.html#beam_search.data_structs.Action" title="beam_search.data_structs.Action"><em>Action</em></a><em>, </em><a class="reference internal" href="beam_search.data_structs.html#beam_search.data_structs.Intent" title="beam_search.data_structs.Intent"><em>Intent</em></a><em>]</em><em>]</em>) – The top k actions or
+<dd class="field-odd"><p><strong>outputs</strong> (<em>List</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="beam_search.data_structs.html#beam_search.data_structs.Action" title="beam_search.data_structs.Action"><em>Action</em></a><em>, </em><a class="reference internal" href="beam_search.data_structs.html#beam_search.data_structs.Intent" title="beam_search.data_structs.Intent"><em>Intent</em></a><em>]</em><em>]</em>) -- The top k actions or
 intents that match the last utterance.</p>
 </dd>
 <dt class="field-even">Returns</dt>

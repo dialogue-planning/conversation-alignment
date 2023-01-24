@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="y" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>beam_search.core &mdash; Conversation Alignment 2022 documentation</title>
+  <title>beam_search.core &mdash; Conversation Alignment January 2023 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -36,8 +36,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../generated/beam_search.html">beam_search</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 </ul>
 
         </div>
@@ -98,7 +99,7 @@
 <span class="sd">        **kwargs: Any parameters necessary to instantiate your</span>
 <span class="sd">            Rollout class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="BeamSearchExecutor.__init__"><a class="viewcode-back" href="../../generated/beam_search.core.html#beam_search.core.BeamSearchExecutor.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">max_fallbacks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -112,7 +113,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">conversation</span> <span class="o">=</span> <span class="n">conversation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph_file</span> <span class="o">=</span> <span class="n">graph_file</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">build_graph</span> <span class="o">=</span> <span class="n">build_graph</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rollout_param</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rollout_param</span> <span class="o">=</span> <span class="n">kwargs</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">k</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
