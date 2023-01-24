@@ -23,7 +23,7 @@ sys.path.insert(0, (pathlib.Path(__file__).parents[2] / "src").resolve().as_posi
 autosummary_generate = True
 autodoc_default_options = {
     'members':          True,
-    'undoc-members':    True,
+    'undoc-members':    False,
     'private-members':  True,
     'special-members':  False,
     'inherited-members':True,
