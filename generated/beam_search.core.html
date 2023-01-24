@@ -97,29 +97,29 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class that houses all information needed to execute the beam search
 algorithm.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<em>int</em>) -- The number of beams to use.</p></li>
-<li><p><strong>max_fallbacks</strong> (<em>int</em>) -- The maximum number of fallbacks that can occur
-in any beam before the probability is tanked by resetting the
-score to the log of a low number epsilon.</p></li>
-<li><p><strong>conversation</strong> (<em>List</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em><em>]</em>) -- <p>The self.conversation to be
-explored. Should be in the format</p>
+<dl>
+<dt>Args</dt><dd><p>k (int): The number of beams to use.
+max_fallbacks (int): The maximum number of fallbacks that can occur</p>
+<blockquote>
+<div><p>in any beam before the probability is tanked by resetting the
+score to the log of a low number epsilon.</p>
+</div></blockquote>
+<dl>
+<dt>conversation (List[Dict[str, str]]): The self.conversation to be</dt><dd><p>explored. Should be in the format</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="p">{</span><span class="s2">&quot;AGENT&quot;</span><span class="p">:</span> <span class="s2">&quot;Hi!&quot;</span><span class="p">},</span>
     <span class="p">{</span><span class="s2">&quot;USER&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello.&quot;</span><span class="p">}</span>
 <span class="p">]</span>
 </pre></div>
 </div>
-</p></li>
-<li><p><strong>build_graph</strong> (<em>bool</em>) -- Indicates if diagrams are to be compiled.
-Defaults to True.</p></li>
-<li><p><strong>graph_file</strong> (<em>str</em>) -- The file where the image will be
-generated.</p></li>
-<li><p><strong>**kwargs</strong> -- Any parameters necessary to instantiate your
-Rollout class.</p></li>
-</ul>
+</dd>
+<dt>build_graph (bool): Indicates if diagrams are to be compiled.</dt><dd><p>Defaults to True.</p>
+</dd>
+<dt>graph_file (str): The file where the image will be</dt><dd><p>generated.</p>
+</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwArgs Any parameters necessary to instantiate your</dt><dd><p>Rollout class.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="py method">
@@ -144,16 +144,13 @@ doesn't take (or need) any user input to execute that outcome.</p>
 Note: The outputs cannot simply be appended to the appropriate beam
 as it often occurs that a single beam will be &quot;extended&quot; more than once
 and those options need to be stored as new, separate beams.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>outputs</strong> (<em>List</em><em>[</em><em>Union</em><em>[</em><a class="reference internal" href="beam_search.data_structs.html#beam_search.data_structs.Action" title="beam_search.data_structs.Action"><em>Action</em></a><em>, </em><a class="reference internal" href="beam_search.data_structs.html#beam_search.data_structs.Intent" title="beam_search.data_structs.Intent"><em>Intent</em></a><em>]</em><em>]</em>) -- The top k actions or
-intents that match the last utterance.</p>
+<dl class="simple">
+<dt>Args</dt><dd><dl class="simple">
+<dt>outputs (List[Union[Action, Intent]]): The top k actions or</dt><dd><p>intents that match the last utterance.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The new Beams with the outputs added.</p>
+</dl>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="beam_search.data_structs.html#beam_search.data_structs.Beam" title="beam_search.data_structs.Beam">Beam</a>]</p>
+<dt>Returns</dt><dd><p>List[Beam]: The new Beams with the outputs added.</p>
 </dd>
 </dl>
 </dd></dl>
