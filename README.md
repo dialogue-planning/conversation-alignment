@@ -10,4 +10,4 @@ We achieve this using a tailored beam search algorithm to explore how well the a
 Our method builds on the viewpoint of dialogue agent creation as a planning process, and we leverage both learning and planning techniques to achieve conversation alignment. 
 We demonstrate that beam search is effective at identifying conversations that are problematic for the agent, and our work opens the door to streamlined testing for task-oriented dialogue agents.
 
-For beam search Installation and Usage instructions, as well as API documentation, please see our [docs website)(https://dialogue-planning.github.io/conversation-alignment/).
+For beam search Installation and Usage instructions, as well as API documentation, please see our [docs website](https://dialogue-planning.github.io/conversation-alignment/).
