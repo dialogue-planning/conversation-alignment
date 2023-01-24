@@ -11,11 +11,3 @@ Welcome to Conversation Alignment's documentation!
    :recursive:
 
    beam_search
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
