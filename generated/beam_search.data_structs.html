@@ -16,9 +16,7 @@
         <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="beam_search.graph_setup" href="beam_search.graph_setup.html" />
-    <link rel="prev" title="beam_search.core" href="beam_search.core.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -36,26 +34,39 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="beam_search.html">beam_search</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="beam_search.core.html">beam_search.core</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">beam_search.data_structs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.Beam"><code class="docutils literal notranslate"><span class="pre">Beam</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.Intent"><code class="docutils literal notranslate"><span class="pre">Intent</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.Output"><code class="docutils literal notranslate"><span class="pre">Output</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase"><code class="docutils literal notranslate"><span class="pre">RolloutBase</span></code></a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">beam_search.data_structs</a><ul>
+<li><a class="reference internal" href="#beam_search.data_structs.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.Beam"><code class="docutils literal notranslate"><span class="pre">Beam</span></code></a><ul>
+<li><a class="reference internal" href="#beam_search.data_structs.Beam.fallbacks"><code class="docutils literal notranslate"><span class="pre">Beam.fallbacks</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.Beam.last_action"><code class="docutils literal notranslate"><span class="pre">Beam.last_action</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.Beam.last_intent"><code class="docutils literal notranslate"><span class="pre">Beam.last_intent</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.Beam.rankings"><code class="docutils literal notranslate"><span class="pre">Beam.rankings</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.Beam.rollout"><code class="docutils literal notranslate"><span class="pre">Beam.rollout</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.Beam.scores"><code class="docutils literal notranslate"><span class="pre">Beam.scores</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="beam_search.graph_setup.html">beam_search.graph_setup</a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.Intent"><code class="docutils literal notranslate"><span class="pre">Intent</span></code></a><ul>
+<li><a class="reference internal" href="#beam_search.data_structs.Intent._abc_impl"><code class="docutils literal notranslate"><span class="pre">Intent._abc_impl</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.Intent.is_fallback"><code class="docutils literal notranslate"><span class="pre">Intent.is_fallback()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#beam_search.data_structs.Output"><code class="docutils literal notranslate"><span class="pre">Output</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.RolloutBase"><code class="docutils literal notranslate"><span class="pre">RolloutBase</span></code></a><ul>
+<li><a class="reference internal" href="#beam_search.data_structs.RolloutBase._abc_impl"><code class="docutils literal notranslate"><span class="pre">RolloutBase._abc_impl</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.RolloutBase._update_applicable_actions"><code class="docutils literal notranslate"><span class="pre">RolloutBase._update_applicable_actions()</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.RolloutBase.get_action_confidences"><code class="docutils literal notranslate"><span class="pre">RolloutBase.get_action_confidences()</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.RolloutBase.get_intent_confidences"><code class="docutils literal notranslate"><span class="pre">RolloutBase.get_intent_confidences()</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.RolloutBase.get_reached_goal"><code class="docutils literal notranslate"><span class="pre">RolloutBase.get_reached_goal()</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.RolloutBase.update_if_message_action"><code class="docutils literal notranslate"><span class="pre">RolloutBase.update_if_message_action()</span></code></a></li>
+<li><a class="reference internal" href="#beam_search.data_structs.RolloutBase.update_state"><code class="docutils literal notranslate"><span class="pre">RolloutBase.update_state()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-
+</div>
         </div>
       </div>
     </nav>
@@ -70,8 +81,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a></li>
-          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
-          <li class="breadcrumb-item"><a href="beam_search.html">beam_search</a></li>
       <li class="breadcrumb-item active">beam_search.data_structs</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/generated/beam_search.data_structs.rst.txt" rel="nofollow"> View page source</a>
@@ -109,33 +118,6 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/data_structs.html#Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.Action" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#beam_search.data_structs.Output" title="beam_search.data_structs.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">Output</span></code></a></p>
 <p>Describes an Action.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Action.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'beam_search.data_structs',</span> <span class="pre">'__doc__':</span> <span class="pre">'Describes</span> <span class="pre">an</span> <span class="pre">Action.',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">Action.__init__&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#beam_search.data_structs.Action.__dict__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="beam_search.data_structs.Action.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/data_structs.html#Action.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.Action.__init__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="beam_search.data_structs.Action.__lt__">
-<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#beam_search.data_structs.Action.__lt__" title="Permalink to this definition"></a></dt>
-<dd><p>Return self&lt;value.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Action.__module__">
-<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'beam_search.data_structs'</span></em><a class="headerlink" href="#beam_search.data_structs.Action.__module__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Action.__weakref__">
-<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#beam_search.data_structs.Action.__weakref__" title="Permalink to this definition"></a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -161,59 +143,6 @@ so far.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Beam.__annotations__">
-<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'fallbacks':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'last_action':</span> <span class="pre">typing.Union[beam_search.data_structs.Action,</span> <span class="pre">NoneType],</span> <span class="pre">'last_intent':</span> <span class="pre">typing.Union[beam_search.data_structs.Intent,</span> <span class="pre">NoneType],</span> <span class="pre">'rankings':</span> <span class="pre">typing.List[beam_search.data_structs.Output],</span> <span class="pre">'rollout':</span> <span class="pre">&lt;class</span> <span class="pre">'beam_search.data_structs.RolloutBase'&gt;,</span> <span class="pre">'scores':</span> <span class="pre">typing.List[float]}</span></em><a class="headerlink" href="#beam_search.data_structs.Beam.__annotations__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Beam.__dataclass_fields__">
-<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'fallbacks':</span> <span class="pre">Field(name='fallbacks',type=&lt;class</span> <span class="pre">'int'&gt;,default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'last_action':</span> <span class="pre">Field(name='last_action',type=typing.Union[beam_search.data_structs.Action,</span> <span class="pre">NoneType],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'last_intent':</span> <span class="pre">Field(name='last_intent',type=typing.Union[beam_search.data_structs.Intent,</span> <span class="pre">NoneType],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'rankings':</span> <span class="pre">Field(name='rankings',type=typing.List[beam_search.data_structs.Output],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'rollout':</span> <span class="pre">Field(name='rollout',type=&lt;class</span> <span class="pre">'beam_search.data_structs.RolloutBase'&gt;,default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'scores':</span> <span class="pre">Field(name='scores',type=typing.List[float],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#beam_search.data_structs.Beam.__dataclass_fields__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Beam.__dataclass_params__">
-<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#beam_search.data_structs.Beam.__dataclass_params__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Beam.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'beam_search.data_structs',</span> <span class="pre">'__annotations__':</span> <span class="pre">{'last_action':</span> <span class="pre">typing.Union[beam_search.data_structs.Action,</span> <span class="pre">NoneType],</span> <span class="pre">'last_intent':</span> <span class="pre">typing.Union[beam_search.data_structs.Intent,</span> <span class="pre">NoneType],</span> <span class="pre">'rankings':</span> <span class="pre">typing.List[beam_search.data_structs.Output],</span> <span class="pre">'rollout':</span> <span class="pre">&lt;class</span> <span class="pre">'beam_search.data_structs.RolloutBase'&gt;,</span> <span class="pre">'scores':</span> <span class="pre">typing.List[float],</span> <span class="pre">'fallbacks':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;},</span> <span class="pre">'__doc__':</span> <span class="pre">'Describes</span> <span class="pre">a</span> <span class="pre">beam.\n\n</span>&#160;&#160;&#160; <span class="pre">Args:\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">last_action</span> <span class="pre">(Optional[Action]):</span> <span class="pre">The</span> <span class="pre">last</span> <span class="pre">action</span> <span class="pre">that</span> <span class="pre">occurred.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Can</span> <span class="pre">be</span> <span class="pre">None</span> <span class="pre">upon</span> <span class="pre">initiation.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">last_intent</span> <span class="pre">(Optional[Intent]):</span> <span class="pre">The</span> <span class="pre">last</span> <span class="pre">intent</span> <span class="pre">that</span> <span class="pre">occurred.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Can</span> <span class="pre">be</span> <span class="pre">None</span> <span class="pre">upon</span> <span class="pre">initiation.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">rankings</span> <span class="pre">(List[Output]):</span> <span class="pre">The</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">actions</span> <span class="pre">or</span> <span class="pre">intents</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">beam.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">rollout</span> <span class="pre">(RolloutBase):</span> <span class="pre">Handles</span> <span class="pre">retrieving</span> <span class="pre">action</span> <span class="pre">and</span> <span class="pre">intent\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">confidences,</span> <span class="pre">updating</span> <span class="pre">the</span> <span class="pre">state/applicable</span> <span class="pre">actions,</span> <span class="pre">etc.</span> <span class="pre">This\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">stub</span> <span class="pre">class</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">implemented</span> <span class="pre">with</span> <span class="pre">functions</span> <span class="pre">that</span> <span class="pre">reflect</span> <span class="pre">your\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">particular</span> <span class="pre">chatbot.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">scores</span> <span class="pre">(List[float]):</span> <span class="pre">The</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">scores</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">beam.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">fallbacks</span> <span class="pre">(int):</span> <span class="pre">The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">fallbacks</span> <span class="pre">that</span> <span class="pre">have</span> <span class="pre">occurred</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">beam\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">so</span> <span class="pre">far.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'Beam'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'Beam'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__dataclass_params__':</span> <span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False),</span> <span class="pre">'__dataclass_fields__':</span> <span class="pre">{'last_action':</span> <span class="pre">Field(name='last_action',type=typing.Union[beam_search.data_structs.Action,</span> <span class="pre">NoneType],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'last_intent':</span> <span class="pre">Field(name='last_intent',type=typing.Union[beam_search.data_structs.Intent,</span> <span class="pre">NoneType],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'rankings':</span> <span class="pre">Field(name='rankings',type=typing.List[beam_search.data_structs.Output],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'rollout':</span> <span class="pre">Field(name='rollout',type=&lt;class</span> <span class="pre">'beam_search.data_structs.RolloutBase'&gt;,default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'scores':</span> <span class="pre">Field(name='scores',type=typing.List[float],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'fallbacks':</span> <span class="pre">Field(name='fallbacks',type=&lt;class</span> <span class="pre">'int'&gt;,default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)},</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">__create_fn__.&lt;locals&gt;.__init__&gt;,</span> <span class="pre">'__repr__':</span> <span class="pre">&lt;function</span> <span class="pre">__create_fn__.&lt;locals&gt;.__repr__&gt;,</span> <span class="pre">'__eq__':</span> <span class="pre">&lt;function</span> <span class="pre">__create_fn__.&lt;locals&gt;.__eq__&gt;,</span> <span class="pre">'__hash__':</span> <span class="pre">None})</span></em><a class="headerlink" href="#beam_search.data_structs.Beam.__dict__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="beam_search.data_structs.Beam.__eq__">
-<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#beam_search.data_structs.Beam.__eq__" title="Permalink to this definition"></a></dt>
-<dd><p>Return self==value.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Beam.__hash__">
-<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#beam_search.data_structs.Beam.__hash__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="beam_search.data_structs.Beam.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">last_action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#beam_search.data_structs.Action" title="beam_search.data_structs.Action"><span class="pre">Action</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_intent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#beam_search.data_structs.Intent" title="beam_search.data_structs.Intent"><span class="pre">Intent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rankings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#beam_search.data_structs.Output" title="beam_search.data_structs.Output"><span class="pre">Output</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rollout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#beam_search.data_structs.RolloutBase" title="beam_search.data_structs.RolloutBase"><span class="pre">RolloutBase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fallbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#beam_search.data_structs.Beam.__init__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Beam.__module__">
-<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'beam_search.data_structs'</span></em><a class="headerlink" href="#beam_search.data_structs.Beam.__module__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="beam_search.data_structs.Beam.__repr__">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beam_search.data_structs.Beam.__repr__" title="Permalink to this definition"></a></dt>
-<dd><p>Return repr(self).</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Beam.__weakref__">
-<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#beam_search.data_structs.Beam.__weakref__" title="Permalink to this definition"></a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="beam_search.data_structs.Beam.fallbacks">
 <span class="sig-name descname"><span class="pre">fallbacks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#beam_search.data_structs.Beam.fallbacks" title="Permalink to this definition"></a></dt>
@@ -256,43 +185,6 @@ so far.</p></li>
 <dd class="field-odd"><p><strong>outcome</strong> (<em>str</em>) -- The outcome chosen from the intent.</p>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Intent.__abstractmethods__">
-<span class="sig-name descname"><span class="pre">__abstractmethods__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({'is_fallback'})</span></em><a class="headerlink" href="#beam_search.data_structs.Intent.__abstractmethods__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Intent.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'beam_search.data_structs',</span> <span class="pre">'__doc__':</span> <span class="pre">'Describes</span> <span class="pre">an</span> <span class="pre">Intent.\n\n</span>&#160;&#160;&#160; <span class="pre">Args:\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">outcome</span> <span class="pre">(str):</span> <span class="pre">The</span> <span class="pre">outcome</span> <span class="pre">chosen</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">intent.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">Intent.__init__&gt;,</span> <span class="pre">'is_fallback':</span> <span class="pre">&lt;function</span> <span class="pre">Intent.is_fallback&gt;,</span> <span class="pre">'__abstractmethods__':</span> <span class="pre">frozenset({'is_fallback'}),</span> <span class="pre">'_abc_impl':</span> <span class="pre">&lt;_abc_data</span> <span class="pre">object&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#beam_search.data_structs.Intent.__dict__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="beam_search.data_structs.Intent.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outcome</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/data_structs.html#Intent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.Intent.__init__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="beam_search.data_structs.Intent.__lt__">
-<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#beam_search.data_structs.Intent.__lt__" title="Permalink to this definition"></a></dt>
-<dd><p>Return self&lt;value.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Intent.__module__">
-<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'beam_search.data_structs'</span></em><a class="headerlink" href="#beam_search.data_structs.Intent.__module__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Intent.__slots__">
-<span class="sig-name descname"><span class="pre">__slots__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">()</span></em><a class="headerlink" href="#beam_search.data_structs.Intent.__slots__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Intent.__weakref__">
-<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#beam_search.data_structs.Intent.__weakref__" title="Permalink to this definition"></a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="beam_search.data_structs.Intent._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#beam_search.data_structs.Intent._abc_impl" title="Permalink to this definition"></a></dt>
@@ -338,33 +230,6 @@ output.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Output.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'beam_search.data_structs',</span> <span class="pre">'__doc__':</span> <span class="pre">&quot;Describes</span> <span class="pre">an</span> <span class="pre">output,</span> <span class="pre">which</span> <span class="pre">is</span> <span class="pre">either</span> <span class="pre">an</span> <span class="pre">action</span> <span class="pre">or</span> <span class="pre">intent.</span> <span class="pre">Sorts</span> <span class="pre">based</span> <span class="pre">on\n</span>&#160;&#160;&#160; <span class="pre">cumulative</span> <span class="pre">score.\n\n</span>&#160;&#160;&#160; <span class="pre">Args:\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">name</span> <span class="pre">(str):</span> <span class="pre">The</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">output.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">probability</span> <span class="pre">(float):</span> <span class="pre">The</span> <span class="pre">confidence</span> <span class="pre">this</span> <span class="pre">output</span> <span class="pre">occurred.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">beam</span> <span class="pre">(int):</span> <span class="pre">The</span> <span class="pre">beam</span> <span class="pre">that</span> <span class="pre">the</span> <span class="pre">output</span> <span class="pre">initially</span> <span class="pre">belonged</span> <span class="pre">to,</span> <span class="pre">which</span> <span class="pre">does\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">not</span> <span class="pre">change</span> <span class="pre">if</span> <span class="pre">the</span> <span class="pre">beam</span> <span class="pre">order/id</span> <span class="pre">becomes</span> <span class="pre">shifted.</span> <span class="pre">This</span> <span class="pre">is</span> <span class="pre">because\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">the</span> <span class="pre">beam</span> <span class="pre">attribute</span> <span class="pre">is</span> <span class="pre">only</span> <span class="pre">important</span> <span class="pre">at</span> <span class="pre">the</span> <span class="pre">point</span> <span class="pre">where</span> <span class="pre">the</span> <span class="pre">output\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">is</span> <span class="pre">chosen</span> <span class="pre">so</span> <span class="pre">we</span> <span class="pre">can</span> <span class="pre">add</span> <span class="pre">the</span> <span class="pre">output</span> <span class="pre">to</span> <span class="pre">that</span> <span class="pre">beam's</span> <span class="pre">rankings.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">For</span> <span class="pre">example,</span> <span class="pre">if</span> <span class="pre">an</span> <span class="pre">Output</span> <span class="pre">from</span> <span class="pre">beam</span> <span class="pre">0</span> <span class="pre">is</span> <span class="pre">chosen,</span> <span class="pre">but</span> <span class="pre">this</span> <span class="pre">output</span> <span class="pre">is\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">the</span> <span class="pre">second</span> <span class="pre">best</span> <span class="pre">option,</span> <span class="pre">the</span> <span class="pre">reconstructed</span> <span class="pre">beam</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">beam</span> <span class="pre">1,</span> <span class="pre">but\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">the</span> <span class="pre">Output's</span> <span class="pre">beam</span> <span class="pre">id</span> <span class="pre">will</span> <span class="pre">still</span> <span class="pre">be</span> <span class="pre">0,</span> <span class="pre">indicating</span> <span class="pre">which</span> <span class="pre">beam</span> <span class="pre">the\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">output</span> <span class="pre">originated</span> <span class="pre">from</span> <span class="pre">at</span> <span class="pre">that</span> <span class="pre">point.\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">score</span> <span class="pre">(float):</span> <span class="pre">The</span> <span class="pre">cumulative</span> <span class="pre">score</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">beam</span> <span class="pre">up</span> <span class="pre">to</span> <span class="pre">and</span> <span class="pre">including</span> <span class="pre">the\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">output.\n</span>&#160;&#160;&#160; <span class="pre">&quot;,</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">Output.__init__&gt;,</span> <span class="pre">'__lt__':</span> <span class="pre">&lt;function</span> <span class="pre">Output.__lt__&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'Output'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'Output'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#beam_search.data_structs.Output.__dict__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="beam_search.data_structs.Output.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/data_structs.html#Output.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.Output.__init__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="beam_search.data_structs.Output.__lt__">
-<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/data_structs.html#Output.__lt__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.Output.__lt__" title="Permalink to this definition"></a></dt>
-<dd><p>Return self&lt;value.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Output.__module__">
-<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'beam_search.data_structs'</span></em><a class="headerlink" href="#beam_search.data_structs.Output.__module__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.Output.__weakref__">
-<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#beam_search.data_structs.Output.__weakref__" title="Permalink to this definition"></a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -379,32 +244,6 @@ current state.</p>
 <dd class="field-odd"><p><strong>ABC</strong> (<em>class</em>) -- Used to create an abstract class.</p>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.__abstractmethods__">
-<span class="sig-name descname"><span class="pre">__abstractmethods__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({'_update_applicable_actions',</span> <span class="pre">'get_action_confidences',</span> <span class="pre">'get_intent_confidences',</span> <span class="pre">'get_reached_goal',</span> <span class="pre">'update_if_message_action',</span> <span class="pre">'update_state'})</span></em><a class="headerlink" href="#beam_search.data_structs.RolloutBase.__abstractmethods__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'beam_search.data_structs',</span> <span class="pre">'__doc__':</span> <span class="pre">'Abstract</span> <span class="pre">&quot;rollout&quot;</span> <span class="pre">class</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">inherited.</span> <span class="pre">Houses</span> <span class="pre">all</span> <span class="pre">the</span> <span class="pre">functions</span> <span class="pre">that\n</span>&#160;&#160;&#160; <span class="pre">calculate</span> <span class="pre">action</span> <span class="pre">and</span> <span class="pre">intent</span> <span class="pre">confidences</span> <span class="pre">and</span> <span class="pre">keep</span> <span class="pre">track</span> <span class="pre">of</span> <span class="pre">+</span> <span class="pre">update</span> <span class="pre">the\n</span>&#160;&#160;&#160; <span class="pre">current</span> <span class="pre">state.\n\n</span>&#160;&#160;&#160; <span class="pre">Args:\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">ABC</span> <span class="pre">(class):</span> <span class="pre">Used</span> <span class="pre">to</span> <span class="pre">create</span> <span class="pre">an</span> <span class="pre">abstract</span> <span class="pre">class.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'get_reached_goal':</span> <span class="pre">&lt;function</span> <span class="pre">RolloutBase.get_reached_goal&gt;,</span> <span class="pre">'get_intent_confidences':</span> <span class="pre">&lt;function</span> <span class="pre">RolloutBase.get_intent_confidences&gt;,</span> <span class="pre">'get_action_confidences':</span> <span class="pre">&lt;function</span> <span class="pre">RolloutBase.get_action_confidences&gt;,</span> <span class="pre">'_update_applicable_actions':</span> <span class="pre">&lt;function</span> <span class="pre">RolloutBase._update_applicable_actions&gt;,</span> <span class="pre">'update_state':</span> <span class="pre">&lt;function</span> <span class="pre">RolloutBase.update_state&gt;,</span> <span class="pre">'update_if_message_action':</span> <span class="pre">&lt;function</span> <span class="pre">RolloutBase.update_if_message_action&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'RolloutBase'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'RolloutBase'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__abstractmethods__':</span> <span class="pre">frozenset({'get_reached_goal',</span> <span class="pre">'update_state',</span> <span class="pre">'get_action_confidences',</span> <span class="pre">'get_intent_confidences',</span> <span class="pre">'update_if_message_action',</span> <span class="pre">'_update_applicable_actions'}),</span> <span class="pre">'_abc_impl':</span> <span class="pre">&lt;_abc_data</span> <span class="pre">object&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#beam_search.data_structs.RolloutBase.__dict__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.__module__">
-<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'beam_search.data_structs'</span></em><a class="headerlink" href="#beam_search.data_structs.RolloutBase.__module__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.__slots__">
-<span class="sig-name descname"><span class="pre">__slots__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">()</span></em><a class="headerlink" href="#beam_search.data_structs.RolloutBase.__slots__" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.__weakref__">
-<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#beam_search.data_structs.RolloutBase.__weakref__" title="Permalink to this definition"></a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#beam_search.data_structs.RolloutBase._abc_impl" title="Permalink to this definition"></a></dt>
@@ -546,10 +385,7 @@ should be called here).</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="beam_search.core.html" class="btn btn-neutral float-left" title="beam_search.core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="beam_search.graph_setup.html" class="btn btn-neutral float-right" title="beam_search.graph_setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

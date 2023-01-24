@@ -10,7 +10,7 @@ Welcome to Conversation Alignment's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   api
+   beam_search
 
 
 Indices and tables
