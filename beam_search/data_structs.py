@@ -8,14 +8,14 @@ class RolloutBase(ABC):
     calculate action and intent confidences and keep track of + update the
     current state.
 
-    Args
+    Args:
         ABC (class): Used to create an abstract class.
     """
     @abstractmethod
     def get_reached_goal(self, *args, **kwargs) -> bool:
-        """Returns if the beam reached the goal.
+        """Returns: if the beam reached the goal.
 
-        Returns
+        Returns:
             bool: True if the corresponding beam reached the goal, False
             otherwise.
         """
@@ -23,11 +23,11 @@ class RolloutBase(ABC):
 
     @abstractmethod
     def get_intent_confidences(self, *args, **kwargs) -> List[Dict]:
-        """Returns (all) the intent confidences that match a user utterance.
+        """Returns: (all) the intent confidences that match a user utterance.
         NOTE: Do not just return the k highest intents, because the top k are
         selected based on overall score, not just the singular confidence.
 
-        Returns
+        Returns:
             List[Dict]: The intent/confidence map. Return in the format:
 
                 .. code-block:: python
@@ -48,11 +48,11 @@ class RolloutBase(ABC):
 
     @abstractmethod
     def get_action_confidences(self, *args, **kwargs) -> Dict:
-        """Returns (all) the action confidences that match an agent utterance.
+        """Returns: (all) the action confidences that match an agent utterance.
         NOTE: Do not just return the k highest actions, because the top k are
         selected based on overall score, not just the singular confidence.
 
-        Returns
+        Returns:
             Dict: The action confidence map. Return in the format:
 
                 .. code-block:: python
@@ -105,7 +105,7 @@ class RolloutBase(ABC):
 
         * Otherwise, just return None.
 
-        Returns
+        Returns:
             Optional[Dict]: The associated intent if the action is a "message"
             action; None otherwise.
         """
@@ -116,7 +116,7 @@ class Output:
     """Describes an output, which is either an action or intent. Sorts based on
     cumulative score.
 
-    Args
+    Args:
         name (str): The name of the output.
         probability (float): The confidence this output occurred.
         beam (int): The beam that the output initially belonged to, which does
@@ -151,7 +151,7 @@ class Action(Output):
 class Intent(Output, ABC):
     """Describes an Intent.
 
-    Args
+    Args:
         outcome (str): The outcome chosen from the intent.
     """
 
@@ -165,7 +165,7 @@ class Intent(Output, ABC):
     def is_fallback(self, *args, **kwargs) -> bool:
         """Determines if the provided intent is a fallback.
 
-        Returns
+        Returns:
             bool: True if the intent is a fallback, False otherwise.
         """
         pass
@@ -175,7 +175,7 @@ class Intent(Output, ABC):
 class Beam:
     """Describes a beam.
 
-    Args
+    Args:
         last_action (Optional[Action]): The last action that occurred.
             Can be None upon initiation.
         last_intent (Optional[Intent]): The last intent that occurred.
