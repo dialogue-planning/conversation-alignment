@@ -6,9 +6,9 @@
 Welcome to Conversation Alignment's documentation!
 ==================================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+.. autosummary::
+   :toctree: generated
+   :recursive:
 
    beam_search
 
