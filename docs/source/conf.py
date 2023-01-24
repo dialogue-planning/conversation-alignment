@@ -33,7 +33,7 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # Source code dir relative to this file. You may also need to add other paths to the file (anything needed for imports) depending on how your project is structured.
 sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
