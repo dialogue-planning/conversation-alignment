@@ -9,7 +9,7 @@ class BeamSearchExecutor:
     """Class that houses all information needed to execute the beam search
     algorithm.
 
-    Args:
+    Args
         k (int): The number of beams to use.
         max_fallbacks (int): The maximum number of fallbacks that can occur
             in any beam before the probability is tanked by resetting the
@@ -28,7 +28,7 @@ class BeamSearchExecutor:
             Defaults to True.
         graph_file (str): The file where the image will be
             generated.
-        **kwargs: Any parameters necessary to instantiate your
+        **kwArgs Any parameters necessary to instantiate your
             Rollout class.
     """
     def __init__(
@@ -117,11 +117,11 @@ class BeamSearchExecutor:
         as it often occurs that a single beam will be "extended" more than once
         and those options need to be stored as new, separate beams.
 
-        Args:
+        Args
             outputs (List[Union[Action, Intent]]): The top k actions or
                 intents that match the last utterance.
 
-        Returns:
+        Returns
             List[Beam]: The new Beams with the outputs added.
         """
         new_beams = []

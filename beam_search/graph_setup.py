@@ -54,7 +54,7 @@ class GraphGenerator:
 class BeamSearchGraphGenerator(GraphGenerator):
     """Handles building a graph for beam search.
 
-    Args:
+    Args
         k (int): The k value for the beam search.
     """
     class GraphBeam:
