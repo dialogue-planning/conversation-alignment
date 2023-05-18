@@ -138,7 +138,7 @@ class Output:
         self.score = score
 
     def __lt__(self, other):
-        return self.score > other.score
+        return self.score.real > other.score.real
 
 
 class Action(Output):
@@ -195,3 +195,6 @@ class Beam:
     rollout: RolloutBase
     scores: List[float]
     fallbacks: int
+
+    def __lt__(self, other):
+        return self.scores[-1].real > other.scores[-1].real
