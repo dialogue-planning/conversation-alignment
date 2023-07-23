@@ -1,13 +1,15 @@
 from cmath import log
 from typing import List, Union, Dict
-from graph_setup import BeamSearchGraphGenerator
 from data_structs import *
+from graph_setup import BeamSearchGraph, NodeType
+
 import json
+
 
 EPSILON = log(0.00000001)
 
 
-class BeamSearchExecutor:
+class ConversationAlignmentExecutor:
     """Class that houses all information needed to execute the beam search
     algorithm.
 
@@ -48,6 +50,7 @@ class BeamSearchExecutor:
         self.conversations = conversations
         self.graphs_path = graphs_path
         self.rollout_param = kwargs
+        self.in_run = True
 
     @property
     def k(self):
@@ -71,18 +74,6 @@ class BeamSearchExecutor:
             )
         self._max_fallbacks = value
 
-    def _preprocess_conversations(self, conversations):
-        new_convos = []
-        for conv in conversations:
-            messages = []
-            for msg_cfg in conv["messages"]:
-                if msg_cfg["agent_message"]:
-                    messages.append({"AGENT": msg_cfg["agent_message"]})
-                if msg_cfg["user_message"]:
-                    messages.append({"USER": msg_cfg["user_message"]})
-            new_convos.append(messages)
-        return new_convos
-
     @staticmethod
     def _sum_scores(old_scores, confidence):
         # avoid math error when taking the log
@@ -90,10 +81,25 @@ class BeamSearchExecutor:
             confidence = EPSILON
         return sum(old_scores) + log(confidence)
 
+    @staticmethod
+    def _get_action_node_type(action):
+        return (
+            NodeType.MESSAGE_ACTION
+            if RolloutBase.is_message_action(action)
+            else NodeType.DEFAULT_ACTION
+        )
+
     def _prep_for_new_search(self):
         """Resets the beams and graph generator to begin a new search."""
         self.beams = []
-        self.graph_gen = BeamSearchGraphGenerator(self.k)
+        self.graph_gen = BeamSearchGraph(self.k)
+
+    def _get_last_node_from_action(self, beam):
+        return (
+            self.beams[beam].last_action.name
+            if RolloutBase.is_message_action(self.beams[beam].last_action.name)
+            else self.beams[beam].rankings[-1].name
+        )
 
     def _handle_message_actions(self):
         """Handles "message actions" for all beams.
@@ -101,59 +107,63 @@ class BeamSearchExecutor:
         A "message action" occurs when an action only has one possible outcome.
         In that case, that outcome should be immediately executed as the action
         doesn't take (or need) any user input to execute that outcome.
+        NOTE: message actions don't have intents (like dialogue actions) or meaningful
+        outcomes (like system/api actions) so we don't add these to the graph.
         """
         # iterate through all the beams
-        for i in range(len(self.beams)):
+        for beam in range(len(self.beams)):
             # if result is not None, then the last action was a message action
-            result = self.beams[i].rollout.update_if_message_action(
-                self.beams[i].last_action.name
+            result = self.beams[beam].rollout.update_if_message_action(
+                self.beams[beam].last_action.name, self.in_run
             )
             if result:
                 # create an intent from the message action.
                 intent = Intent(
                     name=result["intent"],
                     probability=result["confidence"],
-                    beam=i,
-                    score=BeamSearchExecutor._sum_scores(self.beams[i].scores, result["confidence"]),
+                    beam=beam,
+                    score=ConversationAlignmentExecutor._sum_scores(
+                        self.beams[beam].scores, result["confidence"]
+                    ),
                     outcome=result["outcome"],
                 )
                 # update the last intent and rankings and add it to the beam
-                self.beams[i].last_intent = intent
-                self.beams[i].rankings.append(intent)
-                self.graph_gen.create_nodes_highlight_k(
-                    {intent.name: round(intent.score.real, 4)},
-                    False,
-                    self.beams[i].last_action.name,
-                    i,
-                    [intent.name],
-                )
+                self.beams[beam].last_intent = intent
+                self.beams[beam].rankings.append(intent)
 
     def _handle_system_actions(self, beam: int):
         # before we begin, check if we have the valid case for
         # executing a system/api action (it is the only applicable
-        # action) and iterate until this is no longer the case
-        while BeamSearchExecutor._check_system_case(
-            self.beams[beam].rollout.applicable_actions
+        # action) and iterate until this is no longer the case.
+        # we also want to break if we reach the goal along the way!
+        while (
+            self.beams[beam].rollout.check_system_case()
+            and not self.beams[beam].rollout.get_reached_goal()
         ):
             action = list(self.beams[beam].rollout.applicable_actions)[0]
             # execute the action
-            ranked_groups = self.beams[beam].rollout.call_outcome_determiner(action)
+            ranked_groups = self.beams[beam].rollout.call_outcome_determiner(),
+
             # update the state and beam
             action = Action(
                 name=action,
                 probability=1.0,
                 beam=beam,
-                score=BeamSearchExecutor._sum_scores(self.beams[beam].scores, 1.0)
+                score=ConversationAlignmentExecutor._sum_scores(
+                    self.beams[beam].scores, 1.0
+                ),
             )
-            self.beams[beam].last_action = action
+
             # get the intents from the ranked group (outcome, confidence) tuples
-            # note that we use the outcome name for system/api actions as they have no intent
+            # note that we use the outcome name for system/api actions as they have no intent (note that we use a shortened version)
             all_intents = [
                 Intent(
-                    name=group[0].name,
+                    name=group[0].name.split("-EQ-")[1],
                     probability=group[1],
                     beam=beam,
-                    score=BeamSearchExecutor._sum_scores(self.beams[beam].scores, group[1]),
+                    score=ConversationAlignmentExecutor._sum_scores(
+                        self.beams[beam].scores, group[1]
+                    ),
                     outcome=group[0].name,
                 )
                 for group in ranked_groups
@@ -161,28 +171,28 @@ class BeamSearchExecutor:
 
             all_intents.sort()
 
-            self.beams[beam].last_intent = all_intents[0]
             self.beams[beam].rollout.update_state(
-                action.name,
-                all_intents[0].outcome,
+                action.name, all_intents[0].outcome, self.in_run
             )
             # update the graph
             # add action node
-            self.graph_gen.create_nodes_highlight_k(
-                {action.name: round(action.probability.real, 4)},
-                True,
-                self.beams[beam].rankings[-1].name,
+            self.graph_gen.create_nodes_from_beams(
+                {action.name: round(action.score.real, 4)},
+                NodeType.SYSTEM_API,
                 beam,
+                self._get_last_node_from_action(beam),
                 [action.name],
             )
             # add "intent" (again, here we use the outcome name) nodes
-            self.graph_gen.create_nodes_highlight_k(
+            self.graph_gen.create_nodes_from_beams(
                 {intent.name: round(intent.score.real, 4) for intent in all_intents},
-                False,
-                self.beams[beam].last_action.name,
+                NodeType.SYSTEM_API,
                 beam,
+                action.name,
                 [all_intents[0].name],
             )
+            self.beams[beam].last_action = action
+            self.beams[beam].last_intent = all_intents[0]
             self.beams[beam].rankings.extend([action, all_intents[0]])
 
     def _reconstruct_beam_w_output(
@@ -220,7 +230,10 @@ class BeamSearchExecutor:
                 last_action = self.beams[at_beam].last_action
                 if outputs[i].is_fallback():
                     fallbacks += 1
-            # update the rankings and scores and create a new Beam
+            # update the rankings and scores and create a new Beam.
+            # note that for the rollout, we have to use a COPY because
+            # otherwise, in the case where multiple beams extend from
+            # one outcome, aliasing can occur where we don't want it.
             new_beams.append(
                 Beam(
                     last_action,
@@ -232,14 +245,6 @@ class BeamSearchExecutor:
                 )
             )
         return new_beams
-
-    @staticmethod
-    def _check_system_case(applicable_acts):
-        if len(applicable_acts) == 1:
-            action = list(applicable_acts)[0]
-            if RolloutBase.data["actions"][action]["type"] in ["system", "api"]:
-                return True
-        return False
 
     def beam_search(self):
         """The main beam search algorithm.
@@ -280,11 +285,14 @@ class BeamSearchExecutor:
             - If the algorithm comes across a case where you have multiple applicable
               system/api actions and no dialogue or message actions, an error is raised.
               This is because it is ambiguous which system/api action to execute.
+            - The algorithm will time out if it spends too long running system actions. (This
+              can especially happen if a system action does not "deactivate" itself and thus
+              runs forever).
 
             We also make the assumption that a system action that executes automatically
             has a confidence of 1.0 (since it is not being compared against any messages).
-            System actions also do not have any intent so we treat them as self-contained
-            actions.
+            However, the outcomes have their own confidences returned by the outcome
+            determiner.
 
             Finally, we note the difference between system/api actions and message actions.
             Although message actions are handled in a similar fashion in that we update the
@@ -325,25 +333,32 @@ class BeamSearchExecutor:
                     )
                 )
                 # add the k actions to the graph
-                self.graph_gen.create_nodes_highlight_k(
+                self.graph_gen.create_nodes_from_beams(
                     {outputs[beam].name: round(outputs[beam].score.real, 4)},
-                    True,
-                    "START",
+                    ConversationAlignmentExecutor._get_action_node_type(
+                        outputs[beam].name
+                    ),
                     beam,
+                    "START",
                     [outputs[beam].name],
                 )
+
             self._handle_message_actions()
+
             # add the (total actions - k) nodes that won't be picked to the graph
-            self.graph_gen.create_from_parent(
-                {
-                    action.name: round(action.score.real, 4)
-                    for action in outputs[self.k :]
-                },
-                True,
-            )
+            for action in outputs[self.k :]:
+                self.graph_gen.create_nodes_outside_beams(
+                    {action.name: round(action.score.real, 4)},
+                    ConversationAlignmentExecutor._get_action_node_type(action.name),
+                    "0",
+                )
             # iterate through all utterances (the first was already observed)
-            for utterance in self.conversations[idx][1:]:
+            for utterance_idx in range(1, len(self.conversations[idx])):
                 # denotes if this is a user utterance or an agent action
+                utterance = self.conversations[idx][utterance_idx]
+                # we are "in run" as long as there are more utterances following
+                # the current one
+                self.in_run = utterance_idx == len(self.conversations[idx]) - 2
                 user = "USER" in utterance
                 outputs = []
                 # iterate through all the beams
@@ -368,7 +383,10 @@ class BeamSearchExecutor:
                                     beam=beam,
                                     # find the score by taking the sum of the current
                                     # beam thread which should be a list of log(prob)
-                                    score=BeamSearchExecutor._sum_scores(self.beams[beam].scores, intent_cfg["confidence"]),
+                                    score=ConversationAlignmentExecutor._sum_scores(
+                                        self.beams[beam].scores,
+                                        intent_cfg["confidence"],
+                                    ),
                                     outcome=intent_cfg["outcome"],
                                 )
                             )
@@ -387,7 +405,9 @@ class BeamSearchExecutor:
                                     name=act,
                                     probability=conf,
                                     beam=beam,
-                                    score=BeamSearchExecutor._sum_scores(self.beams[beam].scores, conf)
+                                    score=ConversationAlignmentExecutor._sum_scores(
+                                        self.beams[beam].scores, conf
+                                    ),
                                 )
                             )
                 # sort the outputs (k highest actions or intents) by score
@@ -402,32 +422,40 @@ class BeamSearchExecutor:
                 for output in outputs:
                     graph_beam_chosen_map[output.beam].append(output.name)
                 for beam, chosen in graph_beam_chosen_map.items():
-                    self.graph_gen.create_nodes_highlight_k(
-                        # filter ALL outputs by outputs belonging to the
-                        # current beam
-                        # using the filtered outputs, map intents to
-                        # probabilities to use in the graph
-                        {
-                            output.name: round(output.score.real, 4)
-                            for output in all_outputs
-                            if output.beam == beam
-                        },
-                        not (user),
-                        self.beams[beam].rankings[-1].name,
-                        beam,
-                        chosen,
+                    # don't add message action intents/outcomes to the graph
+                    last_action_message = RolloutBase.is_message_action(
+                        self.beams[beam].last_action.name
                     )
+                    if not (user and last_action_message):
+                        self.graph_gen.create_nodes_from_beams(
+                            # filter ALL outputs by outputs belonging to the
+                            # current beam
+                            # using the filtered outputs, map intents to
+                            # probabilities to use in the graph
+                            {
+                                output.name: round(output.score.real, 4)
+                                for output in all_outputs
+                                if output.beam == beam
+                            },
+                            NodeType.INTENT
+                            if user
+                            else (
+                                ConversationAlignmentExecutor._get_action_node_type(
+                                    output.name
+                                )
+                            ),
+                            beam,
+                            # for actions succeeding message actions, use the last action as the head
+                            self._get_last_node_from_action(beam),
+                            chosen,
+                        )
                 # update the graph's beams so that the parent/id map matches
                 # the reconstructed beams. we have to do this because again,
                 # outputs cannot just be appended to beams, as multiple outputs
-                # could have been chosen from a single previous beam. so, the
-                # "graph" beams need to be updated to match the current
-                # structure.
+                # could have been chosen from a single previous beam. so, we
+                # have to create copies because in that case aliasing will occur.
                 self.graph_gen.beams = [
-                    BeamSearchGraphGenerator.GraphBeam(
-                        self.graph_gen.beams[output.beam].parent_nodes_id_map
-                    )
-                    for output in outputs
+                    self.graph_gen.beams[output.beam].copy() for output in outputs
                 ]
                 # add the outputs to the beams
                 self.beams = self._reconstruct_beam_w_output(outputs)
@@ -437,8 +465,7 @@ class BeamSearchExecutor:
                 if user:
                     for beam in self.beams:
                         beam.rollout.update_state(
-                            beam.last_action.name,
-                            beam.last_intent.outcome,
+                            beam.last_action.name, beam.last_intent.outcome, self.in_run
                         )
                 else:
                     self._handle_message_actions()
@@ -446,35 +473,52 @@ class BeamSearchExecutor:
                 for beam in self.beams:
                     if beam.fallbacks == self.max_fallbacks:
                         beam.scores = [EPSILON]
-            # once we've reached the end of the conversation, iterate through all
-            # beams
-            for i in range(len(self.beams)):
+            # we've reached the end of the conversation
+            for beam in range(len(self.beams)):
+                # run any straggling system actions (often this is needed to reach the goal).
+                self._handle_system_actions(beam)
+
                 # add a "GOAL REACHED" node if necessary
-                if self.beams[i].rollout.get_reached_goal():
-                    self.graph_gen.set_last_chosen(self.beams[i].rankings[-1].name, i)
-                    self.graph_gen.complete_conversation(
-                        round(self.beams[i].rankings[-1].score.real, 4)
+                if self.beams[beam].rollout.get_reached_goal():
+                    self.graph_gen.create_nodes_from_beams(
+                        {
+                            "GOAL REACHED": round(
+                                self.beams[beam].rankings[-1].score.real, 4
+                            )
+                        },
+                        NodeType.GOAL,
+                        beam,
+                        self._get_last_node_from_action(beam),
+                        ["GOAL REACHED"],
                     )
                 # highlight all the "final" beams
                 head = "0"
-                for elem in self.beams[i].rankings:
+                for node in [rank.name for rank in self.beams[beam].rankings] + [
+                    "GOAL REACHED"
+                ]:
                     tail = head
                     # beam_id must be > than the head to prevent referencing
                     # previous nodes with the same name
-                    head = self.graph_gen.beams[i].parent_nodes_id_map[elem.name].pop(0)
-                    while int(head) <= int(tail):
+
+                    # exclude the intents of message actions (and anything else that we decided
+                    # to ignore in the graph)
+                    if node in self.graph_gen.beams[beam].parent_nodes_id_map:
                         head = (
-                            self.graph_gen.beams[i]
-                            .parent_nodes_id_map[elem.name]
-                            .pop(0)
+                            self.graph_gen.beams[beam].parent_nodes_id_map[node].pop(0)
                         )
-                    self.graph_gen.graph.edge(
-                        tail,
-                        head,
-                        color="forestgreen",
-                        penwidth="10.0",
-                        arrowhead="normal",
-                    )
+                        while int(head) <= int(tail):
+                            head = (
+                                self.graph_gen.beams[beam]
+                                .parent_nodes_id_map[node]
+                                .pop(0)
+                            )
+                        self.graph_gen.graph.edge(
+                            tail,
+                            head,
+                            color="forestgreen",
+                            penwidth="10.0",
+                            arrowhead="normal",
+                        )
             self.graph_gen.graph.render(f"{self.graphs_path}/convo_{idx}", cleanup=True)
             # sort the beams by total score (largest first)
             self.beams.sort(reverse=True)
