@@ -591,7 +591,6 @@ class ConversationAlignmentExecutor:
             # we consider the conversation to be handled if the best beam
             # total score is >= the log(epsilon) value and the goal was reached
             self.json_data[-1]["status"] = "passed" if (sum(self.beams[0].scores).real >= log(EPSILON).real and self.beams[beam].rollout.get_reached_goal()) else "failed"
-
         # store the # of successes and failures and the ratio
         successes = len([conv for conv in self.json_data if conv["status"] == "passed"])
         failures = len(self.conversations) - successes
