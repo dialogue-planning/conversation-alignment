@@ -584,13 +584,16 @@ class ConversationAlignmentExecutor:
                         self.json_data[-1]["drop-off nodes"].append(f"{self.beams[beam].rankings[i-1].name} -> {self.beams[beam].rankings[i].name}")
             self.graph_gen.graph.render(os.path.join(self.graphs_path, *("graphs", os.path.splitext(os.path.basename(self.conversation_paths[idx]))[0])), cleanup=True)
             # move the "covered" conversation to the output folder (saves headaches when you need multiple runs)
-            os.mkdir(os.path.join(self.graphs_path, "convos"))
-            os.replace(self.conversation_paths[idx], os.path.join(self.graphs_path, *("convos", os.path.basename(self.conversation_paths[idx]))))
+            convos_dir = os.path.join(self.graphs_path, "convos")
+            if not os.path.exists(convos_dir):
+                os.mkdir(convos_dir)
+            os.replace(self.conversation_paths[idx], os.path.join(convos_dir, os.path.basename(self.conversation_paths[idx])))
             # sort the beams by total score (largest first)
             self.beams.sort(reverse=True)
             # we consider the conversation to be handled if the best beam
             # total score is >= the log(epsilon) value and the goal was reached
             self.json_data[-1]["status"] = "passed" if (sum(self.beams[0].scores).real >= log(EPSILON).real and self.beams[beam].rollout.get_reached_goal()) else "failed"
+
         # store the # of successes and failures and the ratio
         successes = len([conv for conv in self.json_data if conv["status"] == "passed"])
         failures = len(self.conversations) - successes
