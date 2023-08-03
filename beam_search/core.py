@@ -438,7 +438,7 @@ class ConversationAlignmentExecutor:
             )
             # resets the beams and creates a new "Rollout"
             self._prep_for_new_search()
-            start_rollout = HovorRollout(**self.rollout_param)
+            start_rollout = RolloutBase(**self.rollout_param)
             # generates the starting values.
             starting_values = start_rollout.get_action_confidences(
                 self.conversations[idx][0]
@@ -465,7 +465,7 @@ class ConversationAlignmentExecutor:
                         outputs[beam],
                         None,
                         [outputs[beam]],
-                        HovorRollout(**self.rollout_param),
+                        RolloutBase(**self.rollout_param),
                         [log(outputs[beam].probability)],
                         0,
                     )
@@ -599,7 +599,7 @@ class ConversationAlignmentExecutor:
                     graph_beam_chosen_map[output.beam].append(output)
                 for beam, chosen in graph_beam_chosen_map.items():
                     # don't add message action intents/outcomes to the graph
-                    last_action_message = HovorRollout.is_message_action(
+                    last_action_message = RolloutBase.is_message_action(
                         self.beams[beam].last_action.name
                     )
                     if not (user and last_action_message):
@@ -768,7 +768,7 @@ class ConversationAlignmentExecutor:
         # true negative = true misalignment = conversation misaligned and at least one meddled outcome was executed in any beam (one meddled outcome
         #   can result in an otherwise correct beam getting tanked, which then forces the exploration of "useless" branches)
         # false negative = false misalignment = conversation misaligned but should have aligned because none of the beams used outcomes that were meddled with
-        partial = HovorRollout.rollout_cfg["partial"]
+        partial = RolloutBase.rollout_cfg["partial"]
         beam_results = {
             beam: {"passing": False, "should misalign": False}
             for beam in range(len(self.beams))
