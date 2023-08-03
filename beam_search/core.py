@@ -5,6 +5,7 @@ from graph_setup import BeamSearchGraph, NodeType
 import json
 import matplotlib.pyplot as plt
 import os
+import shutil
 
 
 EPSILON = 0.000000000000000000001
@@ -34,7 +35,7 @@ class ConversationAlignmentExecutor:
 
         build_graph (bool): Indicates if diagrams are to be compiled.
             Defaults to True.
-        graphs_path (str): The path where the graphs and output stats will be stored.
+        output_path (str): The path where the graphs and output stats will be stored.
         rollout_param (**kwargs): Any parameters necessary to instantiate your
             Rollout class.
     """
@@ -44,7 +45,7 @@ class ConversationAlignmentExecutor:
         k: int,
         max_fallbacks: int,
         conversation_paths: str,
-        graphs_path: str = None,
+        output_path: str,
         **kwargs,
     ):
         self.k = k
@@ -53,10 +54,22 @@ class ConversationAlignmentExecutor:
             conversation_paths
         )
         self.conversation_paths = conversation_paths
-        self.graphs_path = graphs_path
+        self.output_path = output_path
         self.rollout_param = kwargs
         self.in_run = True
-        self.json_data = []
+        try:
+            json_path = os.path.join(self.output_path, "output_stats.json")
+            with open(json_path, "r") as f:
+                self.json_data = json.load(f)
+        except FileNotFoundError:
+            self.json_data = {"conversation data": []}
+            os.remove(json_path)
+            shutil.rmtree(os.path.join(self.output_path, "graphs"))
+            shutil.rmtree(os.path.join(self.output_path, "convos"))
+            os.remove(os.path.join(self.output_path, "confusion_stats.pdf"))
+            os.remove(os.path.join(self.output_path, "drop-off_nodes.pdf"))
+            self.json_data = {"conversation data": []}
+
 
     @property
     def k(self):
@@ -98,18 +111,17 @@ class ConversationAlignmentExecutor:
     def plot(json_data_path, out_path):
         with open(json_data_path, "r") as f:
             json_data = json.load(f)
-        if json_data == []:
+        if json_data == {"conversation data": []}:
             raise ValueError(
                 "You need to run the beam search algorithm before plotting results!"
             )
-        json_data = json_data["results"]
         # plot the ratio of successes to failures
         tp, fp, tn, fn, t = (
-            json_data["tp"],
-            json_data["fp"],
-            json_data["tn"],
-            json_data["fn"],
-            sum([json_data["tp"], json_data["fp"], json_data["tn"], json_data["fn"]]),
+            json_data["results"]["tp"],
+            json_data["results"]["fp"],
+            json_data["results"]["tn"],
+            json_data["results"]["fn"],
+            len(json_data["conversation data"]),
         )
 
         plt.figure(0, figsize=(20, 20))
@@ -133,7 +145,7 @@ class ConversationAlignmentExecutor:
 
         plt.figure(1, figsize=(20, 20))
         plt.title("Drop-off nodes")
-        nodes = json_data["drop-off nodes"]
+        nodes = json_data["results"]["drop-off nodes"]
         plt.pie(nodes.values(), labels=nodes.keys(), shadow=True)
         plt.savefig(os.path.join(out_path, "drop-off_nodes.pdf"))
 
@@ -417,7 +429,7 @@ class ConversationAlignmentExecutor:
             continuing the iteration.
         """
         for idx in range(len(self.conversations)):
-            self.json_data.append(
+            self.json_data["conversation data"].append(
                 {
                     "conversation": self.conversations[idx],
                     "status": None,
@@ -426,7 +438,7 @@ class ConversationAlignmentExecutor:
             )
             # resets the beams and creates a new "Rollout"
             self._prep_for_new_search()
-            start_rollout = RolloutBase(**self.rollout_param)
+            start_rollout = HovorRollout(**self.rollout_param)
             # generates the starting values.
             starting_values = start_rollout.get_action_confidences(
                 self.conversations[idx][0]
@@ -453,7 +465,7 @@ class ConversationAlignmentExecutor:
                         outputs[beam],
                         None,
                         [outputs[beam]],
-                        RolloutBase(**self.rollout_param),
+                        HovorRollout(**self.rollout_param),
                         [log(outputs[beam].probability)],
                         0,
                     )
@@ -494,7 +506,7 @@ class ConversationAlignmentExecutor:
                 utterance = self.conversations[idx][utterance_idx]
                 self.graph_gen.graph.render(
                     os.path.join(
-                        self.graphs_path,
+                        self.output_path,
                         *(
                             "graphs",
                             os.path.splitext(
@@ -587,7 +599,7 @@ class ConversationAlignmentExecutor:
                     graph_beam_chosen_map[output.beam].append(output)
                 for beam, chosen in graph_beam_chosen_map.items():
                     # don't add message action intents/outcomes to the graph
-                    last_action_message = RolloutBase.is_message_action(
+                    last_action_message = HovorRollout.is_message_action(
                         self.beams[beam].last_action.name
                     )
                     if not (user and last_action_message):
@@ -700,12 +712,12 @@ class ConversationAlignmentExecutor:
                     if self._is_drop_off(
                         beam, self.beams[beam].rankings[i].score, i - 1
                     ):
-                        self.json_data[-1]["drop-off nodes"].append(
+                        self.json_data["conversation data"][-1]["drop-off nodes"].append(
                             f"{self.beams[beam].rankings[i-1].name} -> {self.beams[beam].rankings[i].name}"
                         )
             self.graph_gen.graph.render(
                 os.path.join(
-                    self.graphs_path,
+                    self.output_path,
                     *(
                         "graphs",
                         os.path.splitext(
@@ -716,28 +728,28 @@ class ConversationAlignmentExecutor:
                 cleanup=True,
             )
             # move the "covered" conversation to the output folder (saves headaches when you need multiple runs)
-            convos_dir = os.path.join(self.graphs_path, "convos")
+            convos_dir = os.path.join(self.output_path, "convos")
             if not os.path.exists(convos_dir):
                 os.mkdir(convos_dir)
-            # os.replace(
-            #     self.conversation_paths[idx],
-            #     os.path.join(
-            #         convos_dir, os.path.basename(self.conversation_paths[idx])
-            #     ),
-            # )
-            self.json_data[-1]["name"] = self.conversation_paths[idx]
+            os.replace(
+                self.conversation_paths[idx],
+                os.path.join(
+                    convos_dir, os.path.basename(self.conversation_paths[idx])
+                ),
+            )
+            self.json_data["conversation data"][-1]["name"] = self.conversation_paths[idx]
             # based on the pass/fail assessment and our knowledge of what is missing in the model, categorize the conversation on the confusion matrix.
-            
-            self.json_data[-1]["status"] = self._get_confusion_matrix()
+            self.json_data["conversation data"][-1]["status"] = self._get_confusion_matrix()
+            with open(os.path.join(self.output_path, "output_stats.json"), "w") as out:
+                out.write(json.dumps(self.json_data, indent=4))
                 
         # store the confusion matrix
-        self.json_data = {"conversation data": self.json_data}
         self.json_data["results"] = {
             "tp": len([conv for conv in self.json_data["conversation data"] if conv["status"] == "tp"]),
             "fp": len([conv for conv in self.json_data["conversation data"] if conv["status"] == "fp"]),
             "tn": len([conv for conv in self.json_data["conversation data"] if conv["status"] == "tn"]),
             "fn": len([conv for conv in self.json_data["conversation data"] if conv["status"] == "fn"]),
-            "total": len(self.conversations),
+            "total": len(self.json_data["conversation data"]),
         }
         # collect the drop-off nodes
         self.json_data["results"]["drop-off nodes"] = {}
@@ -746,7 +758,7 @@ class ConversationAlignmentExecutor:
                 self.json_data["results"]["drop-off nodes"][node] = conv[
                     "drop-off nodes"
                 ].count(node)
-        with open(f"{self.graphs_path}/output_stats.json", "w") as out:
+        with open(os.path.join(self.output_path, "output_stats.json"), "w") as out:
             out.write(json.dumps(self.json_data, indent=4))
 
     def _get_confusion_matrix(self):
@@ -756,9 +768,7 @@ class ConversationAlignmentExecutor:
         # true negative = true misalignment = conversation misaligned and at least one meddled outcome was executed in any beam (one meddled outcome
         #   can result in an otherwise correct beam getting tanked, which then forces the exploration of "useless" branches)
         # false negative = false misalignment = conversation misaligned but should have aligned because none of the beams used outcomes that were meddled with
-        partial = None
-        if "partial" in RolloutBase.rollout_cfg:
-            partial = RolloutBase.rollout_cfg["partial"]
+        partial = HovorRollout.rollout_cfg["partial"]
         beam_results = {
             beam: {"passing": False, "should misalign": False}
             for beam in range(len(self.beams))
@@ -771,7 +781,8 @@ class ConversationAlignmentExecutor:
                 for ranking in self.beams[beam].rankings:
                     if isinstance(ranking, Action):
                         last_action = ranking
-                    else:
+                    # ignore "Output" goal node
+                    elif isinstance(ranking, Intent):
                         if ranking.outcome in partial[last_action.name]:
                             beam_results[beam]["should misalign"] = True
                             break
@@ -783,28 +794,24 @@ class ConversationAlignmentExecutor:
         passing_beams = set([beam for beam, beam_cfg in beam_results.items() if beam_cfg["passing"]])
         failing_beams = set(beam_results.keys()).difference(passing_beams)
         if passing_beams:
-            if partial:
-                # determine true positive
-                for beam in passing_beams:
-                    if not beam_results[beam]["should misalign"]:
-                        return "tp"
-                # determine false positive
-                if [beam_results[beam]["should misalign"] for beam in passing_beams] == [
-                    True for _ in len(passing_beams)
-                ]:
-                    return "fp"
-            return "tp"
+            # determine true positive
+            for beam in passing_beams:
+                if not beam_results[beam]["should misalign"]:
+                    return "tp"
+            # determine false positive
+            if [beam_results[beam]["should misalign"] for beam in passing_beams] == [
+                True for _ in range(len(passing_beams))
+            ]:
+                return "fp"
         else:
-            if partial:
-                # determine true negative
-                for beam in failing_beams:
-                    if beam_results[beam]["should misalign"]:
-                        return "tn"
-                # determine false negative
-                if [beam_results[beam]["should misalign"] for beam in failing_beams] == [
-                    False for _ in len(failing_beams)
-                ]:
-                    return "fn"
-            return "tn"
+            # determine true negative
+            for beam in failing_beams:
+                if beam_results[beam]["should misalign"]:
+                    return "tn"
+            # determine false negative
+            if [beam_results[beam]["should misalign"] for beam in failing_beams] == [
+                False for _ in range(len(failing_beams))
+            ]:
+                return "fn"
 
 
