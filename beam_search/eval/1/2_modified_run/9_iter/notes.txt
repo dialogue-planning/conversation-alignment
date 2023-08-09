@@ -1,0 +1,3 @@
+- still the same!
+- clarify__cuisine missing all confirm nodes
+- add (know__cuisine) and (not (maybe-know__cuisine))

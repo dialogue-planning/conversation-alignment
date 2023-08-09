@@ -1,0 +1,6 @@
+- this time, clarify__location is the main problem area.
+
+if we look at convo_5 where it fails, the action is looping!
+
+taking another look, we see that we need to ensure that we don't "maybe know" the location when we DO know the location.
+add (not (maybe-know__location)) to the confirm effect.

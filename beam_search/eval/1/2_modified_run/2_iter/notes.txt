@@ -1,0 +1,3 @@
+- still all failing
+- get phone number mostly failing this time
+- fallback missing node; add it
