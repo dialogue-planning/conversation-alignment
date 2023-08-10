@@ -1,0 +1,47 @@
+------
+iter 1
+
+share_location not followed by dialogue_statement
+
+in
+slot-fill__get-location
+slot-fill__get-location_DETDUP_slot-fill__get-location__validate-slot-fill-EQ-location_found
+
+add 
+(force-statement)
+
+------
+iter 2
+
+have dialogue_statement there but now it is looping
+
+in
+dialogue_statement
+dialogue_statement_DETDUP_dialogue_statement__reset-EQ-lock
+
+add 
+(not (force-statement))
+
+------
+iter 3
+
+set-outing is looping
+
+in
+set-outing
+set-outing_DETDUP_set-outing__assign_outing-EQ-set-golf
+
+add 
+(know__outing)
+
+------
+iter 3
+
+complete is looping
+
+in
+complete
+complete_DETDUP_complete__finish-EQ-finish
+
+add 
+(goal)

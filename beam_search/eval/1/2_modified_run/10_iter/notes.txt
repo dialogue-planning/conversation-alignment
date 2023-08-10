@@ -1,9 +1,0 @@
-clarify__cuisine node was helped!
-get phone number still failing, but doesn't look like much else we can do.
-ditto for get cuisine.
-
-this means that they are likely being broken as a product of something else being broken!
-
-we look at convo 1 graph. share_budget of get-outing is followed by a string of dialogue_statement loops!
-
-it's missing that we (know__budget) !

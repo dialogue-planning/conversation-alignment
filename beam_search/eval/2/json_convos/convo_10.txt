@@ -1,0 +1,19 @@
+AGENT: Do you have any allergies?
+USER: mhm
+AGENT: What food restriction do you have? (As of now, I only account for dairy and gluten allergies).
+USER: I have to eat gluten-free.
+AGENT: What kind of outing would you like to go to? Please specify both your budget (high or low) and the type of atmosphere you're looking for (i.e. fun, relaxing, etc.)
+USER: I can do activities with a high budget.
+AGENT: Ok, I'll take that into account.
+AGENT: What atmosphere are you looking for tonight? Use a descriptive adjective like low-key, exciting, social, etc.
+USER: I want to go to a high-energy place.
+AGENT: Great choice!
+AGENT: What is your phone number? I can use it to make reservations.
+USER: My number is 2397739201.
+AGENT: Where are you located?
+USER: I am located in Kingston.
+AGENT: Tailoring your results to what's available in Kingston...
+AGENT: Dessert, Chinese, Mexican, and Italian restaurants are around; which would you prefer?
+USER: Do you have restaurants of type Chinese?
+AGENT: Cuisine preference has been logged.
+AGENT: Booked a reservation at Mandarin as well as a spot at Smith's Golfing Club in Kingston.

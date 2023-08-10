@@ -19,15 +19,14 @@ def read_from_file(path: str):
 def del_fluent_from_rollout(fluent_name: str, path: str):
     rollout_config, actions, partial = read_from_file(path)
     for act, act_cfg in actions.items():
-        if act_cfg["type"] == "dialogue":
-            if fluent_name in act_cfg["condition"]:
-                # note that we don't include conditions in `partial` because deleting
-                # a condition makes the action applicable in MORE states
-                act_cfg["condition"].remove(fluent_name)
-            for out in act_cfg["effect"]:
-                if fluent_name in act_cfg["effect"][out]:
-                    act_cfg["effect"][out].remove(fluent_name)
-                    partial[act].add(out)
+        if fluent_name in act_cfg["condition"]:
+            # note that we don't include conditions in `partial` because deleting
+            # a condition makes the action applicable in MORE states
+            act_cfg["condition"].remove(fluent_name)
+        for out in act_cfg["effect"]:
+            if fluent_name in act_cfg["effect"][out]:
+                act_cfg["effect"][out].remove(fluent_name)
+                partial[act].add(out)
     write_to_file(actions, partial, rollout_config, path)
 
 
@@ -35,10 +34,10 @@ def del_from_rollout(num_delete: int, path: str):
     rollout_config, actions, partial = read_from_file(path)
     idx = 0
     skip_acts = set()
-    random.seed(30)
+    random.seed(751)
     while idx < num_delete:
         # first randomly select an action that we haven't yet determined is empty
-        available_acts = [act for act in actions if act not in skip_acts and actions[act]["type"] == "dialogue"]
+        available_acts = [act for act in actions if act not in skip_acts]
         if not available_acts:
             break
         act = random.choice(available_acts)
@@ -82,13 +81,13 @@ def add_fluent(correct_rollout_path, rollout_path, action, outcome, fluent):
 
 if __name__ == "__main__":
     # del_percent_from_rollout(
-    #     0.35,
-    #     "beam_search/eval/1/2_modified_run/outing_output_files/rollout_config.json"
+    #     0.50,
+    #     "beam_search/eval/2/2_modified_run/output_files/rollout_config.json"
     # )
     add_fluent(
-        "beam_search/eval/1/1_unmodified_run/outing_output_files/rollout_config.json", 
-        "beam_search/eval/1/2_modified_run/outing_output_files/rollout_config.json",
-        "get-have-allergy",
-        "get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_no_allergy",
-        "(know__have_allergy)"
+        "beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json", 
+        "beam_search/eval/2/2_modified_run/output_files/rollout_config.json",
+        "complete",
+        "complete_DETDUP_complete__finish-EQ-finish",
+        "(goal)"
     )

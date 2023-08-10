@@ -1,0 +1,21 @@
+AGENT: Do you have any dietary restrictions I should know about?
+USER: yes
+AGENT: What type of allergy do you have? (I currently account for dairy and gluten allergies).
+USER: I am allergic to any foods that are not dairy-free.
+AGENT: What kind of outing would you like to go to? Please specify both your budget (high or low) and the type of atmosphere you're looking for (i.e. fun, relaxing, etc.)
+USER: I can do activities with a low budget and I want to find the most low-energy place in the city.
+AGENT: Ok-- I need your phone number in case reservations need to be made.
+USER: My number is 3251717303.
+AGENT: Where do you live?
+USER: I am located in Kingston.
+AGENT: Tailoring your results to what's available in Kingston...
+AGENT: Dessert, Chinese, Mexican, and Italian restaurants are around; which would you prefer?
+USER: I want to eat dessert.
+AGENT: Cuisine preference has been logged.
+AGENT: Sorry, but there are no restaurants that match your allergy and cuisine preferences. Try entering a different set of preferences.
+AGENT: Do you have any dietary restrictions I should know about?
+USER: no thank you
+AGENT: What is your cuisine of choice? Mexican, Italian, Chinese, and dessert restaurants are in the area.
+USER: I want to eat dessert.
+AGENT: Cuisine preference has been logged.
+AGENT: Booked a reservation at Geneva Crepes as well as a spot at Stauffer Library in Kingston.

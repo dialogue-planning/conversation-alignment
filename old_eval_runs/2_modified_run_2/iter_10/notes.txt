@@ -1,0 +1,12 @@
+We are in an interesting spot - we have all FP now, and no drop-off nodes to behold.
+
+Let's go back to convo_1 and see if we can sus anything out.
+In the other beams, we can see that get-cuisine is looping on itself after hitting the "maybe found" outcome.
+Looking at the model, this outcome is empty!
+
+In:
+slot-fill__get-cuisine
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-cuisine_maybe-found
+
+Add:
+(maybe-know__cuisine)

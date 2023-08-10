@@ -1,0 +1,10 @@
+- Share outing type does not trigger a dialogue_statement!
+
+In:
+
+single_slot__outing_type
+single_slot__outing_type_DETDUP_single_slot__outing_type__validate-slot-fill-EQ-fill-slot
+
+add 
+
+(force-statement)

@@ -1,7 +1,0 @@
-this time we have NO DROP OFF NODES...
-
-picking a random TN conversation to observe... 17
-
-decently-sized tank after share_location... not letting dialogue_statement run as it should
-
-ah... finding location should trigger dialogue statement!

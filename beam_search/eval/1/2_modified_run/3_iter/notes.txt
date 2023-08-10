@@ -1,2 +1,0 @@
-- clarify cuisine - fallback has the most drop-offs this time
-- add fallback force-statement

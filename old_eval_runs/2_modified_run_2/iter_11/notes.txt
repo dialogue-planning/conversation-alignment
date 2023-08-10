@@ -1,0 +1,4 @@
+Since all conversations are fp, we pick an arbitrary one-- convo_2.
+
+In a fp situation, we want to observe the final beams to see if anything fishy presents itself.
+In this case, we look at the second beam

@@ -1,0 +1,154 @@
+----------------
+iter 1:
+we pick convo_14 to start with (any will do but we go with (one of the) simplest ones to weed out obvious errors)
+
+we get pretty far but fail at the dialogue_statement after share_location.
+
+in
+dialogue_statement
+dialogue_statement_DETDUP_dialogue_statement__reset-EQ-lock
+
+add
+(not (force-statement))
+
+-----------------
+iter 2:
+share_cuisine needs to trigger a dialogue_statement, not get-have-allergy.
+
+in
+slot-fill__get-cuisine
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-cuisine_found
+
+add
+(force-statement)
+
+------------------
+iter 3:
+the first beam is getting far, but slot-fill__get-phone_number is applicable at the end where it shouldn't be.
+
+in 
+slot-fill__get-phone_number
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-phone_number_found
+
+add
+(know__phone_number)
+
+------------------
+iter 4:
+same problem, but with get-have-allergy!
+
+in 
+get-have-allergy
+get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_no_allergy
+
+add
+(know__have_allergy)
+
+------------------
+iter 5:
+graph for convo_14 indicates error with set-outing looping!
+
+in 
+set-outing
+set-outing_DETDUP_set-outing__assign_outing-EQ-set-golf
+
+add 
+(know__outing)
+
+------------------
+iter 6:
+
+same problem but with set-restaurant!
+
+in
+set-restaurant
+set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-mexican
+
+add
+(know__restaurant)
+
+repeat for all outcomes!
+
+------------------
+iter 7:
+
+getting an error on system action inform - not completing itself!
+
+in 
+inform
+inform_DETDUP_inform__finish-EQ-finish
+
+add
+(informed)
+
+------------------
+iter 8:
+
+same problem but with the system action complete!
+
+in
+complete
+complete_DETDUP_complete__finish-EQ-finish
+
+add
+(goal)
+
+------------------
+iter 9:
+
+convo 14 now fixed!
+
+let's go to another failing one: convo 5.
+
+get-allergy loops on itself. update outcome is missing nodes!
+
+in 
+get-allergy
+get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy
+
+add 
+(know__food_restriction)
+
+------------------
+iter 10:
+
+now in convo 5. no applicable actions after sharing allergies! supposed to be getting outing type.
+
+ah, we have to turn off the forcing for that action.
+
+in 
+get-allergy
+get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy
+
+add 
+(not (forcing__get-allergy))
+
+------------------
+iter 11:
+
+share_budget not followed by a dialogue_statement! and... it's also empty!
+
+in
+single_slot__budget
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fill-slot
+
+add
+(force-statement)
+
+------------------
+iter 12:
+
+we get far, but slot-fill__get_outing manages to run again. why is it still applicable?
+we did not update our knowledge of the budget in single_slot__budget!
+
+in
+single_slot__budget
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fill-slot
+
+add
+(know__budget)
+
+------------------
+iter 13:
+
+check-conflicts seems to get stuck this time. supposed to call set-outing next

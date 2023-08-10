@@ -1,0 +1,10 @@
+looking at our best beam again, single_slot__outing_type is executed again (and almost initiates a loop) when we should be proceeding with the conversation.
+
+looking at the model, it is because the outcome that learns the outing type does not update the model with that knowledge.
+
+In:
+single_slot__outing_type
+single_slot__outing_type_DETDUP_single_slot__outing_type__validate-slot-fill-EQ-fill-slot
+
+Add:
+(know__outing_type)

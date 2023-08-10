@@ -1,6 +1,0 @@
-- drop-off nodes still stagnated!
-- dialogue_statement still looping  in convo_1 after we corrected share_budget... may be a problem with the action itself?
-- indeed, the lock is missing (not (force-statement)) !
-
-also, can talk about how even though dialogue_statement had this loop from the first iteration, it wasn't captured in the drop-off nodes because it was a gradual drop-off from the looping.
-future work-- looping seems to be a pattern, some way to formalize it?
