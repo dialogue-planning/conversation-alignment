@@ -1,6 +1,7 @@
 ------
 iter 1
 
+observing convo_14
 share_location not followed by dialogue_statement
 
 in
@@ -35,7 +36,7 @@ add
 (know__outing)
 
 ------
-iter 3
+iter 4
 
 complete is looping
 
@@ -45,3 +46,30 @@ complete_DETDUP_complete__finish-EQ-finish
 
 add 
 (goal)
+
+------
+iter 5
+
+convo_14 now fp, now shifting to convo_5
+
+get-have-allergy confirm immediately has no applicable actions
+didn't update knowledge that we have allergy now
+
+in
+get-have-allergy
+get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_allergy
+
+add 
+(know__have_allergy)
+
+------
+iter 5
+
+get-allergy looping
+
+in
+get-allergy
+get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy
+
+add 
+(know__food_restriction)

@@ -87,7 +87,7 @@ if __name__ == "__main__":
     add_fluent(
         "beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json", 
         "beam_search/eval/2/2_modified_run/output_files/rollout_config.json",
-        "complete",
-        "complete_DETDUP_complete__finish-EQ-finish",
-        "(goal)"
+        "get-allergy",
+        "get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy",
+        "(know__food_restriction)"
     )

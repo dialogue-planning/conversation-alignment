@@ -9,7 +9,8 @@
             "effect": {
                 "get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_allergy": [
                     "(have_allergy)",
-                    "(forcing__get-allergy)"
+                    "(forcing__get-allergy)",
+                    "(know__have_allergy)"
                 ],
                 "get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_no_allergy": [
                     "(know__have_allergy)",
@@ -27,7 +28,9 @@
                 "(know__have_allergy)"
             ],
             "effect": {
-                "get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy": [],
+                "get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy": [
+                    "(know__food_restriction)"
+                ],
                 "get-allergy_DETDUP_get-allergy__set-allergy-EQ-fallback": []
             }
         },
@@ -376,8 +379,7 @@
     "partial": {
         "get-have-allergy": [
             "get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-fallback",
-            "get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_no_allergy",
-            "get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_allergy"
+            "get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_no_allergy"
         ],
         "get-allergy": [
             "get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy",
