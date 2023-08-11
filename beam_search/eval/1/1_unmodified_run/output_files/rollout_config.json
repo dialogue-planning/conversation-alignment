@@ -372,5 +372,25 @@
         "(not (tried-create))",
         "(not (force-statement))",
         "(not (goal))"
-    ]
+    ],
+    "partial": {
+        "offer-transfer": [],
+        "get-transfer-options": [],
+        "confirm-transfer": [],
+        "offer-e-transfer": [],
+        "get-e-transfer-options": [],
+        "confirm-e-transfer": [],
+        "offer-request": [],
+        "get-request-options": [],
+        "confirm-request": [],
+        "offer-pay": [],
+        "confirm-bill-payment": [],
+        "offer-new": [],
+        "confirm-create": [],
+        "complete": [],
+        "dialogue_statement": [],
+        "slot-fill__select-account": [],
+        "slot-fill__get-payment": [],
+        "slot-fill__get-create": []
+    }
 }

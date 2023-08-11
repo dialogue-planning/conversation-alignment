@@ -34,7 +34,7 @@ def del_from_rollout(num_delete: int, path: str):
     rollout_config, actions, partial = read_from_file(path)
     idx = 0
     skip_acts = set()
-    random.seed(751)
+    random.seed(925)
     while idx < num_delete:
         # first randomly select an action that we haven't yet determined is empty
         available_acts = [act for act in actions if act not in skip_acts]
@@ -80,14 +80,14 @@ def add_fluent(correct_rollout_path, rollout_path, action, outcome, fluent):
 
 
 if __name__ == "__main__":
-    # del_percent_from_rollout(
-    #     0.50,
-    #     "beam_search/eval/2/2_modified_run/output_files/rollout_config.json"
+    # del_from_rollout(
+    #     3,
+    #     "beam_search/eval/1/2_modified_run/output_files/rollout_config.json"
     # )
     add_fluent(
         "beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json", 
         "beam_search/eval/2/2_modified_run/output_files/rollout_config.json",
-        "get-allergy",
-        "get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy",
-        "(know__food_restriction)"
+        "set-restaurant",
+        "set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-chinese",
+        "(know__restaurant)"
     )
