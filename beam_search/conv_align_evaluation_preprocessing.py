@@ -80,14 +80,14 @@ def add_fluent(correct_rollout_path, rollout_path, action, outcome, fluent):
 
 
 if __name__ == "__main__":
-    # del_from_rollout(
-    #     3,
-    #     "beam_search/eval/1/2_modified_run/output_files/rollout_config.json"
-    # )
-    add_fluent(
-        "beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json", 
-        "beam_search/eval/2/2_modified_run/output_files/rollout_config.json",
-        "set-restaurant",
-        "set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-chinese",
-        "(know__restaurant)"
+    del_from_rollout(
+        1,
+        "beam_search\\eval\\1\\2_modified_run\\output_files\\rollout_config.json"
     )
+    # add_fluent(
+    #     "beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json", 
+    #     "beam_search/eval/2/2_modified_run/output_files/rollout_config.json",
+    #     "set-restaurant",
+    #     "set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-chinese",
+    #     "(know__restaurant)"
+    # )

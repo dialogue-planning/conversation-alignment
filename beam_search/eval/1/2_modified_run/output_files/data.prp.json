@@ -6,7 +6,7 @@
             "0": {
                 "expected_successor": false,
                 "action": "---",
-                "state": "0x2779110",
+                "state": "0xf7d110",
                 "distance": 0,
                 "is_relevant": 1,
                 "is_goal": 1,
@@ -16,7 +16,7 @@
             "12": {
                 "expected_successor": "1",
                 "action": "confirm-transfer",
-                "state": "0x277ba90",
+                "state": "0xf7fa90",
                 "distance": 2,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -31,7 +31,7 @@
             "14": {
                 "expected_successor": "13",
                 "action": "dialogue_statement",
-                "state": "0x278a5b0",
+                "state": "0xf8e5b0",
                 "distance": 4,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -46,7 +46,7 @@
             "1": {
                 "expected_successor": "0",
                 "action": "complete",
-                "state": "0x2787b50",
+                "state": "0xf8bb50",
                 "distance": 1,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -61,7 +61,7 @@
             "2": {
                 "expected_successor": "1",
                 "action": "dialogue_statement",
-                "state": "0x277ff30",
+                "state": "0xf83f30",
                 "distance": 2,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -76,7 +76,7 @@
             "13": {
                 "expected_successor": "12",
                 "action": "get-transfer-options",
-                "state": "0x2787a60",
+                "state": "0xf8ba60",
                 "distance": 3,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -95,7 +95,7 @@
             "3": {
                 "expected_successor": "2",
                 "action": "offer-transfer",
-                "state": "0x277fa30",
+                "state": "0xf83a30",
                 "distance": 3,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -118,7 +118,7 @@
             "4": {
                 "expected_successor": "3",
                 "action": "dialogue_statement",
-                "state": "0x2780630",
+                "state": "0xf84630",
                 "distance": 4,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -133,7 +133,7 @@
             "5": {
                 "expected_successor": "4",
                 "action": "offer-request",
-                "state": "0x277fa10",
+                "state": "0xf83a10",
                 "distance": 5,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -156,7 +156,7 @@
             "6": {
                 "expected_successor": "5",
                 "action": "dialogue_statement",
-                "state": "0x2789290",
+                "state": "0xf8d290",
                 "distance": 6,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -171,7 +171,7 @@
             "15": {
                 "expected_successor": "3",
                 "action": "confirm-request",
-                "state": "0x278ac50",
+                "state": "0xf8ec50",
                 "distance": 4,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -186,7 +186,7 @@
             "16": {
                 "expected_successor": "15",
                 "action": "get-request-options",
-                "state": "0x278ad90",
+                "state": "0xf8ed90",
                 "distance": 5,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -205,7 +205,7 @@
             "17": {
                 "expected_successor": "16",
                 "action": "dialogue_statement",
-                "state": "0x278bac0",
+                "state": "0xf8fac0",
                 "distance": 6,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -220,7 +220,7 @@
             "21": {
                 "expected_successor": "6",
                 "action": "offer-pay",
-                "state": "0x278f9c0",
+                "state": "0xf939c0",
                 "distance": 7,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -243,7 +243,7 @@
             "22": {
                 "expected_successor": "21",
                 "action": "dialogue_statement",
-                "state": "0x278fb20",
+                "state": "0xf93b20",
                 "distance": 8,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -258,7 +258,7 @@
             "23": {
                 "expected_successor": "22",
                 "action": "offer-e-transfer",
-                "state": "0x278fae0",
+                "state": "0xf93ae0",
                 "distance": 9,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -281,7 +281,7 @@
             "24": {
                 "expected_successor": "23",
                 "action": "dialogue_statement",
-                "state": "0x278d360",
+                "state": "0xf91360",
                 "distance": 10,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -296,7 +296,7 @@
             "26": {
                 "expected_successor": "19",
                 "action": "dialogue_statement",
-                "state": "0x278ddf0",
+                "state": "0xf91df0",
                 "distance": 8,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -311,7 +311,7 @@
             "27": {
                 "expected_successor": "20",
                 "action": "dialogue_statement",
-                "state": "0x2791fe0",
+                "state": "0xf95fe0",
                 "distance": 9,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -326,7 +326,7 @@
             "18": {
                 "expected_successor": "5",
                 "action": "confirm-bill-payment",
-                "state": "0x278c9f0",
+                "state": "0xf909f0",
                 "distance": 6,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -341,7 +341,7 @@
             "19": {
                 "expected_successor": "18",
                 "action": "slot-fill__select-account",
-                "state": "0x278c9d0",
+                "state": "0xf909d0",
                 "distance": 7,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -360,7 +360,7 @@
             "20": {
                 "expected_successor": "19",
                 "action": "slot-fill__get-payment",
-                "state": "0x278c990",
+                "state": "0xf90990",
                 "distance": 8,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -379,7 +379,7 @@
             "28": {
                 "expected_successor": "21",
                 "action": "confirm-e-transfer",
-                "state": "0x2787c70",
+                "state": "0xf8bc70",
                 "distance": 8,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -394,7 +394,7 @@
             "29": {
                 "expected_successor": "28",
                 "action": "slot-fill__select-account",
-                "state": "0x278dd80",
+                "state": "0xf91d80",
                 "distance": 9,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -413,7 +413,7 @@
             "30": {
                 "expected_successor": "29",
                 "action": "get-e-transfer-options",
-                "state": "0x2792270",
+                "state": "0xf96270",
                 "distance": 10,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -432,7 +432,7 @@
             "31": {
                 "expected_successor": "29",
                 "action": "dialogue_statement",
-                "state": "0x2794e30",
+                "state": "0xf98e30",
                 "distance": 10,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -447,7 +447,7 @@
             "32": {
                 "expected_successor": "30",
                 "action": "dialogue_statement",
-                "state": "0x2795e50",
+                "state": "0xf99e50",
                 "distance": 11,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -462,7 +462,7 @@
             "33": {
                 "expected_successor": "23",
                 "action": "confirm-create",
-                "state": "0x27968a0",
+                "state": "0xf9a8a0",
                 "distance": 10,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -477,7 +477,7 @@
             "34": {
                 "expected_successor": "33",
                 "action": "slot-fill__select-account",
-                "state": "0x27952e0",
+                "state": "0xf992e0",
                 "distance": 11,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -496,7 +496,7 @@
             "35": {
                 "expected_successor": "34",
                 "action": "dialogue_statement",
-                "state": "0x2796460",
+                "state": "0xf9a460",
                 "distance": 12,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -511,7 +511,7 @@
             "36": {
                 "expected_successor": "35",
                 "action": "slot-fill__get-create",
-                "state": "0x2796ab0",
+                "state": "0xf9aab0",
                 "distance": 13,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -530,7 +530,7 @@
             "37": {
                 "expected_successor": "24",
                 "action": "offer-new",
-                "state": "0x2797870",
+                "state": "0xf9b870",
                 "distance": 11,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -553,7 +553,7 @@
             "38": {
                 "expected_successor": "36",
                 "action": "dialogue_statement",
-                "state": "0x2799e40",
+                "state": "0xf9de40",
                 "distance": 14,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -568,7 +568,7 @@
             "39": {
                 "expected_successor": "37",
                 "action": "dialogue_statement",
-                "state": "0x279a830",
+                "state": "0xf9e830",
                 "distance": 12,
                 "is_relevant": 0,
                 "is_goal": 0,
@@ -839,10 +839,10 @@
             ]
         ],
         "states": {
-            "0x2779110": [
+            "0xf7d110": [
                 "Atom goal()"
             ],
-            "0x277ba90": [
+            "0xf7fa90": [
                 "Atom tried-pay-bills()",
                 "Atom tried-request-money()",
                 "Atom tried-create()",
@@ -853,7 +853,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-transfer_funds_between_accounts()"
             ],
-            "0x278a5b0": [
+            "0xf8e5b0": [
                 "Atom tried-pay-bills()",
                 "Atom tried-request-money()",
                 "Atom tried-create()",
@@ -861,7 +861,7 @@
                 "Atom force-statement()",
                 "Atom task-value-transfer_funds_between_accounts()"
             ],
-            "0x2787b50": [
+            "0xf8bb50": [
                 "Atom tried-pay-bills()",
                 "Atom tried-request-money()",
                 "Atom tried-create()",
@@ -869,7 +869,7 @@
                 "Atom tried-e-transfer()",
                 "NegatedAtom force-statement()"
             ],
-            "0x277ff30": [
+            "0xf83f30": [
                 "Atom tried-pay-bills()",
                 "Atom tried-request-money()",
                 "Atom tried-create()",
@@ -877,7 +877,7 @@
                 "Atom tried-e-transfer()",
                 "Atom force-statement()"
             ],
-            "0x2787a60": [
+            "0xf8ba60": [
                 "Atom tried-pay-bills()",
                 "Atom tried-request-money()",
                 "Atom tried-create()",
@@ -885,7 +885,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-transfer_funds_between_accounts()"
             ],
-            "0x277fa30": [
+            "0xf83a30": [
                 "Atom tried-pay-bills()",
                 "Atom tried-request-money()",
                 "Atom tried-create()",
@@ -894,7 +894,7 @@
                 "NegatedAtom know__task()",
                 "NegatedAtom force-statement()"
             ],
-            "0x2780630": [
+            "0xf84630": [
                 "Atom tried-pay-bills()",
                 "Atom tried-request-money()",
                 "Atom tried-create()",
@@ -903,7 +903,7 @@
                 "NegatedAtom know__task()",
                 "Atom force-statement()"
             ],
-            "0x277fa10": [
+            "0xf83a10": [
                 "Atom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
                 "Atom tried-create()",
@@ -912,7 +912,7 @@
                 "NegatedAtom know__task()",
                 "NegatedAtom force-statement()"
             ],
-            "0x2789290": [
+            "0xf8d290": [
                 "Atom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
                 "Atom tried-create()",
@@ -921,7 +921,7 @@
                 "NegatedAtom know__task()",
                 "Atom force-statement()"
             ],
-            "0x278ac50": [
+            "0xf8ec50": [
                 "Atom tried-pay-bills()",
                 "Atom tried-create()",
                 "NegatedAtom tried-transfer()",
@@ -931,7 +931,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-request_money()"
             ],
-            "0x278ad90": [
+            "0xf8ed90": [
                 "Atom tried-pay-bills()",
                 "Atom tried-create()",
                 "NegatedAtom tried-transfer()",
@@ -939,7 +939,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-request_money()"
             ],
-            "0x278bac0": [
+            "0xf8fac0": [
                 "Atom tried-pay-bills()",
                 "Atom tried-create()",
                 "NegatedAtom tried-transfer()",
@@ -947,7 +947,7 @@
                 "Atom force-statement()",
                 "Atom task-value-request_money()"
             ],
-            "0x278f9c0": [
+            "0xf939c0": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -958,7 +958,7 @@
                 "NegatedAtom know__task()",
                 "NegatedAtom force-statement()"
             ],
-            "0x278fb20": [
+            "0xf93b20": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -969,7 +969,7 @@
                 "NegatedAtom know__task()",
                 "Atom force-statement()"
             ],
-            "0x278fae0": [
+            "0xf93ae0": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -980,7 +980,7 @@
                 "NegatedAtom know__task()",
                 "NegatedAtom force-statement()"
             ],
-            "0x278d360": [
+            "0xf91360": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -991,7 +991,7 @@
                 "NegatedAtom know__task()",
                 "Atom force-statement()"
             ],
-            "0x278ddf0": [
+            "0xf91df0": [
                 "Atom know__bill()",
                 "NegatedAtom tried-request-money()",
                 "Atom tried-create()",
@@ -1002,7 +1002,7 @@
                 "Atom force-statement()",
                 "Atom task-value-pay_bills()"
             ],
-            "0x2791fe0": [
+            "0xf95fe0": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-request-money()",
                 "Atom tried-create()",
@@ -1012,7 +1012,7 @@
                 "Atom force-statement()",
                 "Atom task-value-pay_bills()"
             ],
-            "0x278c9f0": [
+            "0xf909f0": [
                 "Atom know__bill()",
                 "NegatedAtom tried-request-money()",
                 "Atom tried-create()",
@@ -1022,7 +1022,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-pay_bills()"
             ],
-            "0x278c9d0": [
+            "0xf909d0": [
                 "Atom know__bill()",
                 "NegatedAtom tried-request-money()",
                 "Atom tried-create()",
@@ -1033,7 +1033,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-pay_bills()"
             ],
-            "0x278c990": [
+            "0xf90990": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-request-money()",
                 "Atom tried-create()",
@@ -1043,7 +1043,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-pay_bills()"
             ],
-            "0x2787c70": [
+            "0xf8bc70": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1055,7 +1055,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-e-transfer()"
             ],
-            "0x278dd80": [
+            "0xf91d80": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1068,7 +1068,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-e-transfer()"
             ],
-            "0x2792270": [
+            "0xf96270": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1078,7 +1078,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-e-transfer()"
             ],
-            "0x2794e30": [
+            "0xf98e30": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1091,7 +1091,7 @@
                 "Atom force-statement()",
                 "Atom task-value-e-transfer()"
             ],
-            "0x2795e50": [
+            "0xf99e50": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1101,7 +1101,7 @@
                 "Atom force-statement()",
                 "Atom task-value-e-transfer()"
             ],
-            "0x27968a0": [
+            "0xf9a8a0": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1112,7 +1112,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-create_account()"
             ],
-            "0x27952e0": [
+            "0xf992e0": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1124,7 +1124,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-create_account()"
             ],
-            "0x2796460": [
+            "0xf9a460": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1136,7 +1136,7 @@
                 "Atom force-statement()",
                 "Atom task-value-create_account()"
             ],
-            "0x2796ab0": [
+            "0xf9aab0": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1147,7 +1147,7 @@
                 "NegatedAtom force-statement()",
                 "Atom task-value-create_account()"
             ],
-            "0x2797870": [
+            "0xf9b870": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1159,7 +1159,7 @@
                 "NegatedAtom know__task()",
                 "NegatedAtom force-statement()"
             ],
-            "0x2799e40": [
+            "0xf9de40": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",
@@ -1170,7 +1170,7 @@
                 "Atom force-statement()",
                 "Atom task-value-create_account()"
             ],
-            "0x279a830": [
+            "0xf9e830": [
                 "NegatedAtom know__bill()",
                 "NegatedAtom tried-pay-bills()",
                 "NegatedAtom tried-request-money()",

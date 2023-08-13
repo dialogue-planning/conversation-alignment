@@ -1,0 +1,183 @@
+{
+    "conversation data": [
+        {
+            "conversation": [
+                {
+                    "AGENT": "I can also create a new account for you. Would you like to do that today?"
+                },
+                {
+                    "USER": "not at all"
+                },
+                {
+                    "AGENT": "Ok! No accounts will be created."
+                },
+                {
+                    "AGENT": "Are any of your contacts expecting a payment from you today?"
+                },
+                {
+                    "USER": "yeah"
+                },
+                {
+                    "AGENT": "Ok. How much money do you want to send and to who?"
+                },
+                {
+                    "USER": "Sandra is expecting 24 from me."
+                },
+                {
+                    "AGENT": "Which account would you like to use?"
+                },
+                {
+                    "USER": "I want to use savings for this."
+                },
+                {
+                    "AGENT": "All done! I just e-transferred 24 to Sandra from savings."
+                },
+                {
+                    "AGENT": "Would you like to pay off your outstanding bills today?"
+                },
+                {
+                    "USER": "not at all"
+                },
+                {
+                    "AGENT": "Ok! I won't pay off your outstanding bills today."
+                },
+                {
+                    "AGENT": "Would you like to request money from a contact?"
+                },
+                {
+                    "USER": "Y"
+                },
+                {
+                    "AGENT": "Which contact would you like to request money from and how much?"
+                },
+                {
+                    "USER": "Please request that Mark to send me 5000."
+                },
+                {
+                    "AGENT": "Ok, I asked Mark to send you 5000. I'll notify you when the payment is received."
+                },
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "USER": "yes"
+                },
+                {
+                    "AGENT": "Ok, how much money do you want to send and between which accounts?"
+                },
+                {
+                    "USER": "I want to send 1 to college fund from chequing."
+                },
+                {
+                    "AGENT": "Ok! I successfully transferred your requested amount of 1 from chequing to college fund."
+                },
+                {
+                    "AGENT": "Completed all bank actions for today. Thank you!"
+                }
+            ],
+            "status": "tn",
+            "drop-off nodes": [],
+            "name": "C:\\Users\\rebec\\OneDrive\\Desktop\\conversation-alignment\\beam_search\\eval\\1\\json_convos\\convo_1.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "USER": "ya"
+                },
+                {
+                    "AGENT": "What type of account would you like me to make for you?"
+                },
+                {
+                    "USER": "Please create a retirement fund account."
+                },
+                {
+                    "AGENT": "Ok. Your new account was created, but you need to transfer some funds into this new account to open it. If you specify an account, I can transfer a small amount of funds from that to your new account."
+                },
+                {
+                    "AGENT": "Which account would you like to use?"
+                },
+                {
+                    "USER": "savings"
+                },
+                {
+                    "AGENT": "A retirement fund account was successfully created with starter funds transferred from savings."
+                },
+                {
+                    "AGENT": "Would you like to send any funds to a contact today?"
+                },
+                {
+                    "USER": "yup"
+                },
+                {
+                    "AGENT": "Ok. How much money do you want to send and to who?"
+                },
+                {
+                    "USER": "Please send 5000 to Mark."
+                },
+                {
+                    "AGENT": "Which account would you like to select for this task?"
+                },
+                {
+                    "USER": "Please select savings."
+                },
+                {
+                    "AGENT": "E-transferring 5000 to Mark from savings... All done!"
+                },
+                {
+                    "AGENT": "You have a few outstanding bills. Would you like to pay them off now?"
+                },
+                {
+                    "USER": "confirm"
+                },
+                {
+                    "AGENT": "Which bill would you like to pay off?"
+                },
+                {
+                    "USER": "I want to pay off my mortgage bill."
+                },
+                {
+                    "AGENT": "Which account would you like to use?"
+                },
+                {
+                    "USER": "savings"
+                },
+                {
+                    "AGENT": "Ok, I'm paying your mortgage bill from your savings account."
+                },
+                {
+                    "AGENT": "Would you like to request money from a contact?"
+                },
+                {
+                    "USER": "yes"
+                },
+                {
+                    "AGENT": "How much money would you like to request and from who?"
+                },
+                {
+                    "USER": "I need to request that Bob pays me 3."
+                },
+                {
+                    "AGENT": "Ok, I'm requesting a payment of 3 from Bob. I will let you know when the transfer goes through."
+                },
+                {
+                    "AGENT": "Are you looking to perform any transfers beween your accounts today?"
+                },
+                {
+                    "USER": "no thank you"
+                },
+                {
+                    "AGENT": "Ok, no problem!"
+                },
+                {
+                    "AGENT": "All done. Have a nice day!"
+                }
+            ],
+            "status": "tp",
+            "drop-off nodes": [],
+            "name": "C:\\Users\\rebec\\OneDrive\\Desktop\\conversation-alignment\\beam_search\\eval\\1\\json_convos\\convo_10.json"
+        }
+    ]
+}
