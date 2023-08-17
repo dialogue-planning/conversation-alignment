@@ -1,0 +1,905 @@
+{
+    "conversation data": [
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been exposed to COVID-19?"
+                },
+                {
+                    "USER": "not at all"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "Since you have no symptoms and have not been exposed to COVID-19, no further action is required."
+                }
+            ],
+            "status": "tp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_8.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been in contact or close to someone with COVID-19?"
+                },
+                {
+                    "USER": "not at all"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "yeah"
+                },
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "What symptoms are you feeling?"
+                },
+                {
+                    "USER": "I think I have a cavity"
+                },
+                {
+                    "AGENT": "Have you been feeling ill for more than a week?"
+                },
+                {
+                    "USER": "yeah"
+                },
+                {
+                    "AGENT": "To address your teeth, I sent you an email detailing the nearest appointments of dentists in your area."
+                }
+            ],
+            "status": "tp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_3.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been exposed to COVID-19?"
+                },
+                {
+                    "USER": "confirm"
+                },
+                {
+                    "AGENT": "Are you experiencing symptoms of any kind? (Answer yes or no)."
+                },
+                {
+                    "USER": "yeah"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "Please describe the symptoms you are experiencing."
+                },
+                {
+                    "USER": "My skin is breaking out"
+                },
+                {
+                    "AGENT": "Have you been experiencing symptoms for over a week?"
+                },
+                {
+                    "USER": "Y"
+                },
+                {
+                    "AGENT": "Concerning your rash, contact your health care provider. Before you go, take mental note of when the rash began, what products you have been using recently/any possible insect bites, and what made it better/worse."
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since you were exposed to COVID-19?"
+                },
+                {
+                    "USER": "Y"
+                },
+                {
+                    "AGENT": "Have you contracted COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "Since you have had COVID-19 in the last 30 days or less, testing is not recommended as you have no covid symptoms."
+                }
+            ],
+            "status": "tn",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_6.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been in contact or close to someone with COVID-19?"
+                },
+                {
+                    "USER": "uh huh"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "Y"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "USER": "I am coughing"
+                },
+                {
+                    "AGENT": "Have you been experiencing symptoms for over a week?"
+                },
+                {
+                    "USER": "yup"
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since your exposure to COVID-19?"
+                },
+                {
+                    "USER": "ya"
+                },
+                {
+                    "AGENT": "Have you contracted COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "absolutely not"
+                },
+                {
+                    "AGENT": "How about in the last 90 days?"
+                },
+                {
+                    "USER": "ya"
+                },
+                {
+                    "AGENT": "Since you have covid symptoms and have had COVID-19 in the last 90 days, you should use antigen tests according to the suggested testing guidelines."
+                }
+            ],
+            "status": "fp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_4.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "USER": "confirm"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "ya"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "Please describe the symptoms you are experiencing."
+                },
+                {
+                    "USER": "I'm having chills"
+                },
+                {
+                    "AGENT": "Have you been experiencing symptoms for over a week?"
+                },
+                {
+                    "USER": "no thank you"
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since your exposure to COVID-19?"
+                },
+                {
+                    "USER": "confirm"
+                },
+                {
+                    "AGENT": "Have you contracted COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "yes"
+                },
+                {
+                    "AGENT": "Since you have covid symptoms and have had COVID-19 in the last 30 days or less, you should use antigen tests according to the suggested testing guidelines."
+                }
+            ],
+            "status": "fp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_15.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "USER": "ya"
+                },
+                {
+                    "AGENT": "Are you experiencing symptoms of any kind? (Answer yes or no)."
+                },
+                {
+                    "USER": "no thanks"
+                },
+                {
+                    "AGENT": "Running diagnostics..."
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since your exposure to COVID-19?"
+                },
+                {
+                    "USER": "not at all"
+                },
+                {
+                    "AGENT": "Have you tested positive for COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "yup"
+                },
+                {
+                    "AGENT": "Since you have been exposed to COVID-19 but are not yet showing covid symptoms, wait a total of 5 days since your exposure to test."
+                }
+            ],
+            "status": "fp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_1.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been exposed to COVID-19?"
+                },
+                {
+                    "USER": "yeah"
+                },
+                {
+                    "AGENT": "Are you experiencing symptoms of any kind? (Answer yes or no)."
+                },
+                {
+                    "USER": "yes please"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "Please describe the symptoms you are experiencing."
+                },
+                {
+                    "USER": "My skin is sensitive to the touch"
+                },
+                {
+                    "AGENT": "Have you had these symptoms for over a week?"
+                },
+                {
+                    "USER": "Y"
+                },
+                {
+                    "AGENT": "Concerning your rash, contact your health care provider. Before you go, take mental note of when the rash began, what products you have been using recently/any possible insect bites, and what made it better/worse."
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since your exposure to COVID-19?"
+                },
+                {
+                    "USER": "mhm"
+                },
+                {
+                    "AGENT": "Have you tested positive for COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "nuh uh"
+                },
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "USER": "yup"
+                },
+                {
+                    "AGENT": "Although you have had COVID-19 in the last 90 days and don't have covid symptoms, you should still use antigen tests according to the suggested testing guidelines."
+                }
+            ],
+            "status": "fp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_14.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been in contact or close to someone with COVID-19?"
+                },
+                {
+                    "USER": "nah"
+                },
+                {
+                    "AGENT": "Are you experiencing symptoms of any kind? (Answer yes or no)."
+                },
+                {
+                    "USER": "ya"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "Please describe the symptoms you are experiencing."
+                },
+                {
+                    "USER": "I have a fever"
+                },
+                {
+                    "AGENT": "Have you been experiencing symptoms for over a week?"
+                },
+                {
+                    "USER": "nuh uh"
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since your exposure to COVID-19?"
+                },
+                {
+                    "USER": "not at all"
+                },
+                {
+                    "AGENT": "Have you contracted COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "Since you have covid symptoms and have had COVID-19 in the last 30 days or less, you should use antigen tests according to the suggested testing guidelines."
+                }
+            ],
+            "status": "tp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_20.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been in contact or close to someone with COVID-19?"
+                },
+                {
+                    "USER": "yeah"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "nope"
+                },
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since your exposure to COVID-19?"
+                },
+                {
+                    "USER": "nope"
+                },
+                {
+                    "AGENT": "Have you contracted COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "uh huh"
+                },
+                {
+                    "AGENT": "Since you have been exposed to COVID-19 but are not yet showing covid symptoms, wait a total of 5 days since your exposure to test."
+                }
+            ],
+            "status": "fp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_12.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been notified with a COVID-19 exposure?"
+                },
+                {
+                    "USER": "mhm"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "yeah"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "What is it that you are feeling?"
+                },
+                {
+                    "USER": "I have a fever"
+                },
+                {
+                    "AGENT": "Have you been experiencing symptoms for over a week?"
+                },
+                {
+                    "USER": "nuh uh"
+                },
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "USER": "no thank you"
+                },
+                {
+                    "AGENT": "Have you tested positive for COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "uh huh"
+                },
+                {
+                    "AGENT": "Since you have covid symptoms and have had COVID-19 in the last 30 days or less, you should use antigen tests according to the suggested testing guidelines."
+                }
+            ],
+            "status": "fp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_9.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been in contact or close to someone with COVID-19?"
+                },
+                {
+                    "USER": "yup"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "nope"
+                },
+                {
+                    "AGENT": "Running diagnostics..."
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since your exposure to COVID-19?"
+                },
+                {
+                    "USER": "nah"
+                },
+                {
+                    "AGENT": "Have you tested positive for COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "no thank you"
+                },
+                {
+                    "AGENT": "How about in the last 90 days?"
+                },
+                {
+                    "USER": "yes please"
+                },
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                }
+            ],
+            "status": "tp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_7.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been notified with a COVID-19 exposure?"
+                },
+                {
+                    "USER": "no thank you"
+                },
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "USER": "nuh uh"
+                },
+                {
+                    "AGENT": "Since you have no symptoms and have not been exposed to COVID-19, no further action is required."
+                }
+            ],
+            "status": "tp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_10.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been exposed to COVID-19?"
+                },
+                {
+                    "USER": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "Are you experiencing symptoms of any kind? (Answer yes or no)."
+                },
+                {
+                    "USER": "no thank you"
+                },
+                {
+                    "AGENT": "Running diagnostics..."
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since your exposure to COVID-19?"
+                },
+                {
+                    "USER": "nah"
+                },
+                {
+                    "AGENT": "Have you contracted COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "mhm"
+                },
+                {
+                    "AGENT": "Since you have been exposed to COVID-19 but are not yet showing covid symptoms, wait a total of 5 days since your exposure to test."
+                }
+            ],
+            "status": "tp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_2.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been notified with a COVID-19 exposure?"
+                },
+                {
+                    "USER": "yes please"
+                },
+                {
+                    "AGENT": "Are you experiencing symptoms of any kind? (Answer yes or no)."
+                },
+                {
+                    "USER": "yes"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "What symptoms are you feeling?"
+                },
+                {
+                    "USER": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "Have you been experiencing symptoms for over a week?"
+                },
+                {
+                    "USER": "yup"
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since you were exposed to COVID-19?"
+                },
+                {
+                    "USER": "absolutely not"
+                },
+                {
+                    "AGENT": "Have you contracted COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "no thanks"
+                },
+                {
+                    "AGENT": "What about in the last 90 days?"
+                },
+                {
+                    "USER": "Y"
+                },
+                {
+                    "AGENT": "Since you have covid symptoms and have had COVID-19 in the last 90 days, you should use antigen tests according to the suggested testing guidelines."
+                }
+            ],
+            "status": "tp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_16.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been exposed to COVID-19?"
+                },
+                {
+                    "USER": "nuh uh"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "yup"
+                },
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "Please describe the symptoms you are experiencing."
+                },
+                {
+                    "USER": "My face is breaking out"
+                },
+                {
+                    "AGENT": "Have you had these symptoms for over a week?"
+                },
+                {
+                    "USER": "yes"
+                },
+                {
+                    "AGENT": "Concerning your rash, contact your health care provider. Before you go, take mental note of when the rash began, what products you have been using recently/any possible insect bites, and what made it better/worse."
+                }
+            ],
+            "status": "tp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_19.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been exposed to COVID-19?"
+                },
+                {
+                    "USER": "ya"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "What is it that you are feeling?"
+                },
+                {
+                    "USER": "I am fatigued"
+                },
+                {
+                    "AGENT": "Have you been feeling ill for more than a week?"
+                },
+                {
+                    "USER": "nuh uh"
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since you were exposed to COVID-19?"
+                },
+                {
+                    "USER": "yes please"
+                },
+                {
+                    "AGENT": "Have you contracted COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "yes please"
+                },
+                {
+                    "AGENT": "Since you have covid symptoms and have had COVID-19 in the last 30 days or less, you should use antigen tests according to the suggested testing guidelines."
+                }
+            ],
+            "status": "tn",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_11.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been exposed to COVID-19?"
+                },
+                {
+                    "USER": "yes please"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "yup"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "Please describe the symptoms you are experiencing."
+                },
+                {
+                    "USER": "The skin on my face is swollen"
+                },
+                {
+                    "AGENT": "Have you had these symptoms for over a week?"
+                },
+                {
+                    "USER": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "Concerning your rash, if you are having trouble breathing, your face is throat is tight, or your face is swelling up, call emergency. Use warm (not hot) water to clean the area (without scrubbing). If this was potentially the result of a product, stop using it immediately. Try a medicated lotion on the area."
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since you were exposed to COVID-19?"
+                },
+                {
+                    "USER": "nope"
+                },
+                {
+                    "AGENT": "Have you tested positive for COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "nope"
+                },
+                {
+                    "AGENT": "What about in the last 90 days?"
+                },
+                {
+                    "USER": "nuh uh"
+                },
+                {
+                    "AGENT": "Since you have been exposed to COVID-19 but are not yet showing covid symptoms, wait a total of 5 days since your exposure to test."
+                }
+            ],
+            "status": "tn",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_13.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been exposed to COVID-19?"
+                },
+                {
+                    "USER": "yes"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "nope"
+                },
+                {
+                    "AGENT": "Running diagnostics..."
+                },
+                {
+                    "AGENT": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "USER": "absolutely not"
+                },
+                {
+                    "AGENT": "Have you tested positive for COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "mhm"
+                },
+                {
+                    "AGENT": "Since you have been exposed to COVID-19 but are not yet showing covid symptoms, wait a total of 5 days since your exposure to test."
+                }
+            ],
+            "status": "fp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_18.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been notified with a COVID-19 exposure?"
+                },
+                {
+                    "USER": "yeah"
+                },
+                {
+                    "AGENT": "Are you experiencing symptoms of any kind? (Answer yes or no)."
+                },
+                {
+                    "USER": "yup"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "Please describe the symptoms you are experiencing."
+                },
+                {
+                    "USER": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "Have you had these symptoms for over a week?"
+                },
+                {
+                    "USER": "yeah"
+                },
+                {
+                    "AGENT": "To address your teeth, I sent you an email detailing the nearest appointments of dentists in your area."
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since you were exposed to COVID-19?"
+                },
+                {
+                    "USER": "no thank you"
+                },
+                {
+                    "AGENT": "Have you contracted COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "absolutely not"
+                },
+                {
+                    "AGENT": "How about in the last 90 days?"
+                },
+                {
+                    "USER": "nah"
+                },
+                {
+                    "AGENT": "Since you have been exposed to COVID-19 but are not yet showing covid symptoms, wait a total of 5 days since your exposure to test."
+                }
+            ],
+            "status": "tp",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_17.json"
+        },
+        {
+            "conversation": [
+                {
+                    "AGENT": "Have you been exposed to COVID-19?"
+                },
+                {
+                    "USER": "yes"
+                },
+                {
+                    "AGENT": "Are you feeling ill? (Please answer yes or no)."
+                },
+                {
+                    "USER": "yes"
+                },
+                {
+                    "AGENT": "I'm sorry to hear you are feeling unwell!"
+                },
+                {
+                    "AGENT": "What is it that you are feeling?"
+                },
+                {
+                    "USER": "My gums are too sensitive"
+                },
+                {
+                    "AGENT": "Have you been feeling ill for more than a week?"
+                },
+                {
+                    "USER": "absolutely not"
+                },
+                {
+                    "AGENT": "To address your teeth, I sent you an email detailing the nearest appointments of dentists in your area."
+                },
+                {
+                    "AGENT": "Has it been at least 5 days since your exposure to COVID-19?"
+                },
+                {
+                    "USER": "drtQ#TI#)TgSDF"
+                },
+                {
+                    "AGENT": "Have you tested positive for COVID-19 in the last 30 days?"
+                },
+                {
+                    "USER": "yeah"
+                },
+                {
+                    "AGENT": "Since you have been exposed to COVID-19 but are not yet showing covid symptoms, wait a total of 5 days since your exposure to test."
+                }
+            ],
+            "status": "tn",
+            "drop-off nodes": [],
+            "name": "/home/rebecca/conversation-alignment/beam_search/eval/3/2_modified_run/json_convos/convo_5.json"
+        }
+    ],
+    "results": {
+        "tp": 9,
+        "fp": 7,
+        "tn": 4,
+        "fn": 0,
+        "total": 20,
+        "drop-off nodes": {}
+    }
+}

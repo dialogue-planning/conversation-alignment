@@ -108,7 +108,7 @@
             ],
             "status": "tn",
             "drop-off nodes": [
-                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-location -> fallback",
                 "slot-fill__get-cuisine -> fallback",
                 "slot-fill__get-cuisine -> fallback"
             ],
@@ -194,9 +194,8 @@
             ],
             "status": "tn",
             "drop-off nodes": [
-                "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback"
+                "slot-fill__get_outing -> fallback",
+                "slot-fill__get-phone_number -> fallback"
             ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_6.json"
         },
@@ -320,7 +319,7 @@
             ],
             "status": "tn",
             "drop-off nodes": [
-                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-location -> fallback",
                 "slot-fill__get-cuisine -> fallback",
                 "slot-fill__get-cuisine -> fallback"
             ],
@@ -382,7 +381,7 @@
             ],
             "status": "tn",
             "drop-off nodes": [
-                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get_outing -> fallback",
                 "slot-fill__get-cuisine -> fallback"
             ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_1.json"
@@ -645,7 +644,7 @@
             ],
             "status": "tn",
             "drop-off nodes": [
-                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-location -> fallback",
                 "slot-fill__get-cuisine -> fallback",
                 "slot-fill__get-cuisine -> fallback"
             ],
@@ -714,8 +713,8 @@
             "status": "tn",
             "drop-off nodes": [
                 "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback"
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-phone_number -> fallback"
             ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_10.json"
         },
@@ -781,9 +780,7 @@
             ],
             "status": "tn",
             "drop-off nodes": [
-                "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback"
+                "clarify__outing_type -> fallback"
             ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_2.json"
         },
@@ -837,9 +834,7 @@
             ],
             "status": "tn",
             "drop-off nodes": [
-                "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback"
+                "slot-fill__get-phone_number -> fallback"
             ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_16.json"
         },
@@ -906,8 +901,8 @@
             "status": "tn",
             "drop-off nodes": [
                 "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback"
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback"
             ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_19.json"
         },
@@ -967,7 +962,7 @@
             ],
             "status": "tn",
             "drop-off nodes": [
-                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get_outing -> fallback",
                 "slot-fill__get-cuisine -> fallback"
             ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_11.json"
@@ -1144,9 +1139,7 @@
             ],
             "status": "tn",
             "drop-off nodes": [
-                "slot-fill__get-cuisine -> fallback",
-                "slot-fill__get-cuisine -> fallback",
-                "slot-fill__get-cuisine -> fallback"
+                "slot-fill__get-phone_number -> fallback"
             ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_17.json"
         },
@@ -1212,9 +1205,7 @@
             ],
             "status": "tn",
             "drop-off nodes": [
-                "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback",
-                "slot-fill__get-location -> fallback"
+                "clarify__location -> fallback"
             ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_5.json"
         }
@@ -1226,8 +1217,12 @@
         "fn": 0,
         "total": 20,
         "drop-off nodes": {
-            "slot-fill__get-cuisine -> fallback": 16,
-            "slot-fill__get-location -> fallback": 18
+            "slot-fill__get-location -> fallback": 5,
+            "slot-fill__get-cuisine -> fallback": 11,
+            "slot-fill__get_outing -> fallback": 3,
+            "slot-fill__get-phone_number -> fallback": 4,
+            "clarify__outing_type -> fallback": 1,
+            "clarify__location -> fallback": 1
         }
     }
 }

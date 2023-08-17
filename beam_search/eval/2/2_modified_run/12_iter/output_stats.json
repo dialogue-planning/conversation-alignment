@@ -54,7 +54,7 @@
                     "AGENT": "Booked a reservation at Guac Grill as well as a spot at Smith's Golfing Club in Kingston."
                 }
             ],
-            "status": "fp",
+            "status": "tn",
             "drop-off nodes": [],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_8.json"
         },
@@ -106,8 +106,12 @@
                     "AGENT": "Booked a reservation at Geneva Crepes as well as a spot at Stages in Toronto."
                 }
             ],
-            "status": "fp",
-            "drop-off nodes": [],
+            "status": "tn",
+            "drop-off nodes": [
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback"
+            ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_3.json"
         },
         {
@@ -189,7 +193,11 @@
                 }
             ],
             "status": "tn",
-            "drop-off nodes": [],
+            "drop-off nodes": [
+                "single_slot__outing_type -> fallback",
+                "single_slot__outing_type -> fallback",
+                "single_slot__outing_type -> fallback"
+            ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_6.json"
         },
         {
@@ -310,8 +318,12 @@
                     "AGENT": "Booked a reservation at Geneva Crepes as well as a spot at Stauffer Library in Toronto."
                 }
             ],
-            "status": "fp",
-            "drop-off nodes": [],
+            "status": "tn",
+            "drop-off nodes": [
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback"
+            ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_15.json"
         },
         {
@@ -414,7 +426,7 @@
                     "AGENT": "Booked a reservation at Guac Grill as well as a spot at Smith's Golfing Club in Toronto."
                 }
             ],
-            "status": "fp",
+            "status": "tn",
             "drop-off nodes": [],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_14.json"
         },
@@ -460,7 +472,7 @@
                     "AGENT": "Booked a reservation at Geneva Crepes as well as a spot at Stages in Kingston."
                 }
             ],
-            "status": "fp",
+            "status": "tn",
             "drop-off nodes": [],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_20.json"
         },
@@ -518,7 +530,7 @@
                     "AGENT": "Booked a reservation at Geneva Crepes as well as a spot at Smith's Golfing Club in Toronto."
                 }
             ],
-            "status": "fp",
+            "status": "tn",
             "drop-off nodes": [],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_12.json"
         },
@@ -629,7 +641,11 @@
                 }
             ],
             "status": "tn",
-            "drop-off nodes": [],
+            "drop-off nodes": [
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback"
+            ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_7.json"
         },
         {
@@ -693,7 +709,11 @@
                 }
             ],
             "status": "tn",
-            "drop-off nodes": [],
+            "drop-off nodes": [
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback"
+            ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_10.json"
         },
         {
@@ -757,7 +777,11 @@
                 }
             ],
             "status": "tn",
-            "drop-off nodes": [],
+            "drop-off nodes": [
+                "single_slot__budget -> fallback",
+                "single_slot__budget -> fallback",
+                "single_slot__budget -> fallback"
+            ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_2.json"
         },
         {
@@ -808,8 +832,11 @@
                     "AGENT": "Booked a reservation at Guac Grill as well as a spot at Stauffer Library in Kingston."
                 }
             ],
-            "status": "fp",
-            "drop-off nodes": [],
+            "status": "tn",
+            "drop-off nodes": [
+                "clarify__location -> fallback",
+                "clarify__phone_number -> fallback"
+            ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_16.json"
         },
         {
@@ -873,7 +900,11 @@
                 }
             ],
             "status": "tn",
-            "drop-off nodes": [],
+            "drop-off nodes": [
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback",
+                "slot-fill__get-cuisine -> fallback"
+            ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_19.json"
         },
         {
@@ -1104,8 +1135,12 @@
                     "AGENT": "Booked a reservation at Geneva Crepes as well as a spot at Stauffer Library in Kingston."
                 }
             ],
-            "status": "fp",
-            "drop-off nodes": [],
+            "status": "tn",
+            "drop-off nodes": [
+                "clarify__location -> fallback",
+                "clarify__phone_number -> fallback",
+                "clarify__location -> fallback"
+            ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_17.json"
         },
         {
@@ -1169,16 +1204,25 @@
                 }
             ],
             "status": "tn",
-            "drop-off nodes": [],
+            "drop-off nodes": [
+                "single_slot__budget -> fallback",
+                "single_slot__budget -> fallback"
+            ],
             "name": "/home/rebecca/conversation-alignment/beam_search/eval/2/json_convos/convo_5.json"
         }
     ],
     "results": {
         "tp": 0,
-        "fp": 8,
-        "tn": 12,
+        "fp": 0,
+        "tn": 20,
         "fn": 0,
         "total": 20,
-        "drop-off nodes": {}
+        "drop-off nodes": {
+            "slot-fill__get-cuisine -> fallback": 15,
+            "single_slot__outing_type -> fallback": 3,
+            "single_slot__budget -> fallback": 5,
+            "clarify__location -> fallback": 3,
+            "clarify__phone_number -> fallback": 2
+        }
     }
 }

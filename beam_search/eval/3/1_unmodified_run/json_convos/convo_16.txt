@@ -1,0 +1,16 @@
+AGENT: Have you been notified with a COVID-19 exposure?
+USER: yes please
+AGENT: Are you experiencing symptoms of any kind? (Answer yes or no).
+USER: yes
+AGENT: I'm sorry to hear you are feeling unwell!
+AGENT: What symptoms are you feeling?
+USER: I am coughing
+AGENT: Have you been experiencing symptoms for over a week?
+USER: yup
+AGENT: Has it been at least 5 days since you were exposed to COVID-19?
+USER: absolutely not
+AGENT: Have you contracted COVID-19 in the last 30 days?
+USER: no thanks
+AGENT: What about in the last 90 days?
+USER: Y
+AGENT: Since you have covid symptoms and have had COVID-19 in the last 90 days, you should use antigen tests according to the suggested testing guidelines.

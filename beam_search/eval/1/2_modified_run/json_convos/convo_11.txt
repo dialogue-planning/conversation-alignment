@@ -1,0 +1,22 @@
+AGENT: Would you like to create a new account?
+USER: no thank you
+AGENT: Ok! No accounts will be created.
+AGENT: Are any of your contacts expecting a payment from you today?
+USER: yes please
+AGENT: Alright, who would you like to send funds to and how much?
+USER: I want to transfer 9 to Nancy.
+AGENT: Which account would you like to select for this task?
+USER: use chequing for this task
+AGENT: All done! I just e-transferred 9 to Nancy from chequing.
+AGENT: You have a few outstanding bills. Would you like to pay them off now?
+USER: nope
+AGENT: Ok! I won't pay off your outstanding bills today.
+AGENT: Are you waiting for funds from any of your contacts?
+USER: yeah
+AGENT: Which contact would you like to request money from and how much?
+USER: Please request that Mark to send me 2.
+AGENT: Ok, I asked Mark to send you 2. I'll notify you when the payment is received.
+AGENT: Would you like to transfer funds between accounts now?
+USER: nuh uh
+AGENT: Ok, no problem!
+AGENT: All done. Have a nice day!
