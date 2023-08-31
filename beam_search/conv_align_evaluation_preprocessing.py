@@ -34,7 +34,7 @@ def del_from_rollout(num_delete: int, path: str):
     rollout_config, actions, partial = read_from_file(path)
     idx = 0
     skip_acts = set()
-    random.seed(925)
+    random.seed(500)
     while idx < num_delete:
         # first randomly select an action that we haven't yet determined is empty
         available_acts = [act for act in actions if act not in skip_acts]
@@ -82,10 +82,6 @@ def add_or_del_fluent(correct_rollout_path, rollout_path, action, outcome, fluen
 
 
 if __name__ == "__main__":
-    # del_from_rollout(
-    #     0,
-    #     "beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json"
-    # )
     # del_percent_from_rollout(
     #     0.04,
     #     "beam_search/eval/3/2_modified_run/output_files/rollout_config.json"
@@ -97,8 +93,8 @@ if __name__ == "__main__":
     add_or_del_fluent(
         "beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json", 
         "beam_search/eval/2/2_modified_run/output_files/rollout_config.json",
-        "inform",
-        "inform_DETDUP_inform__finish-EQ-finish",
-        "(force-statement)",
+        "reset-preferences",
+        "reset-preferences_DETDUP_reset-preferences__reset-EQ-reset-values",
+        "(not (have_allergy))",
         True
     )

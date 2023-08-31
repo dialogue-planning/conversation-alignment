@@ -1,0 +1,240 @@
+PROCEDURE:
+We allow for fixing up to 4 fluents each time to speed things up.
+You can fix a fluent if it is indicated by an error, or if it is in an action indicated by an error.
+Obviously you have a deep knowledge of the agent and know what to fix... so to my understandng, we are mostly showing here
+that the agent is showing us WHERE to fix things and that these are helpful metrics when debugging,
+as opposed to blindly looking at the model.
+-----
+1
+slot-fill__get-cuisine
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-cuisine_maybe-found
+(maybe-know__cuisine)
+
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-fallback
+(force-statement)
+-----
+2
+slot-fill__get-cuisine -> ok
+
+slot-fill__get-phone_number
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-phone_number_found
+(know__phone_number)
+
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-phone_number_maybe-found
+(maybe-know__phone_number)
+
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-fallback
+(force-statement)
+-----
+3
+slot-fill__get-cuisine -> ok
+
+slot-fill__get-location
+slot-fill__get-location_DETDUP_slot-fill__get-location__validate-slot-fill-EQ-location_found
+(know__location)
+
+slot-fill__get-location_DETDUP_slot-fill__get-location__validate-slot-fill-EQ-fallback
+(force-statement)
+
+-----
+4
+slot-fill__get-cuisine -> ok
+slot-fill__get-location -> ok
+slot-fill__get-phone_number -> ok
+
+slot-fill__get_outing
+slot-fill__get_outing_DETDUP_slot-fill__get_outing__validate-slot-fill-EQ-budget_found-outing_type_maybe-found
+(know__budget)
+(force-statement)
+
+slot-fill__get_outing_DETDUP_slot-fill__get_outing__validate-slot-fill-EQ-outing_type_maybe-found
+(force-statement)
+-----
+5
+slot-fill__get-cuisine -> ok
+slot-fill__get-location -> ok
+slot-fill__get-phone_number -> ok
+slot-fill__get_outing -> ok
+
+now need to look at a conversation!
+
+we pick convo_3.
+
+dialogue_statement looping
+dialogue_statement_DETDUP_dialogue_statement__reset-EQ-lock
+(not (force-statement))
+-----
+6
+back to the drop-off nodes...
+
+slot-fill__get-cuisine -> ok
+slot-fill__get_outing -> ok
+
+single_slot__outing_type
+single_slot__outing_type_DETDUP_single_slot__outing_type__validate-slot-fill-EQ-fill-slot
+(know__outing_type)
+
+single_slot__outing_type_DETDUP_single_slot__outing_type__validate-slot-fill-EQ-slot-unclear
+(maybe-know__outing_type)
+
+single_slot__outing_type_DETDUP_single_slot__outing_type__validate-slot-fill-EQ-fallback
+(force-statement)
+-----
+7
+slot-fill__get-cuisine -> ok
+slot-fill__get_outing -> ok
+single_slot__outing_type -> ok
+
+single_slot__budget
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fill-slot
+(know__budget)
+(force-statement)
+
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fallback
+(force-statement)
+-----
+8
+slot-fill__get-cuisine -> ok
+slot-fill__get_outing -> ok
+single_slot__outing_type -> ok
+single_slot__budget -> ok
+
+back to looking at convo_3...
+
+We aren't getting the user's allergy!
+
+get-have-allergy
+get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_allergy
+(have_allergy)
+(forcing__get-allergy)
+
+get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_no_allergy
+(not (have_allergy))
+-----
+9
+back to drop-off nodes...
+
+get-allergy
+get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy
+(know__food_restriction)
+(not (forcing__get-allergy))
+
+-----
+10
+slot-fill__get-phone_number -> ok
+single_slot__outing_type -> ok
+
+clarify__phone_number
+clarify__phone_number_DETDUP_clarify__phone_number__validate-clarification-EQ-confirm
+(know__phone_number)
+(not (maybe-know__phone_number))
+
+clarify__phone_number_DETDUP_clarify__phone_number__validate-clarification-EQ-deny
+(not (maybe-know__phone_number))
+
+clarify__phone_number_DETDUP_clarify__phone_number__validate-clarification-EQ-fallback
+(force-statement)
+-----
+11
+slot-fill__get-phone_number -> ok
+single_slot__outing_type -> ok
+
+clarify__cuisine
+clarify__cuisine_DETDUP_clarify__cuisine__validate-clarification-EQ-confirm
+(know__cuisine)
+
+clarify__cuisine_DETDUP_clarify__cuisine__validate-clarification-EQ-deny
+(not (maybe-know__cuisine))
+
+clarify__cuisine_DETDUP_clarify__cuisine__validate-clarification-EQ-fallback
+(force-statement)
+-----
+12
+slot-fill__get-phone_number -> ok
+single_slot__outing_type -> ok
+
+time to look at convo_3 again!
+
+difficult to see what's going on...
+
+we pick another random convo, convo_1.
+set-outing is looping
+
+set-outing_DETDUP_set-outing__assign_outing-EQ-set-club
+(know__outing)
+
+set-outing_DETDUP_set-outing__assign_outing-EQ-set-library
+(know__outing)
+
+set-outing_DETDUP_set-outing__assign_outing-EQ-set-theater
+(know__outing)
+
+set-outing_DETDUP_set-outing__assign_outing-EQ-set-golf
+(know__outing)
+-----
+13
+slot-fill__get-phone_number -> ok
+single_slot__outing_type -> ok
+
+still looking at convo_1...
+set-restaurant looping
+set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-italian
+(know__restaurant)
+
+set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-dessert
+(know__restaurant)
+-----
+14
+slot-fill__get-phone_number -> ok
+single_slot__outing_type -> ok
+
+convo_1 ok now!
+
+the other failing beams don't seem to be failing because of something broken--
+it looks like the "correct" beam is just slightly getting won out by a different beam, which ultimately fails.
+this would also explain why we have fn and not tn.
+we probably just need more beams!
+let's up the beam count to 4 and see what happens.
+
+-----
+15
+that helped! convo_3 is now passing.
+
+we have a couple fp-- let's see if we can weed them out.
+
+first looking at convo_17.
+yep, looks like it's reaching the goal through the "wrong" beam.
+
+what is "different" about this conversation could be that we hit the dessert restriction.
+indeed, it looks like this outcome is missing (conflict). the last outcome is also missing (not (conflict)). so:
+this also makes sense looking at the graph since we SHOULD be resetting the preferences here, but we skipped over that since we didn't indicate the conflict.
+
+check-conflicts
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-restriction-dessert
+(conflict)
+
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-no-restriction-4
+-----
+16
+
+convo_17 now failing.
+
+asks about cuisine instead of allergy restrictions?
+
+we aren't resetting the allergy knowledge...
+
+reset-preferences
+reset-preferences_DETDUP_reset-preferences__reset-EQ-reset-values
+
+(not (know__have_allergy))
+(not (know__food_restriction))
+-----
+17
+back to being fp... maybe need to add more restrictions?
+
+reset-preferences
+reset-preferences_DETDUP_reset-preferences__reset-EQ-reset-values
+(not (have_allergy))
+-----
+18
+Can't seem to find the mysterious fp. But that's ok, a bit of noise is expected! Let's leave it here.
