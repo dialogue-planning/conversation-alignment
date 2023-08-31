@@ -65,13 +65,15 @@ def del_percent_from_rollout(percent: float, path: str):
     del_from_rollout(int(percent * num_fluents), path)
 
 
-def add_fluent(correct_rollout_path, rollout_path, action, outcome, fluent):
+def add_or_del_fluent(correct_rollout_path, rollout_path, action, outcome, fluent, add: bool=True):
     rollout_config, actions, _ = read_from_file(rollout_path)
     with open(correct_rollout_path, "r") as f:
         correct_rollout = json.load(f)
 
-    rollout_config["actions"][action]["effect"][outcome].append(fluent)
-
+    if add:
+        rollout_config["actions"][action]["effect"][outcome].append(fluent)
+    else:
+        rollout_config["actions"][action]["effect"][outcome].remove(fluent)
     for act, act_cfg in actions.items():
         for out, fluents in act_cfg["effect"].items():
             if set(fluents) == set(correct_rollout["actions"][act]["effect"][out]) and out in rollout_config["partial"][act]:
@@ -92,10 +94,11 @@ if __name__ == "__main__":
     #     0.50,
     #     "beam_search/eval/2/2_modified_run/output_files/rollout_config.json"
     # )
-    add_fluent(
+    add_or_del_fluent(
         "beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json", 
         "beam_search/eval/2/2_modified_run/output_files/rollout_config.json",
-        "get-have-allergy",
-        "get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_allergy",
-        "(forcing__get-allergy)"
+        "inform",
+        "inform_DETDUP_inform__finish-EQ-finish",
+        "(force-statement)",
+        True
     )

@@ -1,0 +1,255 @@
+-----
+1
+
+PROCEDURE:
+We allow for fixing up to 5 fluents each time to speed things up.
+You can fix a fluent if it is indicated by an error, or if it is in an action indicated by an error.
+
+get-have-allergy
+get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_allergy
+(forcing__get-allergy)
+(know__have_allergy)
+-----
+2
+
+slot-fill__get-cuisine
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-cuisine_found
+(know__cuisine)
+
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-cuisine_maybe-found
+(maybe-know__cuisine)
+
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-fallback
+(force-statement)
+
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-cuisine_found
+(force-statement)
+-----
+3
+get-allergy
+get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy
+(not (forcing__get-allergy))
+-----
+4
+slot-fill__get-cuisine -> looks ok
+
+slot-fill__get-phone_number
+
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-phone_number_found
+(know__phone_number)
+
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-phone_number_maybe-found
+(maybe-know__phone_number)
+
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-fallback
+(force-statement)
+-----
+5
+slot-fill__get-cuisine -> looks ok
+slot-fill__get-phone_number -> looks ok
+get-allergy -> looks ok
+
+Time to look at a conversation.
+We choose convo_5.
+
+single_slot__outing_type looping
+
+single_slot__outing_type_DETDUP_single_slot__outing_type__validate-slot-fill-EQ-fill-slot
+(know__outing_type)
+(force-statement)
+
+single_slot__outing_type_DETDUP_single_slot__outing_type__validate-slot-fill-EQ-slot-unclear
+(maybe-know__outing_type)
+-----
+6
+slot-fill__get-cuisine -> looks ok
+slot-fill__get-phone_number -> looks ok
+get-allergy -> looks ok
+
+looking at convo_5
+
+dialogue_statement looping
+dialogue_statement_DETDUP_dialogue_statement__reset-EQ-lock
+
+(not (force-statement))
+-----
+7
+clarify__cuisine
+clarify__cuisine_DETDUP_clarify__cuisine__validate-clarification-EQ-confirm
+(not (maybe-know__cuisine))
+
+clarify__cuisine_DETDUP_clarify__cuisine__validate-clarification-EQ-deny
+(not (maybe-know__cuisine))
+
+clarify__cuisine_DETDUP_clarify__cuisine__validate-clarification-EQ-fallback
+(force-statement)
+-----
+8
+clarify__phone_number
+clarify__phone_number_DETDUP_clarify__phone_number__validate-clarification-EQ-confirm
+(know__phone_number)
+(not (maybe-know__phone_number))
+
+clarify__phone_number_DETDUP_clarify__phone_number__validate-clarification-EQ-deny
+(not (maybe-know__phone_number))
+
+clarify__phone_number_DETDUP_clarify__phone_number__validate-clarification-EQ-fallback
+(force-statement)
+-----
+9
+slot-fill__get-phone_number -> looks ok
+
+looking at convo_5
+
+single_slot__budget ran twice
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fill-slot
+(know__budget)
+(force-statement)
+
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fallback
+(force-statement)
+-----
+10
+slot-fill__get-phone_number -> looks ok
+
+looking at convo_5
+
+set-restaurant looping
+set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-mexican
+(know__restaurant)
+
+set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-dessert
+(know__restaurant)
+-----
+11
+slot-fill__get-phone_number -> looks ok
+
+looking at convo_5
+
+inform looping
+inform_DETDUP_inform__finish-EQ-finish
+(informed)
+-----
+12
+slot-fill__get-phone_number -> looks ok
+
+looking at convo_5
+
+complete looping
+complete_DETDUP_complete__finish-EQ-finish
+(goal)
+-----
+13
+slot-fill__get-phone_number -> looks ok
+
+convo_5 now a fp
+
+looking at a negative conversation: convo_17
+
+check-conflicts looping
+
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-restriction-dessert
+(know__conflict)
+
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-restriction-mexican
+(know__conflict)
+
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-no-restriction-3
+(know__conflict)
+
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-no-restriction-4
+(not (conflict))
+-----
+14
+slot-fill__get-phone_number -> looks ok
+
+looking at convo_17
+
+after reset-preferences, we should be asking about the allergy but it asks about cuisine instead
+need to reset allergy stuff
+
+reset-preferences_DETDUP_reset-preferences__reset-EQ-reset-values
+(not (know__food_restriction))
+(not (know__have_allergy))
+(not (have_allergy))
+
+we may not need to set (not (have_allergy)) as it's possible just resetting knowledge is enough here.
+-----
+15
+slot-fill__get-phone_number -> looks ok
+
+looking at convo_17
+
+WE NEED TO HAVE MORE BEAMS!!! INCREASE TO 4!
+-----
+16
+
+no drop-off nodes
+
+convo_17 now fp
+
+need to look at a negative conversation
+
+convo_3
+
+set-outing looping
+set-outing_DETDUP_set-outing__assign_outing-EQ-set-club
+(know__outing)
+-----
+17
+no drop-off nodes
+
+again, we have all fp!
+
+looking at convo_3
+
+maybe clarify__cuisine missing dialogue_statement trigger?
+clarify__cuisine_DETDUP_clarify__cuisine__validate-clarification-EQ-confirm
+(force-statement)
+-----
+18
+
+[[[same situation... and not really anything to look at anymore.]]]
+
+it is likely one of the "maybe" outcomes causing problems, because it never needs to be run,
+but some straggling beams may be taking those outcomes. 
+
+first lets look at slot-fill__get_outing
+slot-fill__get_outing_DETDUP_slot-fill__get_outing__validate-slot-fill-EQ-budget_found-outing_type_maybe-found
+(force-statement)
+
+slot-fill__get_outing_DETDUP_slot-fill__get_outing__validate-slot-fill-EQ-outing_type_maybe-found
+(force-statement)
+-----
+19
+
+same situation...
+
+we employ the same strategy, looking at "clarify" actions as these are most likely to be causing issues.
+
+clarify__location
+clarify__location_DETDUP_clarify__location__validate-clarification-EQ-confirm
+(not (maybe-know__location))
+
+clarify__location_DETDUP_clarify__location__validate-clarification-EQ-deny
+(not (maybe-know__location))
+
+clarify__location_DETDUP_clarify__location__validate-clarification-EQ-fallback
+(force-statement)
+-----
+20
+
+same situation...
+
+at this point we need to see what's going on... because we don't have any drop-off nodes and the graphs aren't showing us anything.
+we don't want the user to end up in this situation, so we need to catch it.
+
+ah, it looks like informed needs a dialogue_statement... HOW did i not catch that?!
+NOTE: you really need to make sure that EVERY utterance is accounted for!
+make a note of this in the paper!
+
+
+-----
+21
+
+only convo_17 not passing... that's a good enough ratio.

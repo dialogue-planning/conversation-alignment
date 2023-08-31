@@ -375,3 +375,15 @@ reset-preferences
 reset-preferences_DETDUP_reset-preferences__reset-EQ-reset-values
 
 (not (conflict))
+
+-----
+37
+
+[it was here we started looking at the errors.]
+
+single_slot__budget
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fallback
+
+(force-statement)
+
+we just got this from looking at the bottom of the config file. 
