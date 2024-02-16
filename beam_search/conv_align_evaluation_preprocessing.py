@@ -34,7 +34,7 @@ def del_from_rollout(num_delete: int, path: str):
     rollout_config, actions, partial = read_from_file(path)
     idx = 0
     skip_acts = set()
-    random.seed(500)
+    random.seed(925)
     while idx < num_delete:
         # first randomly select an action that we haven't yet determined is empty
         available_acts = [act for act in actions if act not in skip_acts]
@@ -81,6 +81,14 @@ def add_or_del_fluent(correct_rollout_path, rollout_path, action, outcome, fluen
     write_to_file(actions, rollout_config["partial"], rollout_config, rollout_path)
 
 
+def count_fluents(path: str):
+    _, actions, _ = read_from_file(path)
+    num_fluents = 0
+    for _, act_cfg in actions.items():
+        for _, out in act_cfg["effect"].items():
+            num_fluents += len(out)
+    return num_fluents, int(0.04 * num_fluents)
+
 if __name__ == "__main__":
     # del_percent_from_rollout(
     #     0.04,
@@ -90,11 +98,16 @@ if __name__ == "__main__":
     #     0.50,
     #     "beam_search/eval/2/2_modified_run/output_files/rollout_config.json"
     # )
-    add_or_del_fluent(
-        "beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json", 
-        "beam_search/eval/2/2_modified_run/output_files/rollout_config.json",
-        "reset-preferences",
-        "reset-preferences_DETDUP_reset-preferences__reset-EQ-reset-values",
-        "(not (have_allergy))",
-        True
-    )
+    # add_or_del_fluent(
+    #     "beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json", 
+    #     "beam_search/eval/2/2_modified_run/output_files/rollout_config.json",
+    #     "reset-preferences",
+    #     "reset-preferences_DETDUP_reset-preferences__reset-EQ-reset-values",
+    #     "(not (have_allergy))",
+    #     True
+    # )
+    print(count_fluents("beam_search/eval/1/1_unmodified_run/output_files/rollout_config.json"))
+    # del_percent_from_rollout(
+    #     0.04,
+    #     "eval_3_test_rollout_config.json"
+    # )

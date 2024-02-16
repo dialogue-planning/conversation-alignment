@@ -1,0 +1,2 @@
+random seed: 925
+deleted 4% of fluents
