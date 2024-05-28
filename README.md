@@ -1,6 +1,10 @@
+# Dialogue Planning
+
+This project is part of an ongoing [Dialogue Planning Initiative](https://github.com/dialogue-planning).
+
 # Dialogue Agent Conversation Alignment
 
-This is Natalie Nova's undergraduate Thesis project code continued, with contributions from Rebecca De Venezia.
+Published to CAI 2024 by Rebecca De Venezia, Natalie Nova, and Christian Muise.
 
 Task-oriented dialogue agents have been growing at an extraordinarily fast pace, especially within business-oriented settings. 
 Verification is a core component of any task-oriented dialogue agent, as it is crucial for a variety of conversations to be handled predictably.
