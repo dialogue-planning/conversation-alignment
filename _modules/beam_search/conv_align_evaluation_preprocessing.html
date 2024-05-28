@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="y">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>beam_search.conv_align_evaluation_preprocessing &mdash; Conversation Alignment January 2023 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=ead7b8db"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Conversation Alignment
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../generated/beam_search.html">beam_search</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Conversation Alignment</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">beam_search.conv_align_evaluation_preprocessing</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for beam_search.conv_align_evaluation_preprocessing</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+
+<div class="viewcode-block" id="write_to_file"><a class="viewcode-back" href="../../generated/beam_search.conv_align_evaluation_preprocessing.html#beam_search.conv_align_evaluation_preprocessing.write_to_file">[docs]</a><span class="k">def</span> <span class="nf">write_to_file</span><span class="p">(</span><span class="n">actions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">rollout_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">rollout_config</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">actions</span>
+    <span class="n">rollout_config</span><span class="p">[</span><span class="s2">&quot;partial&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">act</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="k">for</span> <span class="n">act</span><span class="p">,</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">partial</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">rollout_config</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="read_from_file"><a class="viewcode-back" href="../../generated/beam_search.conv_align_evaluation_preprocessing.html#beam_search.conv_align_evaluation_preprocessing.read_from_file">[docs]</a><span class="k">def</span> <span class="nf">read_from_file</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">rollout_config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rollout_config</span><span class="p">,</span> <span class="n">rollout_config</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">],</span> <span class="p">{</span><span class="n">act</span><span class="p">:</span> <span class="nb">set</span><span class="p">()</span> <span class="k">for</span> <span class="n">act</span> <span class="ow">in</span> <span class="n">rollout_config</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]}</span></div>
+
+
+<div class="viewcode-block" id="del_fluent_from_rollout"><a class="viewcode-back" href="../../generated/beam_search.conv_align_evaluation_preprocessing.html#beam_search.conv_align_evaluation_preprocessing.del_fluent_from_rollout">[docs]</a><span class="k">def</span> <span class="nf">del_fluent_from_rollout</span><span class="p">(</span><span class="n">fluent_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">rollout_config</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">partial</span> <span class="o">=</span> <span class="n">read_from_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">act</span><span class="p">,</span> <span class="n">act_cfg</span> <span class="ow">in</span> <span class="n">actions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">fluent_name</span> <span class="ow">in</span> <span class="n">act_cfg</span><span class="p">[</span><span class="s2">&quot;condition&quot;</span><span class="p">]:</span>
+            <span class="c1"># note that we don&#39;t include conditions in `partial` because deleting</span>
+            <span class="c1"># a condition makes the action applicable in MORE states</span>
+            <span class="n">act_cfg</span><span class="p">[</span><span class="s2">&quot;condition&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fluent_name</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">act_cfg</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">fluent_name</span> <span class="ow">in</span> <span class="n">act_cfg</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">][</span><span class="n">out</span><span class="p">]:</span>
+                <span class="n">act_cfg</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">][</span><span class="n">out</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fluent_name</span><span class="p">)</span>
+                <span class="n">partial</span><span class="p">[</span><span class="n">act</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+    <span class="n">write_to_file</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">partial</span><span class="p">,</span> <span class="n">rollout_config</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="del_from_rollout"><a class="viewcode-back" href="../../generated/beam_search.conv_align_evaluation_preprocessing.html#beam_search.conv_align_evaluation_preprocessing.del_from_rollout">[docs]</a><span class="k">def</span> <span class="nf">del_from_rollout</span><span class="p">(</span><span class="n">num_delete</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">rollout_config</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">partial</span> <span class="o">=</span> <span class="n">read_from_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">skip_acts</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">925</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="n">num_delete</span><span class="p">:</span>
+        <span class="c1"># first randomly select an action that we haven&#39;t yet determined is empty</span>
+        <span class="n">available_acts</span> <span class="o">=</span> <span class="p">[</span><span class="n">act</span> <span class="k">for</span> <span class="n">act</span> <span class="ow">in</span> <span class="n">actions</span> <span class="k">if</span> <span class="n">act</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">skip_acts</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">available_acts</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">act</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">available_acts</span><span class="p">)</span>
+        <span class="c1"># filter by outcomes that have at least one fluent</span>
+        <span class="n">filtered_outs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">out</span> <span class="k">for</span> <span class="n">out</span><span class="p">,</span> <span class="n">out_cfg</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">[</span><span class="n">act</span><span class="p">][</span><span class="s2">&quot;effect&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out_cfg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">filtered_outs</span><span class="p">:</span>
+            <span class="n">skip_acts</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">act</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">outcome</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">filtered_outs</span><span class="p">)</span>
+        <span class="n">partial</span><span class="p">[</span><span class="n">act</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">outcome</span><span class="p">)</span>
+        <span class="n">fl</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">actions</span><span class="p">[</span><span class="n">act</span><span class="p">][</span><span class="s2">&quot;effect&quot;</span><span class="p">][</span><span class="n">outcome</span><span class="p">])</span>
+        <span class="n">actions</span><span class="p">[</span><span class="n">act</span><span class="p">][</span><span class="s2">&quot;effect&quot;</span><span class="p">][</span><span class="n">outcome</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fl</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">write_to_file</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">partial</span><span class="p">,</span> <span class="n">rollout_config</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="del_percent_from_rollout"><a class="viewcode-back" href="../../generated/beam_search.conv_align_evaluation_preprocessing.html#beam_search.conv_align_evaluation_preprocessing.del_percent_from_rollout">[docs]</a><span class="k">def</span> <span class="nf">del_percent_from_rollout</span><span class="p">(</span><span class="n">percent</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">read_from_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">num_fluents</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">act_cfg</span> <span class="ow">in</span> <span class="n">actions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">act_cfg</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">num_fluents</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+    <span class="n">del_from_rollout</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">percent</span> <span class="o">*</span> <span class="n">num_fluents</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="add_or_del_fluent"><a class="viewcode-back" href="../../generated/beam_search.conv_align_evaluation_preprocessing.html#beam_search.conv_align_evaluation_preprocessing.add_or_del_fluent">[docs]</a><span class="k">def</span> <span class="nf">add_or_del_fluent</span><span class="p">(</span><span class="n">correct_rollout_path</span><span class="p">,</span> <span class="n">rollout_path</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">fluent</span><span class="p">,</span> <span class="n">add</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">rollout_config</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">read_from_file</span><span class="p">(</span><span class="n">rollout_path</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">correct_rollout_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">correct_rollout</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">add</span><span class="p">:</span>
+        <span class="n">rollout_config</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="n">action</span><span class="p">][</span><span class="s2">&quot;effect&quot;</span><span class="p">][</span><span class="n">outcome</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fluent</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rollout_config</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="n">action</span><span class="p">][</span><span class="s2">&quot;effect&quot;</span><span class="p">][</span><span class="n">outcome</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fluent</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">act</span><span class="p">,</span> <span class="n">act_cfg</span> <span class="ow">in</span> <span class="n">actions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">out</span><span class="p">,</span> <span class="n">fluents</span> <span class="ow">in</span> <span class="n">act_cfg</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">fluents</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">correct_rollout</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">][</span><span class="n">act</span><span class="p">][</span><span class="s2">&quot;effect&quot;</span><span class="p">][</span><span class="n">out</span><span class="p">])</span> <span class="ow">and</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">rollout_config</span><span class="p">[</span><span class="s2">&quot;partial&quot;</span><span class="p">][</span><span class="n">act</span><span class="p">]:</span>
+                <span class="n">rollout_config</span><span class="p">[</span><span class="s2">&quot;partial&quot;</span><span class="p">][</span><span class="n">act</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+    <span class="n">write_to_file</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">rollout_config</span><span class="p">[</span><span class="s2">&quot;partial&quot;</span><span class="p">],</span> <span class="n">rollout_config</span><span class="p">,</span> <span class="n">rollout_path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="count_fluents"><a class="viewcode-back" href="../../generated/beam_search.conv_align_evaluation_preprocessing.html#beam_search.conv_align_evaluation_preprocessing.count_fluents">[docs]</a><span class="k">def</span> <span class="nf">count_fluents</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">read_from_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">num_fluents</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">act_cfg</span> <span class="ow">in</span> <span class="n">actions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">act_cfg</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">num_fluents</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">num_fluents</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.04</span> <span class="o">*</span> <span class="n">num_fluents</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># del_percent_from_rollout(</span>
+    <span class="c1">#     0.04,</span>
+    <span class="c1">#     &quot;beam_search/eval/3/2_modified_run/output_files/rollout_config.json&quot;</span>
+    <span class="c1"># )</span>
+    <span class="c1"># del_percent_from_rollout(</span>
+    <span class="c1">#     0.50,</span>
+    <span class="c1">#     &quot;beam_search/eval/2/2_modified_run/output_files/rollout_config.json&quot;</span>
+    <span class="c1"># )</span>
+    <span class="c1"># add_or_del_fluent(</span>
+    <span class="c1">#     &quot;beam_search/eval/2/1_unmodified_run/output_files/rollout_config.json&quot;, </span>
+    <span class="c1">#     &quot;beam_search/eval/2/2_modified_run/output_files/rollout_config.json&quot;,</span>
+    <span class="c1">#     &quot;reset-preferences&quot;,</span>
+    <span class="c1">#     &quot;reset-preferences_DETDUP_reset-preferences__reset-EQ-reset-values&quot;,</span>
+    <span class="c1">#     &quot;(not (have_allergy))&quot;,</span>
+    <span class="c1">#     True</span>
+    <span class="c1"># )</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">count_fluents</span><span class="p">(</span><span class="s2">&quot;beam_search/eval/1/1_unmodified_run/output_files/rollout_config.json&quot;</span><span class="p">))</span>
+    <span class="c1"># del_percent_from_rollout(</span>
+    <span class="c1">#     0.04,</span>
+    <span class="c1">#     &quot;eval_3_test_rollout_config.json&quot;</span>
+    <span class="c1"># )</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Natalie Nova, Rebecca De Venezia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

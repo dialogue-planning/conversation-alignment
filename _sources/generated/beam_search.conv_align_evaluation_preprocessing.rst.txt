@@ -1,0 +1,35 @@
+beam\_search.conv\_align\_evaluation\_preprocessing
+===================================================
+
+.. automodule:: beam_search.conv_align_evaluation_preprocessing
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_or_del_fluent
+      count_fluents
+      del_fluent_from_rollout
+      del_from_rollout
+      del_percent_from_rollout
+      read_from_file
+      write_to_file
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

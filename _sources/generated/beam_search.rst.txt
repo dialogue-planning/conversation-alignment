@@ -27,6 +27,7 @@
    :toctree:
    :recursive:
 
+   beam_search.conv_align_evaluation_preprocessing
    beam_search.core
    beam_search.data_structs
    beam_search.graph_setup

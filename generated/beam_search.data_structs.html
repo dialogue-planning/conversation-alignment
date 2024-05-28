@@ -1,24 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="y" >
+<html class="writer-html5" lang="y">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>beam_search.data_structs &mdash; Conversation Alignment January 2023 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ead7b8db"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="beam_search.graph_setup" href="beam_search.graph_setup.html" />
-    <link rel="prev" title="beam_search.core" href="beam_search.core.html" /> 
+    <link rel="prev" title="beam_search.conv_align_evaluation_preprocessing" href="beam_search.conv_align_evaluation_preprocessing.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -26,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Conversation Alignment
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Conversation Alignment
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -38,7 +46,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="beam_search.html">beam_search</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="beam_search.core.html">beam_search.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="beam_search.conv_align_evaluation_preprocessing.html">beam_search.conv_align_evaluation_preprocessing</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">beam_search.data_structs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#beam_search.data_structs.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#beam_search.data_structs.Beam"><code class="docutils literal notranslate"><span class="pre">Beam</span></code></a><ul>
@@ -59,9 +67,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#beam_search.data_structs.RolloutBase"><code class="docutils literal notranslate"><span class="pre">RolloutBase</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase._abc_impl"><code class="docutils literal notranslate"><span class="pre">RolloutBase._abc_impl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase._update_applicable_actions"><code class="docutils literal notranslate"><span class="pre">RolloutBase._update_applicable_actions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase.call_outcome_determiner"><code class="docutils literal notranslate"><span class="pre">RolloutBase.call_outcome_determiner()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase.check_system_case"><code class="docutils literal notranslate"><span class="pre">RolloutBase.check_system_case()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase.copy"><code class="docutils literal notranslate"><span class="pre">RolloutBase.copy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase.get_action_confidences"><code class="docutils literal notranslate"><span class="pre">RolloutBase.get_action_confidences()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase.get_intent_confidences"><code class="docutils literal notranslate"><span class="pre">RolloutBase.get_intent_confidences()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase.get_reached_goal"><code class="docutils literal notranslate"><span class="pre">RolloutBase.get_reached_goal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase.is_message_action"><code class="docutils literal notranslate"><span class="pre">RolloutBase.is_message_action()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase.update_if_message_action"><code class="docutils literal notranslate"><span class="pre">RolloutBase.update_if_message_action()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#beam_search.data_structs.RolloutBase.update_state"><code class="docutils literal notranslate"><span class="pre">RolloutBase.update_state()</span></code></a></li>
 </ul>
@@ -86,7 +98,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="beam_search.html">beam_search</a></li>
       <li class="breadcrumb-item active">beam_search.data_structs</li>
       <li class="wy-breadcrumbs-aside">
@@ -246,6 +258,8 @@ output.</p></li>
 <p>Abstract &quot;rollout&quot; class to be inherited. Houses all the functions that
 calculate action and intent confidences and keep track of + update the
 current state.</p>
+<p>NOTE: You will also need an &quot;applicable_actions&quot; attribute (set of the
+currently applicable actions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ABC</strong> (<em>class</em>) -- Used to create an abstract class.</p>
@@ -260,6 +274,53 @@ current state.</p>
 <dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase._update_applicable_actions">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_update_applicable_actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/data_structs.html#RolloutBase._update_applicable_actions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.RolloutBase._update_applicable_actions" title="Permalink to this definition"></a></dt>
 <dd><p>Updates which actions are applicable in the current state.</p>
+<p>Raise an error if there are no applicable actions and there are still utterances left.
+Raise a warning if we reach the goal but there are still utterances left.</p>
+<p>(Use the <cite>in_run</cite> attribute of ConversationAlignmentExecutor to do this).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.call_outcome_determiner">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">call_outcome_determiner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="../_modules/beam_search/data_structs.html#RolloutBase.call_outcome_determiner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.RolloutBase.call_outcome_determiner" title="Permalink to this definition"></a></dt>
+<dd><p>Calls the outcome determiner of an action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of outcomes ranked by confidence.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.check_system_case">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_system_case</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/beam_search/data_structs.html#RolloutBase.check_system_case"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.RolloutBase.check_system_case" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if system action(s) can be run in the current state (see
+the docstring in <span class="xref std std-ref">core</span>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if system action(s) can be run in the current state,
+False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.copy">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/data_structs.html#RolloutBase.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.RolloutBase.copy" title="Permalink to this definition"></a></dt>
+<dd><p>Returns an un-aliased copy of the Rollout. This is needed for when
+we are performing a restructuring of the beams and the Rollouts need to
+be transferred over. A &quot;deep&quot; copy is necessary to prevent aliasing in
+the case where multiple beams are expanded from one &quot;previous&quot; beam.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A &quot;deep&quot; copy of itself.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -325,7 +386,7 @@ selected based on overall score, not just the singular confidence.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.get_reached_goal">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_reached_goal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/beam_search/data_structs.html#RolloutBase.get_reached_goal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.RolloutBase.get_reached_goal" title="Permalink to this definition"></a></dt>
-<dd><p>Returns: if the beam reached the goal.</p>
+<dd><p>Returns if the beam reached the goal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True if the corresponding beam reached the goal, False
@@ -338,6 +399,14 @@ otherwise.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.is_message_action">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_message_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beam_search/data_structs.html#RolloutBase.is_message_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.RolloutBase.is_message_action" title="Permalink to this definition"></a></dt>
+<dd><p>Returns if the given action is a message action. This is used within
+<code class="xref py py-func docutils literal notranslate"><span class="pre">update_if_message_action</span></code>
+as well as the core algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="beam_search.data_structs.RolloutBase.update_if_message_action">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_if_message_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/beam_search/data_structs.html#RolloutBase.update_if_message_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#beam_search.data_structs.RolloutBase.update_if_message_action" title="Permalink to this definition"></a></dt>
 <dd><p>Checks if the provided action is a &quot;message&quot; action, meaning it only
@@ -345,8 +414,10 @@ has one outcome. If that's the case, the outcome must be automatically
 executed as it won't take (or need) user input to be determined.
 This execution is already handled within the beam search algorithm; this
 function just needs to return the associated intent. So:</p>
-<ul>
-<li><p>Check if the action is a &quot;message&quot; action</p>
+<ul class="simple">
+<li><p>Check if the action is a &quot;message&quot; action (with :py:func:<a href="#id1"><span class="problematic" id="id2">`</span></a>is_message_action</p></li>
+</ul>
+<p>&lt;beam_search.beam_srch_data_structs.RolloutBase.is_message_action&gt;`.)</p>
 <blockquote>
 <div><ul>
 <li><div class="line-block">
@@ -363,7 +434,7 @@ single intent in the form</div>
 </li>
 </ul>
 </div></blockquote>
-</li>
+<ul class="simple">
 <li><p>Otherwise, just return None.</p></li>
 </ul>
 <dl class="field-list simple">
@@ -393,7 +464,7 @@ should be called here).</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="beam_search.core.html" class="btn btn-neutral float-left" title="beam_search.core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="beam_search.conv_align_evaluation_preprocessing.html" class="btn btn-neutral float-left" title="beam_search.conv_align_evaluation_preprocessing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="beam_search.graph_setup.html" class="btn btn-neutral float-right" title="beam_search.graph_setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

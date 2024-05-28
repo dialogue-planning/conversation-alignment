@@ -17,8 +17,8 @@ beam\_search.graph\_setup
 
    .. autosummary::
    
-      BeamSearchGraphGenerator
-      GraphGenerator
+      BeamSearchGraph
+      NodeType
    
    
 
