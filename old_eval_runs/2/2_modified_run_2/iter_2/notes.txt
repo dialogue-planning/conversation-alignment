@@ -1,0 +1,15 @@
+We note that a dialogue_statement is not triggered in ANY beam after the user gives a share_budget.
+The budget-found outcome of get-outing must not be triggering a (force-statement).
+
+(after checking)
+Yup, and it has no nodes at all actually!
+
+In:
+slot-fill__get_outing
+
+slot-fill__get_outing_DETDUP_slot-fill__get_outing__validate-slot-fill-EQ-budget_found
+
+add:
+(know__budget)
+(allow_single_slot_outing_type)
+(force-statement)

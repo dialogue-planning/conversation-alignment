@@ -1,0 +1,12 @@
+Once again observing our "best beam" for convo_1, we note that dialogue_statement is looping on itself!
+It must not be "closing itself off."
+
+(After checking model)
+Indeed, it isn't!
+
+To:
+dialogue_statement
+dialogue_statement_DETDUP_dialogue_statement__reset-EQ-lock
+
+Add:
+(not (force-statement))

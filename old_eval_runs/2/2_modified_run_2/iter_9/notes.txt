@@ -1,0 +1,14 @@
+Ok, some interesting results now!
+
+We will have to look at a different conversation since convo_1 is FP now and there are still some TN conversations which take priority.
+We look at convo_20 instead.
+
+share_budget from single_slot__budget is missing a trigger to get dialogue_statement to run! Looking at it now, it is also missing a knowledge update for the budget.
+
+In:
+single_slot__budget
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fill-slot
+
+Add:
+(force-statement)
+(know__budget)

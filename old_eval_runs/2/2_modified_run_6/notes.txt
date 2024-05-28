@@ -1,0 +1,389 @@
+-----
+1
+
+most failures at get-cuisine
+
+in slot-fill__get-cuisine
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-cuisine_found
+
+(know__cuisine)
+-----
+2
+most failures at get-cuisine
+in slot-fill__get-cuisine
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-cuisine_maybe-found
+(maybe-know__cuisine)
+-----
+3
+most failures at get-cuisine
+in slot-fill__get-cuisine
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-fallback
+
+(force-statement)
+-----
+4
+most failures at slot-fill__get-phone_number
+in slot-fill__get-phone_number
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-phone_number_found
+
+(know__phone_number)
+-----
+5
+more failures at slot-fill__get-phone_number
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-phone_number_maybe-found
+
+(maybe-know__phone_number)
+-----
+6
+more failures at slot-fill__get-phone_number
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-fallback
+
+(force-statement)
+-----
+7
+Next, we have some failures at slot-fill__get-location -- but this action looks ok
+
+Next, we have some failures at slot-fill__get_outing -- this looks ok too
+
+Next, we have some failures at clarify__location
+clarify__location_DETDUP_clarify__location__validate-clarification-EQ-confirm
+
+(know__location)
+-----
+8
+most failures at get-cuisine, but this looks ok.
+more failures at get-phone-number, but this looks ok.
+more failures at get-location, but this looks ok.
+more failures at get-outing, but this looks ok.
+more failures at clarify__location
+
+clarify__location
+clarify__location_DETDUP_clarify__location__validate-clarification-EQ-deny
+
+(not (maybe-know__location))
+-----
+9
+most failures at get-cuisine, but this looks ok.
+more failures at get-phone-number, but this looks ok.
+more failures at get-location, but this looks ok.
+more failures at get-outing, but this looks ok.
+more failures at clarify__location
+
+clarify__location
+clarify__location_DETDUP_clarify__location__validate-clarification-EQ-fallback
+
+(force-statement)
+-----
+10
+
+most failures at get-cuisine, but this looks ok.
+more failures at get-phone-number, but this looks ok.
+more failures at get-location, but this looks ok.
+more failures at get-outing, but this looks ok.
+more failures at clarify__location, but this looks ok.
+
+failure at clarify__outing_type
+clarify__outing_type_DETDUP_clarify__outing_type__validate-clarification-EQ-fallback
+
+(force-statement)
+-----
+11
+most failures at get-cuisine, but this looks ok.
+more failures at get-phone-number, but this looks ok.
+more failures at get-location, but this looks ok.
+more failures at get-outing, but this looks ok.
+more failures at clarify__location, but this looks ok.
+failure at clarify__outing_type, but this looks ok.
+
+TIME TO GO ONTO STEP 2!
+
+finding a conversation with slot-fill__get-cuisine -> fallback...
+convo_11
+
+seems to be picked due to a lack of options due to dialogue_statement looping.
+
+dialogue_statement
+dialogue_statement_DETDUP_dialogue_statement__reset-EQ-lock
+
+(not (force-statement))
+
+-----
+12
+
+most failures at get-cuisine, but this looks ok.
+next most failures at single_slot__budget
+
+single_slot__budget
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fill-slot
+(know__budget)
+
+-----
+13
+
+most failures at get-cuisine, but this looks ok.
+next most failures at clarify__location, but this looks ok.
+next most failures at single_slot__outing_type
+
+single_slot__outing_type_DETDUP_single_slot__outing_type__validate-slot-fill-EQ-fill-slot
+(know__outing_type)
+-----
+14
+
+most failures at get-cuisine, but this looks ok.
+next most failures at clarify__location, but this looks ok.
+
+failure at clarify__phone_number
+clarify__phone_number_DETDUP_clarify__phone_number__validate-clarification-EQ-confirm
+
+(know__phone_number)
+-----
+15
+
+most failures at get-cuisine, but this looks ok.
+next most failures at clarify__location, but this looks ok.
+
+failure at clarify__phone_number
+clarify__phone_number_DETDUP_clarify__phone_number__validate-clarification-EQ-deny
+
+(not (maybe-know__phone_number))
+-----
+16
+
+most failures at get-cuisine, but this looks ok.
+next most failures at clarify__location, but this looks ok.
+
+failure at clarify__phone_number
+clarify__phone_number_DETDUP_clarify__phone_number__validate-clarification-EQ-fallback
+
+(force-statement)
+
+-----
+17
+
+most failures at get-cuisine, but this looks ok.
+next most failures at clarify__location
+
+oops, just remembered we should have a dialogue_statement after it!
+
+clarify__location
+clarify__location_DETDUP_clarify__location__validate-clarification-EQ-confirm
+
+(force-statement)
+
+-----
+18
+
+most failures at get-cuisine, but this looks ok.
+next most failures at clarify__location, but this looks ok.
+
+failure at clarify__phone_number
+clarify__phone_number_DETDUP_clarify__phone_number__validate-clarification-EQ-confirm
+
+(not (maybe-know__phone_number))
+
+-----
+19
+
+most failures at get-cuisine, but this looks ok.
+next most failures at clarify__location, but this looks ok.
+next most failures at clarify__phone_number, but this looks ok.
+
+TIME TO GO ONTO STEP 2!
+
+finding a conversation with slot-fill__get-cuisine -> fallback...
+
+convo_19.
+
+slot-fill__get-cuisine -> fallback is preceded by get-have-allergy -> confirm
+
+get-have-allergy
+get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_allergy
+
+(have_allergy)
+
+-----
+20
+
+most failures at get-allergy
+
+get-allergy
+get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy
+
+(know__food_restriction)
+
+-----
+21
+most failures at clarify__cuisine
+clarify__cuisine_DETDUP_clarify__cuisine__validate-clarification-EQ-confirm
+
+(know__cuisine)
+
+-----
+22
+most failures at clarify__cuisine
+clarify__cuisine_DETDUP_clarify__cuisine__validate-clarification-EQ-deny
+
+(not (maybe-know__cuisine))
+
+-----
+23
+only slot-fill__get-phone_number has drop-off nodes, but it looks ok
+
+TIME TO GO ONTO STEP 2!
+
+finding a conversation with drop-off nodes...
+
+convo_17
+
+set-restaurant is looping
+set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-dessert
+
+(know__restaurant)
+
+-----
+24
+
+continuing STEP 2 since the drop-off nodes are the same...
+
+observing convo_17 again since it still has a drop-off node...
+
+inform looping on itself
+inform_DETDUP_inform__finish-EQ-finish
+
+(informed)
+
+-----
+25
+
+continuing STEP 2 since the drop-off nodes are the same...
+
+observing convo_17 again since it still has a drop-off node...
+
+complete looping on itself
+complete_DETDUP_complete__finish-EQ-finish
+
+(goal)
+
+-----
+26
+
+continuing STEP 2 since the drop-off nodes are the same...
+
+observing convo_17 again since it still has a drop-off node...
+
+doesn't seem to be any obvious errors, check a different convo w/ the drop-off node.
+
+convo_6...
+
+doesn't seem to be any obvious errors, check a different convo. (no more with drop-off nodes)
+
+convo_11...
+
+set-outing is looping
+set-outing_DETDUP_set-outing__assign_outing-EQ-set-club
+
+(know__outing)
+
+-----
+27
+look at convo_11 again
+
+set-restaurant looping
+set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-mexican
+
+(know__restaurant)
+
+-----
+28
+
+looking at random graphs (i.e. convo_1) a pattern i see is that things break after get-cuisine. (share_cuisine not getting picked)
+looking at the conversation, we are missing a dialogue_statement activation after a successful run of that action!
+
+slot-fill__get-cuisine
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-cuisine_found
+(force-statement)
+
+-----
+29
+
+only 1 failing conversation (convo_16)
+
+check-conflicts is looping
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-no-restriction-4
+
+(know__conflict)
+
+-----
+30
+
+all FP... woo!
+
+But can we get TP? 
+
+tracing through the conversations, we note that check-conflicts has issues!
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-restriction-dessert
+
+(conflict)
+-----
+31
+
+check-conflicts
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-restriction-mexican
+
+(conflict)
+
+-----
+32
+check-conflicts
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-no-restriction-3
+
+(not (conflict))
+
+-----
+33
+single_slot__outing_type
+single_slot__outing_type_DETDUP_single_slot__outing_type__validate-slot-fill-EQ-fill-slot
+
+(force-statement)
+
+-----
+34
+single_slot__budget
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fill-slot
+
+(force-statement)
+
+-----
+35
+get-have-allergy
+get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_allergy
+
+(forcing__get-allergy)
+
+-----
+36
+(OOPS FORGOT TO ADD THIS BEFORE)
+
+single_slot__outing_type
+single_slot__outing_type_DETDUP_single_slot__outing_type__validate-slot-fill-EQ-fill-slot
+
+(force-statement)
+
+and 
+
+reset-preferences
+reset-preferences_DETDUP_reset-preferences__reset-EQ-reset-values
+
+(not (conflict))
+
+-----
+37
+
+[it was here we started looking at the errors.]
+
+single_slot__budget
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fallback
+
+(force-statement)
+
+we just got this from looking at the bottom of the config file. 

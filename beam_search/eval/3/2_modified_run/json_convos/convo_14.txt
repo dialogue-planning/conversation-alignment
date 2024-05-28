@@ -1,0 +1,17 @@
+AGENT: Have you been exposed to COVID-19?
+USER: yeah
+AGENT: Are you experiencing symptoms of any kind? (Answer yes or no).
+USER: yes please
+AGENT: I'm sorry to hear you are feeling unwell!
+AGENT: Please describe the symptoms you are experiencing.
+USER: My skin is sensitive to the touch
+AGENT: Have you had these symptoms for over a week?
+USER: Y
+AGENT: Concerning your rash, contact your health care provider. Before you go, take mental note of when the rash began, what products you have been using recently/any possible insect bites, and what made it better/worse.
+AGENT: Has it been at least 5 days since your exposure to COVID-19?
+USER: mhm
+AGENT: Have you tested positive for COVID-19 in the last 30 days?
+USER: nuh uh
+AGENT: How about in the last 90 days?
+USER: yup
+AGENT: Although you have had COVID-19 in the last 90 days and don't have covid symptoms, you should still use antigen tests according to the suggested testing guidelines.

@@ -1,0 +1,17 @@
+AGENT: Have you been exposed to COVID-19?
+USER: yes please
+AGENT: Are you feeling ill? (Please answer yes or no).
+USER: yup
+AGENT: I'm sorry to hear you are feeling unwell!
+AGENT: Please describe the symptoms you are experiencing.
+USER: The skin on my face is swollen
+AGENT: Have you had these symptoms for over a week?
+USER: nah
+AGENT: Concerning your rash, if you are having trouble breathing, your face is throat is tight, or your face is swelling up, call emergency. Use warm (not hot) water to clean the area (without scrubbing). If this was potentially the result of a product, stop using it immediately. Try a medicated lotion on the area.
+AGENT: Has it been at least 5 days since you were exposed to COVID-19?
+USER: nope
+AGENT: Have you tested positive for COVID-19 in the last 30 days?
+USER: nope
+AGENT: What about in the last 90 days?
+USER: nuh uh
+AGENT: Since you have been exposed to COVID-19 but are not yet showing covid symptoms, wait a total of 5 days since your exposure to test.

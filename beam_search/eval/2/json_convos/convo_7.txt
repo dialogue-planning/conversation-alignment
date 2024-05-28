@@ -1,0 +1,15 @@
+AGENT: Do you have any dietary restrictions I should know about?
+USER: ya
+AGENT: What food restriction do you have? (As of now, I only account for dairy and gluten allergies).
+USER: I am allergic to any foods that are not dairy-free.
+AGENT: What kind of outing would you like to go to? Please specify both your budget (high or low) and the type of atmosphere you're looking for (i.e. fun, relaxing, etc.)
+USER: I can do activities with a low budget and I want to find the most high-energy place in the city.
+AGENT: What is your phone number? I can use it to make reservations.
+USER: My number is 4427569994.
+AGENT: Where are you located?
+USER: I am located in Toronto.
+AGENT: Tailoring your results to what's available in Toronto...
+AGENT: What type of food would you like to eat tonight? Mexican, Chinese, dessert, and Italian are your options.
+USER: I want to eat Italian.
+AGENT: Cuisine preference has been logged.
+AGENT: Booked a reservation at Alfredo's Pizza Café as well as a spot at Stages in Toronto.

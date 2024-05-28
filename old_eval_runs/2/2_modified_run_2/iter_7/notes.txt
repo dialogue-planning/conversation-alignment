@@ -1,0 +1,11 @@
+looking at convo_1 again, we note that we are looping on slot-fill__get-phone_number instead of proceeding!
+why is this still applicable?
+
+ah, in the model, it is not updated that we know the phone number once we receive it!
+
+In:
+slot-fill__get-phone_number
+slot-fill__get-phone_number_DETDUP_slot-fill__get-phone_number__validate-slot-fill-EQ-phone_number_found
+
+Add:
+(know__phone_number)

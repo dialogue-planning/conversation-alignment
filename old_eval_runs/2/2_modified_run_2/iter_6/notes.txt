@@ -1,0 +1,11 @@
+share_cuisine needs to trigger a dialogue statement!
+
+Going to the action in the model, it is also not adding knowledge of the cuisine!
+
+In:
+slot-fill__get-cuisine
+slot-fill__get-cuisine_DETDUP_slot-fill__get-cuisine__validate-slot-fill-EQ-cuisine_found
+
+Add:
+(force-statement)
+(know__cuisine)

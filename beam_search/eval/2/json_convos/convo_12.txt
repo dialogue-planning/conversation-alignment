@@ -1,0 +1,17 @@
+AGENT: Do you have any food restrictions?
+USER: no
+AGENT: What kind of outing would you like to go to? Please specify both your budget (high or low) and the type of atmosphere you're looking for (i.e. fun, relaxing, etc.)
+USER: What is the most high-energy place in the city?
+AGENT: Great choice!
+AGENT: What is your budget preference? Please specify either high or low.
+USER: I am operating within a high budget.
+AGENT: Ok, I'll take that into account.
+AGENT: What is your phone number? I can use it to make reservations.
+USER: My phone number is 9347772880.
+AGENT: Where do you live?
+USER: I am located in Toronto.
+AGENT: Tailoring your results to what's available in Toronto...
+AGENT: What is your cuisine of choice? Mexican, Italian, Chinese, and dessert restaurants are in the area.
+USER: Do you have restaurants of type dessert?
+AGENT: Cuisine preference has been logged.
+AGENT: Booked a reservation at Geneva Crepes as well as a spot at Smith's Golfing Club in Toronto.

@@ -1,0 +1,10 @@
+AGENT: Have you been exposed to COVID-19?
+USER: nuh uh
+AGENT: Are you feeling ill? (Please answer yes or no).
+USER: yup
+AGENT: I'm sorry to hear you are feeling unwell!
+AGENT: Please describe the symptoms you are experiencing.
+USER: My face is breaking out
+AGENT: Have you had these symptoms for over a week?
+USER: yes
+AGENT: Concerning your rash, contact your health care provider. Before you go, take mental note of when the rash began, what products you have been using recently/any possible insect bites, and what made it better/worse.

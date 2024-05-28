@@ -1,0 +1,17 @@
+for this iteration, we are going to go about things more systematically.
+
+we are no longer going to look at what the drop-off nodes are (we can still use the number of them as a metric, but last time, we weren't able to see any real progress until we started looking at the graphs).
+you can add a section in the future work section that briefly mentions that more analysis would need to be done to formalize a method for pointing out the "source" of the drop-offs.
+
+what we will do this time is pick a single conversation and fix it iteratively by looking at its corresponding graph.
+note that while it may be advantageous regularly to start with the simplest example, we will pick the most complex (generated) conversation so that the evaluation is simpler (is just based off looking at one conversation for at least most of it).
+
+In this case, we can actually just use convo_1!
+
+--------------------------------------------------------------------------
+when following the "best" beam (when we say "best" we mean the beam that most closely aligns with our conversation; that is, it follows it the longest) we note that get-allergy loops on itself.
+get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy function is missing nodes!
+
+add:
+(know__food_restriction)
+(not (forcing__get-allergy))

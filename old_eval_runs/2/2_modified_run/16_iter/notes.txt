@@ -1,0 +1,8 @@
+better results, still no drop-offs!
+
+look at convo_17 again.
+
+we almost make it, but get-have-allergy runs at the end! why is it applicable there?
+ah, we need to update the knowledge in the deny outcome to indicate that we know that if the user has an allergy now!
+
+add (know__have_allergy) to the "no allergy" outcome! 

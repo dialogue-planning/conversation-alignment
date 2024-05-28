@@ -8,16 +8,50 @@ class RolloutBase(ABC):
     calculate action and intent confidences and keep track of + update the
     current state.
 
+    NOTE: You will also need an "applicable_actions" attribute (set of the
+    currently applicable actions).
+
     Args:
         ABC (class): Used to create an abstract class.
     """
+
+    @abstractmethod
+    def copy(self, *args, **kwargs):
+        """Returns an un-aliased copy of the Rollout. This is needed for when
+        we are performing a restructuring of the beams and the Rollouts need to
+        be transferred over. A "deep" copy is necessary to prevent aliasing in
+        the case where multiple beams are expanded from one "previous" beam.
+
+        Returns:
+            A "deep" copy of itself.
+        """
+
     @abstractmethod
     def get_reached_goal(self, *args, **kwargs) -> bool:
-        """Returns: if the beam reached the goal.
+        """Returns if the beam reached the goal.
 
         Returns:
             bool: True if the corresponding beam reached the goal, False
             otherwise.
+        """
+        pass
+
+    @abstractmethod
+    def check_system_case(self, *args, **kwargs) -> bool:
+        """Checks if system action(s) can be run in the current state (see
+        the docstring in :ref:`core`).
+
+        Returns:
+            bool: True if system action(s) can be run in the current state,
+            False otherwise.
+        """
+
+    @abstractmethod
+    def call_outcome_determiner(self, *args, **kwargs) -> List:
+        """Calls the outcome determiner of an action.
+
+        Returns:
+            List: A list of outcomes ranked by confidence.
         """
         pass
 
@@ -62,7 +96,7 @@ class RolloutBase(ABC):
                         # continue for each action
                         ...
                     }
-               
+
                 NOTE: Insertion order of dictionary values is maintained as of
                 Python 3.7.
         """
@@ -70,15 +104,30 @@ class RolloutBase(ABC):
 
     @abstractmethod
     def _update_applicable_actions(self, *args, **kwargs):
-        """Updates which actions are applicable in the current state."""
+        """Updates which actions are applicable in the current state.
+
+        Raise an error if there are no applicable actions and there are still utterances left.
+        Raise a warning if we reach the goal but there are still utterances left.
+
+        (Use the `in_run` attribute of ConversationAlignmentExecutor to do this).
+        """
         pass
 
     @abstractmethod
     def update_state(self, *args, **kwargs):
         """Update the state (including applicable actions, so
-        :py:func:`_update_applicable_actions 
+        :py:func:`_update_applicable_actions
         <beam_search.beam_srch_data_structs.RolloutBase._update_applicable_actions>`
         should be called here).
+        """
+        pass
+
+    @abstractmethod
+    def is_message_action(self, *args, **kwargs):
+        """Returns if the given action is a message action. This is used within
+        :py:func:`update_if_message_action
+        <beam_search.beam_srch_data_structs.RolloutBase._update_if_message_action>`
+        as well as the core algorithm.
         """
         pass
 
@@ -90,7 +139,8 @@ class RolloutBase(ABC):
         This execution is already handled within the beam search algorithm; this
         function just needs to return the associated intent. So:
 
-        * Check if the action is a "message" action
+        * Check if the action is a "message" action (with :py:func:`is_message_action
+        <beam_search.beam_srch_data_structs.RolloutBase.is_message_action>`.)
 
            * | If it is, update the state with the single outcome and return a
                single intent in the form
@@ -138,7 +188,7 @@ class Output:
         self.score = score
 
     def __lt__(self, other):
-        return self.score > other.score
+        return self.score.real > other.score.real
 
 
 class Action(Output):
@@ -189,6 +239,7 @@ class Beam:
         fallbacks (int): The number of fallbacks that have occurred in the beam
             so far.
     """
+
     last_action: Optional[Action]
     last_intent: Optional[Intent]
     rankings: List[Output]

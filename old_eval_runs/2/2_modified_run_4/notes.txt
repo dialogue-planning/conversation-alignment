@@ -1,0 +1,171 @@
+------
+iter 1
+
+observing convo_14
+share_location not followed by dialogue_statement
+
+in
+slot-fill__get-location
+slot-fill__get-location_DETDUP_slot-fill__get-location__validate-slot-fill-EQ-location_found
+
+add 
+(force-statement)
+
+------
+iter 2
+
+have dialogue_statement there but now it is looping
+
+in
+dialogue_statement
+dialogue_statement_DETDUP_dialogue_statement__reset-EQ-lock
+
+add 
+(not (force-statement))
+
+------
+iter 3
+
+set-outing is looping
+
+in
+set-outing
+set-outing_DETDUP_set-outing__assign_outing-EQ-set-golf
+
+add 
+(know__outing)
+
+------
+iter 4
+
+complete is looping
+
+in
+complete
+complete_DETDUP_complete__finish-EQ-finish
+
+add 
+(goal)
+
+------
+iter 5
+
+convo_14 now fp, now shifting to convo_5
+
+get-have-allergy confirm immediately has no applicable actions
+didn't update knowledge that we have allergy now
+
+in
+get-have-allergy
+get-have-allergy_DETDUP_get-have-allergy__set-allergy-EQ-indicate_allergy
+
+add 
+(know__have_allergy)
+
+------
+iter 6
+
+get-allergy looping
+
+in
+get-allergy
+get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy
+
+add 
+(know__food_restriction)
+
+------
+iter 7
+
+get-allergy still looping -- need to turn off the force
+
+in
+get-allergy
+get-allergy_DETDUP_get-allergy__set-allergy-EQ-update_allergy
+
+add
+(not (forcing__get-allergy))
+
+------
+iter 8
+
+share_outing should trigger a dialogue statement
+
+in
+slot-fill__get_outing
+slot-fill__get_outing_DETDUP_slot-fill__get_outing__validate-slot-fill-EQ-outing_type_found
+
+add
+(force-statement)
+
+------
+iter 9
+
+need to get budget after getting outing
+
+in 
+slot-fill__get_outing
+slot-fill__get_outing_DETDUP_slot-fill__get_outing__validate-slot-fill-EQ-outing_type_found
+
+add 
+(allow_single_slot_budget)
+
+------
+iter 10
+
+single_slot__budget looping on itself 
+
+in
+single_slot__budget
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fill-slot
+
+add 
+(know__budget)
+
+------
+iter 11
+
+single_slot__budget needs to be followed up by dialogue_statement
+
+in
+single_slot__budget
+single_slot__budget_DETDUP_single_slot__budget__validate-slot-fill-EQ-fill-slot
+
+add 
+(force-statement)
+
+------
+iter 12
+
+check-conflicts stuck on loop
+
+in
+check-conflicts
+check-conflicts_DETDUP_check-conflicts__check-conflicts-EQ-no-restriction-2
+
+add 
+(know__conflict)
+
+------
+iter 13
+
+set-restaurant looping
+
+in 
+set-restaurant
+set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-italian
+
+add 
+(know__restaurant)
+
+------
+iter 14
+
+set-restaurant looping
+
+in 
+set-restaurant
+set-restaurant_DETDUP_set-restaurant__assign_restaurant-EQ-set-chinese
+
+add 
+(know__restaurant)
